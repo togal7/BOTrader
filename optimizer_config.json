@@ -1,0 +1,9 @@
+{
+  "rsi_oversold": 25,
+  "rsi_overbought": 75,
+  "min_confidence": 50,
+  "ema_200_filter": true,
+  "volume_filter": true,
+  "min_volume_ratio": 0.8,
+  "last_optimized": "2026-01-22T09:03:36.612558"
+}
