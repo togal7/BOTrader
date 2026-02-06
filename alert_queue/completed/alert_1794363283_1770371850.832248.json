@@ -1,0 +1,11 @@
+{
+  "user_id": "1794363283",
+  "alert_data": {
+    "type": "big_gain",
+    "symbol": "ZKSYNC/USDT:USDT",
+    "message": "\ud83d\ude80 DU\u017bY WZROST: ZKSYNC/USDT:USDT\n\ud83d\udcb0 Cena: $0.02435\n\ud83d\udcc8 Zmiana 24h: +15.89%",
+    "timestamp": "2026-02-06T10:57:30.832212"
+  },
+  "created_at": "2026-02-06T10:57:30.832270",
+  "status": "pending"
+}

@@ -1,0 +1,1647 @@
+{
+  "5157140630": {
+    "user_id": "5157140630",
+    "subscription_end": "2026-01-16T06:34:52.487700",
+    "is_blocked": false,
+    "created_at": "2026-01-09T06:34:52.487721",
+    "total_signals": 0,
+    "selected_exchange": "mexc",
+    "selected_interval": "15m",
+    "last_active": "2026-01-15T12:39:00.685292",
+    "awaiting_admin_message": false,
+    "awaiting_search": true,
+    "signals_count": 1368,
+    "ai_scan_size": "top10",
+    "language": "pl",
+    "last_scan_size": "top50",
+    "last_timeframe": "30m",
+    "cached_scan_results": [
+      {
+        "symbol": "ETH/USDT:USDT",
+        "signal": "SHORT",
+        "score": 60
+      },
+      {
+        "symbol": "BNB/USDT:USDT",
+        "signal": "SHORT",
+        "score": 55
+      },
+      {
+        "symbol": "BCH/USDT:USDT",
+        "signal": "SHORT",
+        "score": 55
+      },
+      {
+        "symbol": "SUI/USDT:USDT",
+        "signal": "SHORT",
+        "score": 55
+      },
+      {
+        "symbol": "THETA/USDT:USDT",
+        "signal": "SHORT",
+        "score": 55
+      },
+      {
+        "symbol": "XTZ/USDT:USDT",
+        "signal": "SHORT",
+        "score": 50
+      },
+      {
+        "symbol": "BTC/USDT:USDT",
+        "signal": "SHORT",
+        "score": 45
+      },
+      {
+        "symbol": "SOL/USDT:USDT",
+        "signal": "SHORT",
+        "score": 45
+      },
+      {
+        "symbol": "SHIB/USDT:USDT",
+        "signal": "SHORT",
+        "score": 40
+      },
+      {
+        "symbol": "OP/USDT:USDT",
+        "signal": "SHORT",
+        "score": 40
+      }
+    ],
+    "interval": "4h",
+    "subscription_expires": "2028-01-31T21:11:38.553226",
+    "is_premium": true,
+    "alert_settings": {
+      "oversold_enabled": 0,
+      "overbought_enabled": 0,
+      "big_gains_enabled": 0,
+      "big_losses_enabled": 0,
+      "ai_signals_enabled": 0,
+      "volume_spike_enabled": 0,
+      "macd_cross_enabled": 0,
+      "ema_cross_enabled": 0,
+      "scan_range": 100,
+      "scan_frequency": "5m",
+      "scan_timeframe": "1h",
+      "min_confidence": 70,
+      "gain_threshold": 15,
+      "loss_threshold": 15,
+      "volume_multiplier": 3.0,
+      "quiet_hours": 0,
+      "alert_timeframe": "30m",
+      "sudden_change_enabled": 0,
+      "sudden_timeframe": "15m",
+      "sudden_threshold": 5,
+      "notifications_enabled": 0
+    },
+    "last_alert_scan": "2026-01-15T10:28:20.169519",
+    "alert_history": [
+      {
+        "alert_type": "big_gain",
+        "symbol": "YEE/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: YEE/USDT\n💰 Cena: $0.0282\n📈 Zmiana 24h: +17.94%",
+        "triggered_at": "2026-01-15T10:29:58.478714"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "DOLO/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: DOLO/USDT\n💰 Cena: $0.0793\n📈 Zmiana 24h: +33.83%",
+        "triggered_at": "2026-01-15T10:29:06.827341"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "FHE/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: FHE/USDT\n💰 Cena: $0.0713\n📈 Zmiana 24h: +41.80%",
+        "triggered_at": "2026-01-15T10:28:45.393403"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "DOLO/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: DOLO/USDT\n💰 Cena: $0.07799\n📈 Zmiana 24h: +31.62%",
+        "triggered_at": "2026-01-15T10:23:18.191656"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "SIGHT/USDT:USDT",
+        "message": "📉 NAGŁA ZMIANA: SIGHT/USDT\n💰 Cena: $0.003471\n⚡ SPADEK: 5.14% w 15m\n📊 0.003660 → 0.003472",
+        "triggered_at": "2026-01-15T10:23:15.072480"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "FHE/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: FHE/USDT\n💰 Cena: $0.07118\n📈 Zmiana 24h: +41.56%",
+        "triggered_at": "2026-01-15T10:22:58.202294"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "WOTAMALAILE/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: WOTAMALAILE/USDT\n💰 Cena: $0.03075\n📈 Zmiana 24h: +16.21%",
+        "triggered_at": "2026-01-11T21:30:46.525922"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: 114514/USDT\n💰 Cena: $0.00707\n📈 Zmiana 24h: +30.63%",
+        "triggered_at": "2026-01-11T21:30:42.999410"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "WOTAMALAILE/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: WOTAMALAILE/USDT\n💰 Cena: $0.03095\n📈 Zmiana 24h: +16.96%",
+        "triggered_at": "2026-01-11T21:21:38.894831"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: 114514/USDT\n💰 Cena: $0.007347\n📈 Zmiana 24h: +35.75%",
+        "triggered_at": "2026-01-11T21:21:35.465550"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "WOTAMALAILE/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: WOTAMALAILE/USDT\n💰 Cena: $0.03084\n📈 Zmiana 24h: +16.55%",
+        "triggered_at": "2026-01-11T21:12:40.774712"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 NAGŁA ZMIANA: 114514/USDT\n💰 Cena: $0.007473\n⚡ WZROST: 7.91% w 15m\n📊 0.006950 → 0.007500",
+        "triggered_at": "2026-01-11T21:12:37.727432"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: 114514/USDT\n💰 Cena: $0.007473\n📈 Zmiana 24h: +38.08%",
+        "triggered_at": "2026-01-11T21:12:37.397200"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "WOTAMALAILE/USDT:USDT",
+        "message": "🚀 NAGŁA ZMIANA: WOTAMALAILE/USDT\n💰 Cena: $0.03115\n⚡ WZROST: 5.79% w 15m\n📊 0.029370 → 0.031070",
+        "triggered_at": "2026-01-11T21:07:02.196481"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "WOTAMALAILE/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: WOTAMALAILE/USDT\n💰 Cena: $0.03115\n📈 Zmiana 24h: +17.72%",
+        "triggered_at": "2026-01-11T21:07:01.924026"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 NAGŁA ZMIANA: 114514/USDT\n💰 Cena: $0.007431\n⚡ WZROST: 6.92% w 15m\n📊 0.006950 → 0.007431",
+        "triggered_at": "2026-01-11T21:06:57.997238"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: 114514/USDT\n💰 Cena: $0.007431\n📈 Zmiana 24h: +37.30%",
+        "triggered_at": "2026-01-11T21:06:57.688257"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: 114514/USDT\n💰 Cena: $0.007002\n📈 Zmiana 24h: +29.37%",
+        "triggered_at": "2026-01-11T21:01:38.071629"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: 114514/USDT\n💰 Cena: $0.007415\n📈 Zmiana 24h: +37.01%",
+        "triggered_at": "2026-01-11T20:56:13.974709"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: 114514/USDT\n💰 Cena: $0.00775\n📈 Zmiana 24h: +43.20%",
+        "triggered_at": "2026-01-11T20:49:57.313298"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "XCN/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: XCN/USDT\n💰 Cena: $0.009444\n📈 Zmiana 24h: +16.79%",
+        "triggered_at": "2026-01-11T20:44:08.719743"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: 114514/USDT\n💰 Cena: $0.007935\n📈 Zmiana 24h: +46.61%",
+        "triggered_at": "2026-01-11T20:42:27.455651"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: 114514/USDT\n💰 Cena: $0.007655\n📈 Zmiana 24h: +41.44%",
+        "triggered_at": "2026-01-11T20:36:48.593744"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "XCN/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: XCN/USDT\n💰 Cena: $0.009502\n📈 Zmiana 24h: +17.51%",
+        "triggered_at": "2026-01-11T20:31:33.805383"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "EPH/USDT:USDT",
+        "message": "🚀 NAGŁA ZMIANA: EPH/USDT\n💰 Cena: $0.0864\n⚡ WZROST: 11.11% w 15m\n📊 0.078300 → 0.087000",
+        "triggered_at": "2026-01-11T20:30:00.169379"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 NAGŁA ZMIANA: 114514/USDT\n💰 Cena: $0.007788\n⚡ WZROST: 7.44% w 15m\n📊 0.007249 → 0.007788",
+        "triggered_at": "2026-01-11T20:29:50.639290"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: 114514/USDT\n💰 Cena: $0.007788\n📈 Zmiana 24h: +43.90%",
+        "triggered_at": "2026-01-11T20:29:50.364119"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "XCN/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: XCN/USDT\n💰 Cena: $0.009545\n📈 Zmiana 24h: +18.04%",
+        "triggered_at": "2026-01-11T20:24:25.625137"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 NAGŁA ZMIANA: 114514/USDT\n💰 Cena: $0.00813\n⚡ WZROST: 12.00% w 15m\n📊 0.007249 → 0.008119",
+        "triggered_at": "2026-01-11T20:22:36.234622"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: 114514/USDT\n💰 Cena: $0.00813\n📈 Zmiana 24h: +50.22%",
+        "triggered_at": "2026-01-11T20:22:35.950222"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "DGRAM/USDT:USDT",
+        "message": "📉 NAGŁA ZMIANA: DGRAM/USDT\n💰 Cena: $0.000985\n⚡ SPADEK: 5.83% w 15m\n📊 0.001046 → 0.000985",
+        "triggered_at": "2026-01-11T20:09:31.597530"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "XCN/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: XCN/USDT\n💰 Cena: $0.009446\n📈 Zmiana 24h: +16.81%",
+        "triggered_at": "2026-01-11T19:39:23.120575"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "COLLECT/USDT:USDT",
+        "message": "🚀 NAGŁA ZMIANA: COLLECT/USDT\n💰 Cena: $0.08135\n⚡ WZROST: 8.01% w 15m\n📊 0.075320 → 0.081350",
+        "triggered_at": "2026-01-11T19:38:50.954732"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "EPH/USDT:USDT",
+        "message": "🚀 NAGŁA ZMIANA: EPH/USDT\n💰 Cena: $0.077\n⚡ WZROST: 5.19% w 15m\n📊 0.073200 → 0.077000",
+        "triggered_at": "2026-01-11T19:29:02.421362"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "114514/USDT:USDT",
+        "message": "📉 NAGŁA ZMIANA: 114514/USDT\n💰 Cena: $0.0077\n⚡ SPADEK: 5.54% w 15m\n📊 0.008190 → 0.007736",
+        "triggered_at": "2026-01-11T19:20:53.611911"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: 114514/USDT\n💰 Cena: $0.0077\n📈 Zmiana 24h: +42.27%",
+        "triggered_at": "2026-01-11T19:20:53.330131"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "DGRAM/USDT:USDT",
+        "message": "📉 NAGŁA ZMIANA: DGRAM/USDT\n💰 Cena: $0.000931\n⚡ SPADEK: 5.58% w 15m\n📊 0.000986 → 0.000931",
+        "triggered_at": "2026-01-11T19:12:51.657168"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: 114514/USDT\n💰 Cena: $0.00735\n📈 Zmiana 24h: +35.80%",
+        "triggered_at": "2026-01-11T18:56:19.015683"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "DGRAM/USDT:USDT",
+        "message": "📉 NAGŁA ZMIANA: DGRAM/USDT\n💰 Cena: $0.000933\n⚡ SPADEK: 7.90% w 15m\n📊 0.001013 → 0.000933",
+        "triggered_at": "2026-01-11T18:40:47.340626"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 NAGŁA ZMIANA: 114514/USDT\n💰 Cena: $0.0069\n⚡ WZROST: 14.55% w 15m\n📊 0.006056 → 0.006937",
+        "triggered_at": "2026-01-11T18:40:22.992637"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: 114514/USDT\n💰 Cena: $0.0069\n📈 Zmiana 24h: +27.49%",
+        "triggered_at": "2026-01-11T18:40:22.668115"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "PIPPIN/USDT:USDT",
+        "message": "🚀 NAGŁA ZMIANA: PIPPIN/USDT\n💰 Cena: $0.31156\n⚡ WZROST: 6.92% w 15m\n📊 0.292080 → 0.312300",
+        "triggered_at": "2026-01-11T18:25:02.517127"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "VOOI/USDT:USDT",
+        "message": "📉 NAGŁA ZMIANA: VOOI/USDT\n💰 Cena: $0.01714\n⚡ SPADEK: 6.39% w 15m\n📊 0.018310 → 0.017140",
+        "triggered_at": "2026-01-11T18:18:10.369368"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "ZEREBRO/USDT:USDT",
+        "message": "📉 NAGŁA ZMIANA: ZEREBRO/USDT\n💰 Cena: $0.02999\n⚡ SPADEK: 8.03% w 15m\n📊 0.032630 → 0.030010",
+        "triggered_at": "2026-01-11T17:49:33.966683"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "COLLECT/USDT:USDT",
+        "message": "📉 NAGŁA ZMIANA: COLLECT/USDT\n💰 Cena: $0.08048\n⚡ SPADEK: 7.02% w 15m\n📊 0.086560 → 0.080480",
+        "triggered_at": "2026-01-11T17:42:18.315108"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "WOTAMALAILE/USDT:USDT",
+        "message": "🚀 NAGŁA ZMIANA: WOTAMALAILE/USDT\n💰 Cena: $0.02969\n⚡ WZROST: 5.51% w 15m\n📊 0.028140 → 0.029690",
+        "triggered_at": "2026-01-11T17:40:10.958441"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "114514/USDT:USDT",
+        "message": "📉 NAGŁA ZMIANA: 114514/USDT\n💰 Cena: $0.005277\n⚡ SPADEK: 6.12% w 15m\n📊 0.005620 → 0.005276",
+        "triggered_at": "2026-01-11T17:40:09.271345"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 NAGŁA ZMIANA: 114514/USDT\n💰 Cena: $0.0053\n⚡ WZROST: 9.59% w 15m\n📊 0.004836 → 0.005300",
+        "triggered_at": "2026-01-11T17:23:24.518971"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "EPH/USDT:USDT",
+        "message": "📉 NAGŁA ZMIANA: EPH/USDT\n💰 Cena: $0.0727\n⚡ SPADEK: 5.71% w 15m\n📊 0.077100 → 0.072700",
+        "triggered_at": "2026-01-11T17:11:37.910417"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "114514/USDT:USDT",
+        "message": "📉 NAGŁA ZMIANA: 114514/USDT\n💰 Cena: $0.004858\n⚡ SPADEK: 10.05% w 15m\n📊 0.005412 → 0.004868",
+        "triggered_at": "2026-01-11T17:11:34.586194"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "CLO/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: CLO/USDT\n💰 Cena: $0.7269\n📈 Zmiana 24h: +21.69%",
+        "triggered_at": "2026-01-11T16:55:39.518562"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "WHITEWHALE/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: WHITEWHALE/USDT\n💰 Cena: $0.19264\n📈 Zmiana 24h: +15.67%",
+        "triggered_at": "2026-01-11T16:55:33.766659"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "EPH/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: EPH/USDT\n💰 Cena: $0.0782\n📈 Zmiana 24h: +65.67%",
+        "triggered_at": "2026-01-11T16:55:32.095915"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: 114514/USDT\n💰 Cena: $0.005565\n📈 Zmiana 24h: +185.38%",
+        "triggered_at": "2026-01-11T16:55:28.775507"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "WHITEWHALE/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: WHITEWHALE/USDT\n💰 Cena: $0.1931\n📈 Zmiana 24h: +15.94%",
+        "triggered_at": "2026-01-11T16:49:36.922640"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "VOOI/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: VOOI/USDT\n💰 Cena: $0.01797\n📈 Zmiana 24h: +17.75%",
+        "triggered_at": "2026-01-11T16:42:55.945902"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "ZEREBRO/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: ZEREBRO/USDT\n💰 Cena: $0.03319\n📈 Zmiana 24h: +19.17%",
+        "triggered_at": "2026-01-11T16:42:39.488177"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "ELX/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: ELX/USDT\n💰 Cena: $0.003893\n📈 Zmiana 24h: +21.69%",
+        "triggered_at": "2026-01-11T16:42:28.627970"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "GAIB/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: GAIB/USDT\n💰 Cena: $0.0369\n📈 Zmiana 24h: +44.14%",
+        "triggered_at": "2026-01-11T16:42:14.269689"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "VVV/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: VVV/USDT\n💰 Cena: $3.093\n📈 Zmiana 24h: +22.68%",
+        "triggered_at": "2026-01-11T16:42:10.613221"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "HYPER/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: HYPER/USDT\n💰 Cena: $0.1506\n📈 Zmiana 24h: +20.19%",
+        "triggered_at": "2026-01-11T16:41:50.504194"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "CLO/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: CLO/USDT\n💰 Cena: $0.7292\n📈 Zmiana 24h: +22.08%",
+        "triggered_at": "2026-01-11T16:41:42.675976"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "EPH/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: EPH/USDT\n💰 Cena: $0.0791\n📈 Zmiana 24h: +67.58%",
+        "triggered_at": "2026-01-11T16:41:36.045929"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: 114514/USDT\n💰 Cena: $0.00558\n📈 Zmiana 24h: +186.15%",
+        "triggered_at": "2026-01-11T16:41:32.443229"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "ZEREBRO/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: ZEREBRO/USDT\n💰 Cena: $0.03304\n📈 Zmiana 24h: +18.63%",
+        "triggered_at": "2026-01-11T16:24:08.239159"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "ELX/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: ELX/USDT\n💰 Cena: $0.003879\n📈 Zmiana 24h: +21.25%",
+        "triggered_at": "2026-01-11T16:23:57.428963"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "GAIB/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: GAIB/USDT\n💰 Cena: $0.0359\n📈 Zmiana 24h: +40.23%",
+        "triggered_at": "2026-01-11T16:23:42.799977"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "VVV/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: VVV/USDT\n💰 Cena: $2.996\n📈 Zmiana 24h: +18.84%",
+        "triggered_at": "2026-01-11T16:23:39.245350"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "HYPER/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: HYPER/USDT\n💰 Cena: $0.1503\n📈 Zmiana 24h: +19.95%",
+        "triggered_at": "2026-01-11T16:23:18.614383"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "CLO/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: CLO/USDT\n💰 Cena: $0.735\n📈 Zmiana 24h: +23.05%",
+        "triggered_at": "2026-01-11T16:23:11.386272"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "RIVER/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: RIVER/USDT\n💰 Cena: $16.365\n📈 Zmiana 24h: +16.02%",
+        "triggered_at": "2026-01-11T16:23:08.938218"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "EPH/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: EPH/USDT\n💰 Cena: $0.0811\n📈 Zmiana 24h: +71.82%",
+        "triggered_at": "2026-01-11T16:23:04.991959"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 NAGŁA ZMIANA: 114514/USDT\n💰 Cena: $0.005892\n⚡ WZROST: 10.23% w 15m\n📊 0.005325 → 0.005870",
+        "triggered_at": "2026-01-11T16:23:01.746220"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: 114514/USDT\n💰 Cena: $0.005892\n📈 Zmiana 24h: +202.15%",
+        "triggered_at": "2026-01-11T16:23:01.466887"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "VOOI/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: VOOI/USDT\n💰 Cena: $0.0178\n📈 Zmiana 24h: +16.64%",
+        "triggered_at": "2026-01-11T16:17:32.032449"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "ZEREBRO/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: ZEREBRO/USDT\n💰 Cena: $0.03309\n📈 Zmiana 24h: +18.81%",
+        "triggered_at": "2026-01-11T16:17:13.732507"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "ELX/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: ELX/USDT\n💰 Cena: $0.003833\n📈 Zmiana 24h: +19.81%",
+        "triggered_at": "2026-01-11T16:17:02.907329"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "GAIB/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: GAIB/USDT\n💰 Cena: $0.036\n📈 Zmiana 24h: +40.62%",
+        "triggered_at": "2026-01-11T16:16:47.249047"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "VVV/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: VVV/USDT\n💰 Cena: $2.991\n📈 Zmiana 24h: +18.64%",
+        "triggered_at": "2026-01-11T16:16:42.612291"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "HYPER/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: HYPER/USDT\n💰 Cena: $0.151\n📈 Zmiana 24h: +20.51%",
+        "triggered_at": "2026-01-11T16:16:19.986692"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "CLO/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: CLO/USDT\n💰 Cena: $0.7496\n📈 Zmiana 24h: +25.49%",
+        "triggered_at": "2026-01-11T16:16:12.118083"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "RIVER/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: RIVER/USDT\n💰 Cena: $16.434\n📈 Zmiana 24h: +16.51%",
+        "triggered_at": "2026-01-11T16:16:10.324271"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "EPH/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: EPH/USDT\n💰 Cena: $0.082\n📈 Zmiana 24h: +73.72%",
+        "triggered_at": "2026-01-11T16:16:04.617264"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: 114514/USDT\n💰 Cena: $0.005368\n📈 Zmiana 24h: +175.28%",
+        "triggered_at": "2026-01-11T16:16:00.885173"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "VOOI/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: VOOI/USDT\n💰 Cena: $0.01922\n📈 Zmiana 24h: +25.95%",
+        "triggered_at": "2026-01-11T16:09:17.103710"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "ZEREBRO/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: ZEREBRO/USDT\n💰 Cena: $0.03303\n📈 Zmiana 24h: +18.59%",
+        "triggered_at": "2026-01-11T16:08:59.355741"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "ELX/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: ELX/USDT\n💰 Cena: $0.003888\n📈 Zmiana 24h: +21.53%",
+        "triggered_at": "2026-01-11T16:08:47.864988"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "GAIB/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: GAIB/USDT\n💰 Cena: $0.03685\n📈 Zmiana 24h: +43.94%",
+        "triggered_at": "2026-01-11T16:08:33.758149"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "VVV/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: VVV/USDT\n💰 Cena: $3.02\n📈 Zmiana 24h: +19.79%",
+        "triggered_at": "2026-01-11T16:08:30.210549"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "HYPER/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: HYPER/USDT\n💰 Cena: $0.1512\n📈 Zmiana 24h: +20.67%",
+        "triggered_at": "2026-01-11T16:08:10.515870"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "CLO/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: CLO/USDT\n💰 Cena: $0.7366\n📈 Zmiana 24h: +23.32%",
+        "triggered_at": "2026-01-11T16:08:02.985145"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "RIVER/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: RIVER/USDT\n💰 Cena: $16.414\n📈 Zmiana 24h: +16.37%",
+        "triggered_at": "2026-01-11T16:08:00.679332"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "EPH/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: EPH/USDT\n💰 Cena: $0.0828\n📈 Zmiana 24h: +75.42%",
+        "triggered_at": "2026-01-11T16:07:55.598194"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: 114514/USDT\n💰 Cena: $0.00532\n📈 Zmiana 24h: +172.82%",
+        "triggered_at": "2026-01-11T16:07:51.868244"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "WOTAMALAILE/USDT:USDT",
+        "message": "📉 NAGŁA ZMIANA: WOTAMALAILE/USDT\n💰 Cena: $0.02764\n⚡ SPADEK: 5.36% w 15m\n📊 0.028900 → 0.027350",
+        "triggered_at": "2026-01-11T16:07:46.696724"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "ZEREBRO/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: ZEREBRO/USDT\n💰 Cena: $0.03303\n📈 Zmiana 24h: +18.59%",
+        "triggered_at": "2026-01-11T16:03:19.742357"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "ELX/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: ELX/USDT\n💰 Cena: $0.003855\n📈 Zmiana 24h: +20.50%",
+        "triggered_at": "2026-01-11T16:03:05.236181"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "VVV/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: VVV/USDT\n💰 Cena: $3.017\n📈 Zmiana 24h: +19.67%",
+        "triggered_at": "2026-01-11T16:02:47.910603"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "GAIB/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: GAIB/USDT\n💰 Cena: $0.03691\n📈 Zmiana 24h: +44.17%",
+        "triggered_at": "2026-01-11T16:02:46.015735"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "HYPER/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: HYPER/USDT\n💰 Cena: $0.1521\n📈 Zmiana 24h: +21.38%",
+        "triggered_at": "2026-01-11T16:02:23.705678"
+      }
+    ]
+  },
+  "6169603983": {
+    "user_id": "6169603983",
+    "subscription_end": "2026-01-17T19:31:26.792412",
+    "is_blocked": false,
+    "created_at": "2026-01-10T19:31:26.792443",
+    "total_signals": 0,
+    "selected_exchange": "MEXC",
+    "selected_interval": "15m",
+    "subscription_expires": "2026-04-08T21:11:49.959557",
+    "is_premium": true,
+    "alert_settings": {
+      "oversold_enabled": 0,
+      "overbought_enabled": 0,
+      "big_gains_enabled": 0,
+      "big_losses_enabled": 0,
+      "ai_signals_enabled": 0,
+      "volume_spike_enabled": 0,
+      "macd_cross_enabled": 0,
+      "ema_cross_enabled": 0,
+      "scan_range": 50,
+      "scan_frequency": "15m",
+      "scan_timeframe": "1h",
+      "alert_timeframe": "1h",
+      "min_confidence": 70,
+      "gain_threshold": 15,
+      "loss_threshold": 15,
+      "volume_multiplier": 3.0,
+      "quiet_hours": 0
+    },
+    "awaiting_search": false,
+    "awaiting_admin_message": false,
+    "language": "pl",
+    "interval": "15m",
+    "ai_scan_size": "top10",
+    "cached_scan_results": [],
+    "signals_count": 0
+  },
+  "5788851069": {
+    "user_id": "5788851069",
+    "subscription_end": "2026-01-18T10:26:39.390142",
+    "is_blocked": false,
+    "created_at": "2026-01-11T10:26:39.390159",
+    "total_signals": 0,
+    "selected_exchange": "MEXC",
+    "selected_interval": "15m",
+    "last_active": "2026-01-11T10:35:59.067881",
+    "alert_settings": {
+      "oversold_enabled": 0,
+      "overbought_enabled": 0,
+      "big_gains_enabled": 0,
+      "big_losses_enabled": 0,
+      "ai_signals_enabled": 0,
+      "volume_spike_enabled": 0,
+      "macd_cross_enabled": 0,
+      "ema_cross_enabled": 0,
+      "scan_range": 50,
+      "scan_frequency": "15m",
+      "scan_timeframe": "1h",
+      "alert_timeframe": "1h",
+      "min_confidence": 70,
+      "gain_threshold": 15,
+      "loss_threshold": 15,
+      "volume_multiplier": 3.0,
+      "quiet_hours": 0
+    },
+    "signals_count": 1,
+    "subscription_expires": "2027-01-11T12:35:31.060310",
+    "is_premium": true,
+    "awaiting_search": false,
+    "awaiting_admin_message": false,
+    "language": "pl",
+    "interval": "15m",
+    "ai_scan_size": "top10",
+    "cached_scan_results": []
+  },
+  "1794363283": {
+    "user_id": "1794363283",
+    "subscription_end": "2026-01-18T11:46:38.883436",
+    "is_blocked": false,
+    "created_at": "2026-01-11T11:46:38.883452",
+    "total_signals": 0,
+    "selected_exchange": "MEXC",
+    "selected_interval": "15m",
+    "last_active": "2026-01-11T20:34:41.374116",
+    "alert_settings": {
+      "oversold_enabled": 1,
+      "overbought_enabled": 1,
+      "big_gains_enabled": 1,
+      "big_losses_enabled": 1,
+      "ai_signals_enabled": 0,
+      "volume_spike_enabled": 0,
+      "macd_cross_enabled": 0,
+      "ema_cross_enabled": 0,
+      "scan_range": 200,
+      "scan_frequency": "5m",
+      "scan_timeframe": "1h",
+      "alert_timeframe": "1h",
+      "min_confidence": 70,
+      "gain_threshold": 15,
+      "loss_threshold": 15,
+      "volume_multiplier": 3.0,
+      "quiet_hours": 0
+    },
+    "signals_count": 25,
+    "interval": "1d",
+    "last_scan_size": "top10",
+    "last_timeframe": "1d",
+    "cached_scan_results": [
+      {
+        "symbol": "BNB/USDT:USDT",
+        "signal": "SHORT",
+        "score": 45
+      },
+      {
+        "symbol": "ETH/USDT:USDT",
+        "signal": "SHORT",
+        "score": 40
+      },
+      {
+        "symbol": "SOL/USDT:USDT",
+        "signal": "SHORT",
+        "score": 40
+      },
+      {
+        "symbol": "XRP/USDT:USDT",
+        "signal": "SHORT",
+        "score": 40
+      },
+      {
+        "symbol": "AVAX/USDT:USDT",
+        "signal": "SHORT",
+        "score": 40
+      },
+      {
+        "symbol": "DOGE/USDT:USDT",
+        "signal": "SHORT",
+        "score": 40
+      },
+      {
+        "symbol": "DOT/USDT:USDT",
+        "signal": "SHORT",
+        "score": 40
+      },
+      {
+        "symbol": "BTC/USDT:USDT",
+        "signal": "SHORT",
+        "score": 35
+      },
+      {
+        "symbol": "ADA/USDT:USDT",
+        "signal": "NEUTRAL",
+        "score": 25
+      }
+    ],
+    "awaiting_search": true,
+    "subscription_expires": "2027-01-11T12:34:44.554322",
+    "is_premium": true,
+    "last_alert_scan": "2026-01-15T12:47:14.017650",
+    "awaiting_admin_message": false,
+    "language": "pl",
+    "ai_scan_size": "top10"
+  },
+  "1794363283": {
+    "user_id": "1794363283",
+    "subscription_end": "2026-01-18T11:46:38.883436",
+    "is_blocked": false,
+    "created_at": "2026-01-11T11:46:38.883452",
+    "total_signals": 0,
+    "selected_exchange": "MEXC",
+    "selected_interval": "15m",
+    "last_active": "2026-01-11T20:34:41.374116",
+    "alert_settings": {
+      "oversold_enabled": 1,
+      "overbought_enabled": 1,
+      "big_gains_enabled": 1,
+      "big_losses_enabled": 1,
+      "ai_signals_enabled": 0,
+      "volume_spike_enabled": 0,
+      "macd_cross_enabled": 0,
+      "ema_cross_enabled": 0,
+      "scan_range": 200,
+      "scan_frequency": "5m",
+      "scan_timeframe": "1h",
+      "alert_timeframe": "1h",
+      "min_confidence": 70,
+      "gain_threshold": 15,
+      "loss_threshold": 15,
+      "volume_multiplier": 3.0,
+      "quiet_hours": 0
+    },
+    "signals_count": 25,
+    "interval": "1d",
+    "last_scan_size": "top10",
+    "last_timeframe": "1d",
+    "cached_scan_results": [
+      {
+        "symbol": "BNB/USDT:USDT",
+        "signal": "SHORT",
+        "score": 45
+      },
+      {
+        "symbol": "ETH/USDT:USDT",
+        "signal": "SHORT",
+        "score": 40
+      },
+      {
+        "symbol": "SOL/USDT:USDT",
+        "signal": "SHORT",
+        "score": 40
+      },
+      {
+        "symbol": "XRP/USDT:USDT",
+        "signal": "SHORT",
+        "score": 40
+      },
+      {
+        "symbol": "AVAX/USDT:USDT",
+        "signal": "SHORT",
+        "score": 40
+      },
+      {
+        "symbol": "DOGE/USDT:USDT",
+        "signal": "SHORT",
+        "score": 40
+      },
+      {
+        "symbol": "DOT/USDT:USDT",
+        "signal": "SHORT",
+        "score": 40
+      },
+      {
+        "symbol": "BTC/USDT:USDT",
+        "signal": "SHORT",
+        "score": 35
+      },
+      {
+        "symbol": "ADA/USDT:USDT",
+        "signal": "NEUTRAL",
+        "score": 25
+      }
+    ],
+    "awaiting_search": true,
+    "subscription_expires": "2027-01-11T12:34:44.554322",
+    "is_premium": true,
+    "last_alert_scan": "2026-01-15T12:47:14.017650",
+    "awaiting_admin_message": false,
+    "language": "pl",
+    "ai_scan_size": "top10"
+  },
+  "5157140630": {
+    "user_id": "5157140630",
+    "subscription_end": "2026-01-16T06:34:52.487700",
+    "is_blocked": false,
+    "created_at": "2026-01-09T06:34:52.487721",
+    "total_signals": 0,
+    "selected_exchange": "mexc",
+    "selected_interval": "15m",
+    "last_active": "2026-01-15T12:39:00.685292",
+    "awaiting_admin_message": false,
+    "awaiting_search": true,
+    "signals_count": 1368,
+    "ai_scan_size": "top10",
+    "language": "pl",
+    "last_scan_size": "top50",
+    "last_timeframe": "30m",
+    "cached_scan_results": [
+      {
+        "symbol": "ETH/USDT:USDT",
+        "signal": "SHORT",
+        "score": 60
+      },
+      {
+        "symbol": "BNB/USDT:USDT",
+        "signal": "SHORT",
+        "score": 55
+      },
+      {
+        "symbol": "BCH/USDT:USDT",
+        "signal": "SHORT",
+        "score": 55
+      },
+      {
+        "symbol": "SUI/USDT:USDT",
+        "signal": "SHORT",
+        "score": 55
+      },
+      {
+        "symbol": "THETA/USDT:USDT",
+        "signal": "SHORT",
+        "score": 55
+      },
+      {
+        "symbol": "XTZ/USDT:USDT",
+        "signal": "SHORT",
+        "score": 50
+      },
+      {
+        "symbol": "BTC/USDT:USDT",
+        "signal": "SHORT",
+        "score": 45
+      },
+      {
+        "symbol": "SOL/USDT:USDT",
+        "signal": "SHORT",
+        "score": 45
+      },
+      {
+        "symbol": "SHIB/USDT:USDT",
+        "signal": "SHORT",
+        "score": 40
+      },
+      {
+        "symbol": "OP/USDT:USDT",
+        "signal": "SHORT",
+        "score": 40
+      }
+    ],
+    "interval": "4h",
+    "subscription_expires": "2028-01-31T21:11:38.553226",
+    "is_premium": true,
+    "alert_settings": {
+      "oversold_enabled": 0,
+      "overbought_enabled": 0,
+      "big_gains_enabled": 0,
+      "big_losses_enabled": 0,
+      "ai_signals_enabled": 0,
+      "volume_spike_enabled": 0,
+      "macd_cross_enabled": 0,
+      "ema_cross_enabled": 0,
+      "scan_range": 100,
+      "scan_frequency": "5m",
+      "scan_timeframe": "1h",
+      "min_confidence": 70,
+      "gain_threshold": 15,
+      "loss_threshold": 15,
+      "volume_multiplier": 3.0,
+      "quiet_hours": 0,
+      "alert_timeframe": "30m",
+      "sudden_change_enabled": 0,
+      "sudden_timeframe": "15m",
+      "sudden_threshold": 5,
+      "notifications_enabled": 0
+    },
+    "last_alert_scan": "2026-01-15T10:28:20.169519",
+    "alert_history": [
+      {
+        "alert_type": "big_gain",
+        "symbol": "YEE/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: YEE/USDT\n💰 Cena: $0.0282\n📈 Zmiana 24h: +17.94%",
+        "triggered_at": "2026-01-15T10:29:58.478714"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "DOLO/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: DOLO/USDT\n💰 Cena: $0.0793\n📈 Zmiana 24h: +33.83%",
+        "triggered_at": "2026-01-15T10:29:06.827341"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "FHE/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: FHE/USDT\n💰 Cena: $0.0713\n📈 Zmiana 24h: +41.80%",
+        "triggered_at": "2026-01-15T10:28:45.393403"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "DOLO/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: DOLO/USDT\n💰 Cena: $0.07799\n📈 Zmiana 24h: +31.62%",
+        "triggered_at": "2026-01-15T10:23:18.191656"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "SIGHT/USDT:USDT",
+        "message": "📉 NAGŁA ZMIANA: SIGHT/USDT\n💰 Cena: $0.003471\n⚡ SPADEK: 5.14% w 15m\n📊 0.003660 → 0.003472",
+        "triggered_at": "2026-01-15T10:23:15.072480"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "FHE/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: FHE/USDT\n💰 Cena: $0.07118\n📈 Zmiana 24h: +41.56%",
+        "triggered_at": "2026-01-15T10:22:58.202294"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "WOTAMALAILE/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: WOTAMALAILE/USDT\n💰 Cena: $0.03075\n📈 Zmiana 24h: +16.21%",
+        "triggered_at": "2026-01-11T21:30:46.525922"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: 114514/USDT\n💰 Cena: $0.00707\n📈 Zmiana 24h: +30.63%",
+        "triggered_at": "2026-01-11T21:30:42.999410"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "WOTAMALAILE/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: WOTAMALAILE/USDT\n💰 Cena: $0.03095\n📈 Zmiana 24h: +16.96%",
+        "triggered_at": "2026-01-11T21:21:38.894831"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: 114514/USDT\n💰 Cena: $0.007347\n📈 Zmiana 24h: +35.75%",
+        "triggered_at": "2026-01-11T21:21:35.465550"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "WOTAMALAILE/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: WOTAMALAILE/USDT\n💰 Cena: $0.03084\n📈 Zmiana 24h: +16.55%",
+        "triggered_at": "2026-01-11T21:12:40.774712"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 NAGŁA ZMIANA: 114514/USDT\n💰 Cena: $0.007473\n⚡ WZROST: 7.91% w 15m\n📊 0.006950 → 0.007500",
+        "triggered_at": "2026-01-11T21:12:37.727432"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: 114514/USDT\n💰 Cena: $0.007473\n📈 Zmiana 24h: +38.08%",
+        "triggered_at": "2026-01-11T21:12:37.397200"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "WOTAMALAILE/USDT:USDT",
+        "message": "🚀 NAGŁA ZMIANA: WOTAMALAILE/USDT\n💰 Cena: $0.03115\n⚡ WZROST: 5.79% w 15m\n📊 0.029370 → 0.031070",
+        "triggered_at": "2026-01-11T21:07:02.196481"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "WOTAMALAILE/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: WOTAMALAILE/USDT\n💰 Cena: $0.03115\n📈 Zmiana 24h: +17.72%",
+        "triggered_at": "2026-01-11T21:07:01.924026"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 NAGŁA ZMIANA: 114514/USDT\n💰 Cena: $0.007431\n⚡ WZROST: 6.92% w 15m\n📊 0.006950 → 0.007431",
+        "triggered_at": "2026-01-11T21:06:57.997238"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: 114514/USDT\n💰 Cena: $0.007431\n📈 Zmiana 24h: +37.30%",
+        "triggered_at": "2026-01-11T21:06:57.688257"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: 114514/USDT\n💰 Cena: $0.007002\n📈 Zmiana 24h: +29.37%",
+        "triggered_at": "2026-01-11T21:01:38.071629"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: 114514/USDT\n💰 Cena: $0.007415\n📈 Zmiana 24h: +37.01%",
+        "triggered_at": "2026-01-11T20:56:13.974709"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: 114514/USDT\n💰 Cena: $0.00775\n📈 Zmiana 24h: +43.20%",
+        "triggered_at": "2026-01-11T20:49:57.313298"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "XCN/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: XCN/USDT\n💰 Cena: $0.009444\n📈 Zmiana 24h: +16.79%",
+        "triggered_at": "2026-01-11T20:44:08.719743"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: 114514/USDT\n💰 Cena: $0.007935\n📈 Zmiana 24h: +46.61%",
+        "triggered_at": "2026-01-11T20:42:27.455651"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: 114514/USDT\n💰 Cena: $0.007655\n📈 Zmiana 24h: +41.44%",
+        "triggered_at": "2026-01-11T20:36:48.593744"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "XCN/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: XCN/USDT\n💰 Cena: $0.009502\n📈 Zmiana 24h: +17.51%",
+        "triggered_at": "2026-01-11T20:31:33.805383"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "EPH/USDT:USDT",
+        "message": "🚀 NAGŁA ZMIANA: EPH/USDT\n💰 Cena: $0.0864\n⚡ WZROST: 11.11% w 15m\n📊 0.078300 → 0.087000",
+        "triggered_at": "2026-01-11T20:30:00.169379"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 NAGŁA ZMIANA: 114514/USDT\n💰 Cena: $0.007788\n⚡ WZROST: 7.44% w 15m\n📊 0.007249 → 0.007788",
+        "triggered_at": "2026-01-11T20:29:50.639290"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: 114514/USDT\n💰 Cena: $0.007788\n📈 Zmiana 24h: +43.90%",
+        "triggered_at": "2026-01-11T20:29:50.364119"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "XCN/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: XCN/USDT\n💰 Cena: $0.009545\n📈 Zmiana 24h: +18.04%",
+        "triggered_at": "2026-01-11T20:24:25.625137"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 NAGŁA ZMIANA: 114514/USDT\n💰 Cena: $0.00813\n⚡ WZROST: 12.00% w 15m\n📊 0.007249 → 0.008119",
+        "triggered_at": "2026-01-11T20:22:36.234622"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: 114514/USDT\n💰 Cena: $0.00813\n📈 Zmiana 24h: +50.22%",
+        "triggered_at": "2026-01-11T20:22:35.950222"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "DGRAM/USDT:USDT",
+        "message": "📉 NAGŁA ZMIANA: DGRAM/USDT\n💰 Cena: $0.000985\n⚡ SPADEK: 5.83% w 15m\n📊 0.001046 → 0.000985",
+        "triggered_at": "2026-01-11T20:09:31.597530"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "XCN/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: XCN/USDT\n💰 Cena: $0.009446\n📈 Zmiana 24h: +16.81%",
+        "triggered_at": "2026-01-11T19:39:23.120575"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "COLLECT/USDT:USDT",
+        "message": "🚀 NAGŁA ZMIANA: COLLECT/USDT\n💰 Cena: $0.08135\n⚡ WZROST: 8.01% w 15m\n📊 0.075320 → 0.081350",
+        "triggered_at": "2026-01-11T19:38:50.954732"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "EPH/USDT:USDT",
+        "message": "🚀 NAGŁA ZMIANA: EPH/USDT\n💰 Cena: $0.077\n⚡ WZROST: 5.19% w 15m\n📊 0.073200 → 0.077000",
+        "triggered_at": "2026-01-11T19:29:02.421362"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "114514/USDT:USDT",
+        "message": "📉 NAGŁA ZMIANA: 114514/USDT\n💰 Cena: $0.0077\n⚡ SPADEK: 5.54% w 15m\n📊 0.008190 → 0.007736",
+        "triggered_at": "2026-01-11T19:20:53.611911"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: 114514/USDT\n💰 Cena: $0.0077\n📈 Zmiana 24h: +42.27%",
+        "triggered_at": "2026-01-11T19:20:53.330131"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "DGRAM/USDT:USDT",
+        "message": "📉 NAGŁA ZMIANA: DGRAM/USDT\n💰 Cena: $0.000931\n⚡ SPADEK: 5.58% w 15m\n📊 0.000986 → 0.000931",
+        "triggered_at": "2026-01-11T19:12:51.657168"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: 114514/USDT\n💰 Cena: $0.00735\n📈 Zmiana 24h: +35.80%",
+        "triggered_at": "2026-01-11T18:56:19.015683"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "DGRAM/USDT:USDT",
+        "message": "📉 NAGŁA ZMIANA: DGRAM/USDT\n💰 Cena: $0.000933\n⚡ SPADEK: 7.90% w 15m\n📊 0.001013 → 0.000933",
+        "triggered_at": "2026-01-11T18:40:47.340626"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 NAGŁA ZMIANA: 114514/USDT\n💰 Cena: $0.0069\n⚡ WZROST: 14.55% w 15m\n📊 0.006056 → 0.006937",
+        "triggered_at": "2026-01-11T18:40:22.992637"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: 114514/USDT\n💰 Cena: $0.0069\n📈 Zmiana 24h: +27.49%",
+        "triggered_at": "2026-01-11T18:40:22.668115"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "PIPPIN/USDT:USDT",
+        "message": "🚀 NAGŁA ZMIANA: PIPPIN/USDT\n💰 Cena: $0.31156\n⚡ WZROST: 6.92% w 15m\n📊 0.292080 → 0.312300",
+        "triggered_at": "2026-01-11T18:25:02.517127"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "VOOI/USDT:USDT",
+        "message": "📉 NAGŁA ZMIANA: VOOI/USDT\n💰 Cena: $0.01714\n⚡ SPADEK: 6.39% w 15m\n📊 0.018310 → 0.017140",
+        "triggered_at": "2026-01-11T18:18:10.369368"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "ZEREBRO/USDT:USDT",
+        "message": "📉 NAGŁA ZMIANA: ZEREBRO/USDT\n💰 Cena: $0.02999\n⚡ SPADEK: 8.03% w 15m\n📊 0.032630 → 0.030010",
+        "triggered_at": "2026-01-11T17:49:33.966683"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "COLLECT/USDT:USDT",
+        "message": "📉 NAGŁA ZMIANA: COLLECT/USDT\n💰 Cena: $0.08048\n⚡ SPADEK: 7.02% w 15m\n📊 0.086560 → 0.080480",
+        "triggered_at": "2026-01-11T17:42:18.315108"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "WOTAMALAILE/USDT:USDT",
+        "message": "🚀 NAGŁA ZMIANA: WOTAMALAILE/USDT\n💰 Cena: $0.02969\n⚡ WZROST: 5.51% w 15m\n📊 0.028140 → 0.029690",
+        "triggered_at": "2026-01-11T17:40:10.958441"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "114514/USDT:USDT",
+        "message": "📉 NAGŁA ZMIANA: 114514/USDT\n💰 Cena: $0.005277\n⚡ SPADEK: 6.12% w 15m\n📊 0.005620 → 0.005276",
+        "triggered_at": "2026-01-11T17:40:09.271345"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 NAGŁA ZMIANA: 114514/USDT\n💰 Cena: $0.0053\n⚡ WZROST: 9.59% w 15m\n📊 0.004836 → 0.005300",
+        "triggered_at": "2026-01-11T17:23:24.518971"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "EPH/USDT:USDT",
+        "message": "📉 NAGŁA ZMIANA: EPH/USDT\n💰 Cena: $0.0727\n⚡ SPADEK: 5.71% w 15m\n📊 0.077100 → 0.072700",
+        "triggered_at": "2026-01-11T17:11:37.910417"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "114514/USDT:USDT",
+        "message": "📉 NAGŁA ZMIANA: 114514/USDT\n💰 Cena: $0.004858\n⚡ SPADEK: 10.05% w 15m\n📊 0.005412 → 0.004868",
+        "triggered_at": "2026-01-11T17:11:34.586194"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "CLO/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: CLO/USDT\n💰 Cena: $0.7269\n📈 Zmiana 24h: +21.69%",
+        "triggered_at": "2026-01-11T16:55:39.518562"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "WHITEWHALE/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: WHITEWHALE/USDT\n💰 Cena: $0.19264\n📈 Zmiana 24h: +15.67%",
+        "triggered_at": "2026-01-11T16:55:33.766659"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "EPH/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: EPH/USDT\n💰 Cena: $0.0782\n📈 Zmiana 24h: +65.67%",
+        "triggered_at": "2026-01-11T16:55:32.095915"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: 114514/USDT\n💰 Cena: $0.005565\n📈 Zmiana 24h: +185.38%",
+        "triggered_at": "2026-01-11T16:55:28.775507"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "WHITEWHALE/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: WHITEWHALE/USDT\n💰 Cena: $0.1931\n📈 Zmiana 24h: +15.94%",
+        "triggered_at": "2026-01-11T16:49:36.922640"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "VOOI/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: VOOI/USDT\n💰 Cena: $0.01797\n📈 Zmiana 24h: +17.75%",
+        "triggered_at": "2026-01-11T16:42:55.945902"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "ZEREBRO/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: ZEREBRO/USDT\n💰 Cena: $0.03319\n📈 Zmiana 24h: +19.17%",
+        "triggered_at": "2026-01-11T16:42:39.488177"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "ELX/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: ELX/USDT\n💰 Cena: $0.003893\n📈 Zmiana 24h: +21.69%",
+        "triggered_at": "2026-01-11T16:42:28.627970"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "GAIB/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: GAIB/USDT\n💰 Cena: $0.0369\n📈 Zmiana 24h: +44.14%",
+        "triggered_at": "2026-01-11T16:42:14.269689"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "VVV/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: VVV/USDT\n💰 Cena: $3.093\n📈 Zmiana 24h: +22.68%",
+        "triggered_at": "2026-01-11T16:42:10.613221"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "HYPER/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: HYPER/USDT\n💰 Cena: $0.1506\n📈 Zmiana 24h: +20.19%",
+        "triggered_at": "2026-01-11T16:41:50.504194"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "CLO/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: CLO/USDT\n💰 Cena: $0.7292\n📈 Zmiana 24h: +22.08%",
+        "triggered_at": "2026-01-11T16:41:42.675976"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "EPH/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: EPH/USDT\n💰 Cena: $0.0791\n📈 Zmiana 24h: +67.58%",
+        "triggered_at": "2026-01-11T16:41:36.045929"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: 114514/USDT\n💰 Cena: $0.00558\n📈 Zmiana 24h: +186.15%",
+        "triggered_at": "2026-01-11T16:41:32.443229"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "ZEREBRO/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: ZEREBRO/USDT\n💰 Cena: $0.03304\n📈 Zmiana 24h: +18.63%",
+        "triggered_at": "2026-01-11T16:24:08.239159"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "ELX/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: ELX/USDT\n💰 Cena: $0.003879\n📈 Zmiana 24h: +21.25%",
+        "triggered_at": "2026-01-11T16:23:57.428963"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "GAIB/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: GAIB/USDT\n💰 Cena: $0.0359\n📈 Zmiana 24h: +40.23%",
+        "triggered_at": "2026-01-11T16:23:42.799977"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "VVV/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: VVV/USDT\n💰 Cena: $2.996\n📈 Zmiana 24h: +18.84%",
+        "triggered_at": "2026-01-11T16:23:39.245350"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "HYPER/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: HYPER/USDT\n💰 Cena: $0.1503\n📈 Zmiana 24h: +19.95%",
+        "triggered_at": "2026-01-11T16:23:18.614383"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "CLO/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: CLO/USDT\n💰 Cena: $0.735\n📈 Zmiana 24h: +23.05%",
+        "triggered_at": "2026-01-11T16:23:11.386272"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "RIVER/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: RIVER/USDT\n💰 Cena: $16.365\n📈 Zmiana 24h: +16.02%",
+        "triggered_at": "2026-01-11T16:23:08.938218"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "EPH/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: EPH/USDT\n💰 Cena: $0.0811\n📈 Zmiana 24h: +71.82%",
+        "triggered_at": "2026-01-11T16:23:04.991959"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 NAGŁA ZMIANA: 114514/USDT\n💰 Cena: $0.005892\n⚡ WZROST: 10.23% w 15m\n📊 0.005325 → 0.005870",
+        "triggered_at": "2026-01-11T16:23:01.746220"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: 114514/USDT\n💰 Cena: $0.005892\n📈 Zmiana 24h: +202.15%",
+        "triggered_at": "2026-01-11T16:23:01.466887"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "VOOI/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: VOOI/USDT\n💰 Cena: $0.0178\n📈 Zmiana 24h: +16.64%",
+        "triggered_at": "2026-01-11T16:17:32.032449"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "ZEREBRO/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: ZEREBRO/USDT\n💰 Cena: $0.03309\n📈 Zmiana 24h: +18.81%",
+        "triggered_at": "2026-01-11T16:17:13.732507"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "ELX/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: ELX/USDT\n💰 Cena: $0.003833\n📈 Zmiana 24h: +19.81%",
+        "triggered_at": "2026-01-11T16:17:02.907329"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "GAIB/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: GAIB/USDT\n💰 Cena: $0.036\n📈 Zmiana 24h: +40.62%",
+        "triggered_at": "2026-01-11T16:16:47.249047"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "VVV/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: VVV/USDT\n💰 Cena: $2.991\n📈 Zmiana 24h: +18.64%",
+        "triggered_at": "2026-01-11T16:16:42.612291"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "HYPER/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: HYPER/USDT\n💰 Cena: $0.151\n📈 Zmiana 24h: +20.51%",
+        "triggered_at": "2026-01-11T16:16:19.986692"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "CLO/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: CLO/USDT\n💰 Cena: $0.7496\n📈 Zmiana 24h: +25.49%",
+        "triggered_at": "2026-01-11T16:16:12.118083"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "RIVER/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: RIVER/USDT\n💰 Cena: $16.434\n📈 Zmiana 24h: +16.51%",
+        "triggered_at": "2026-01-11T16:16:10.324271"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "EPH/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: EPH/USDT\n💰 Cena: $0.082\n📈 Zmiana 24h: +73.72%",
+        "triggered_at": "2026-01-11T16:16:04.617264"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: 114514/USDT\n💰 Cena: $0.005368\n📈 Zmiana 24h: +175.28%",
+        "triggered_at": "2026-01-11T16:16:00.885173"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "VOOI/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: VOOI/USDT\n💰 Cena: $0.01922\n📈 Zmiana 24h: +25.95%",
+        "triggered_at": "2026-01-11T16:09:17.103710"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "ZEREBRO/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: ZEREBRO/USDT\n💰 Cena: $0.03303\n📈 Zmiana 24h: +18.59%",
+        "triggered_at": "2026-01-11T16:08:59.355741"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "ELX/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: ELX/USDT\n💰 Cena: $0.003888\n📈 Zmiana 24h: +21.53%",
+        "triggered_at": "2026-01-11T16:08:47.864988"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "GAIB/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: GAIB/USDT\n💰 Cena: $0.03685\n📈 Zmiana 24h: +43.94%",
+        "triggered_at": "2026-01-11T16:08:33.758149"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "VVV/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: VVV/USDT\n💰 Cena: $3.02\n📈 Zmiana 24h: +19.79%",
+        "triggered_at": "2026-01-11T16:08:30.210549"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "HYPER/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: HYPER/USDT\n💰 Cena: $0.1512\n📈 Zmiana 24h: +20.67%",
+        "triggered_at": "2026-01-11T16:08:10.515870"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "CLO/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: CLO/USDT\n💰 Cena: $0.7366\n📈 Zmiana 24h: +23.32%",
+        "triggered_at": "2026-01-11T16:08:02.985145"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "RIVER/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: RIVER/USDT\n💰 Cena: $16.414\n📈 Zmiana 24h: +16.37%",
+        "triggered_at": "2026-01-11T16:08:00.679332"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "EPH/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: EPH/USDT\n💰 Cena: $0.0828\n📈 Zmiana 24h: +75.42%",
+        "triggered_at": "2026-01-11T16:07:55.598194"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "114514/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: 114514/USDT\n💰 Cena: $0.00532\n📈 Zmiana 24h: +172.82%",
+        "triggered_at": "2026-01-11T16:07:51.868244"
+      },
+      {
+        "alert_type": "sudden_change",
+        "symbol": "WOTAMALAILE/USDT:USDT",
+        "message": "📉 NAGŁA ZMIANA: WOTAMALAILE/USDT\n💰 Cena: $0.02764\n⚡ SPADEK: 5.36% w 15m\n📊 0.028900 → 0.027350",
+        "triggered_at": "2026-01-11T16:07:46.696724"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "ZEREBRO/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: ZEREBRO/USDT\n💰 Cena: $0.03303\n📈 Zmiana 24h: +18.59%",
+        "triggered_at": "2026-01-11T16:03:19.742357"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "ELX/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: ELX/USDT\n💰 Cena: $0.003855\n📈 Zmiana 24h: +20.50%",
+        "triggered_at": "2026-01-11T16:03:05.236181"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "VVV/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: VVV/USDT\n💰 Cena: $3.017\n📈 Zmiana 24h: +19.67%",
+        "triggered_at": "2026-01-11T16:02:47.910603"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "GAIB/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: GAIB/USDT\n💰 Cena: $0.03691\n📈 Zmiana 24h: +44.17%",
+        "triggered_at": "2026-01-11T16:02:46.015735"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "HYPER/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: HYPER/USDT\n💰 Cena: $0.1521\n📈 Zmiana 24h: +21.38%",
+        "triggered_at": "2026-01-11T16:02:23.705678"
+      }
+    ]
+  }
+}

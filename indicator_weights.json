@@ -1,0 +1,49 @@
+{
+  "weights": {
+    "rsi": 0.2152,
+    "ema_cross": 0.2152,
+    "macd": 0.1898,
+    "volume": 0.1898,
+    "bollinger": 0.1898
+  },
+  "last_updated": "2026-01-20T21:17:49.644212",
+  "performance_history": [
+    {
+      "timestamp": "2026-01-20T21:17:49.644206",
+      "weights": {
+        "rsi": 0.2152,
+        "ema_cross": 0.2152,
+        "macd": 0.1898,
+        "volume": 0.1898,
+        "bollinger": 0.1898
+      },
+      "impact_scores": {
+        "rsi": {
+          "accuracy": 0,
+          "samples": 0,
+          "impact_score": 0.5
+        },
+        "ema_cross": {
+          "accuracy": 0,
+          "samples": 0,
+          "impact_score": 0.5
+        },
+        "macd": {
+          "accuracy": 0,
+          "samples": 0,
+          "impact_score": 0.5
+        },
+        "volume": {
+          "accuracy": 0,
+          "samples": 0,
+          "impact_score": 0.5
+        },
+        "bollinger": {
+          "accuracy": 0,
+          "samples": 0,
+          "impact_score": 0.5
+        }
+      }
+    }
+  ]
+}

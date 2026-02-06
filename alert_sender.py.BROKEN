@@ -1,0 +1,119 @@
+"""
+Alert Sender - Separate process that reads queue and sends alerts via Telegram
+"""
+
+import asyncio
+from database import Database
+import logging
+import sys
+from telegram import Bot
+from alert_queue import alert_queue
+from config import TELEGRAM_BOT_TOKEN as BOT_TOKEN
+
+# Logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler('alert_sender.log'),
+        logging.StreamHandler(sys.stdout)
+    ]
+)
+logger = logging.getLogger('alert_sender')
+
+class AlertSender:
+    """Sends queued alerts to users via Telegram"""
+    
+    def __init__(self):
+        self.db = Database()
+        self.bot = Bot(token=BOT_TOKEN)
+        self.running = False
+        logger.info("📬 Alert Sender initialized")
+    
+    async def start(self):
+        """Start sender loop"""
+        self.running = True
+        logger.info("🚀 Alert Sender starting...")
+        
+        while self.running:
+            try:
+                # Get pending alerts
+                pending_alerts = alert_queue.get_pending_alerts(limit=10)
+                
+                if pending_alerts:
+                    logger.info(f"📨 Processing {len(pending_alerts)} pending alerts")
+                    
+                    for filepath, alert_data in pending_alerts:
+                        try:
+                            # Mark as processing
+                            processing_path = alert_queue.mark_alert_processing(filepath)
+                            
+                            # Send alert
+                            user_id = alert_data['user_id']
+                            message = alert_data['alert_data']['message']
+                            
+                            await self.bot.send_message(
+                                chat_id=user_id,
+                                text=message
+                            )
+                            
+                            # Mark as completed
+                            alert_queue.mark_alert_completed(processing_path, success=True)
+                            logger.info(f"✅ Alert sent to user {user_id}")
+
+                            # Zapisz do historii
+                            try:
+                                self.db.add_alert_to_history(
+                                    user_id=alert_data["user_id"],
+                                    alert_type=alert_data["type"],
+                                    symbol=alert_data.get("symbol", ""),
+                                    message=alert_data["message"]
+                                )
+                                logger.info("💾 Saved to history")
+                            except Exception as e:
+                                logger.error(f"DB save error: {e}")
+                                chat_id=user_id,
+                                text=message
+                            )
+                            
+                            # Mark as completed
+                            alert_queue.mark_alert_completed(processing_path, success=True)
+                            logger.info(f"✅ Alert sent to user {user_id}")
+                            
+                        except Exception as e:
+                            logger.error(f"Failed to send alert: {e}")
+                            # Leave in processing for retry
+                            continue
+                
+                # Check every 5 seconds
+                await asyncio.sleep(5)
+                
+            except Exception as e:
+                logger.error(f"Sender loop error: {e}")
+                await asyncio.sleep(10)
+    
+    async def stop(self):
+        """Stop sender"""
+        self.running = False
+        logger.info("🛑 Alert Sender stopping...")
+
+async def main():
+    """Main entry point"""
+    sender = AlertSender()
+    
+    try:
+        logger.info("=" * 60)
+        logger.info("📬 ALERT SENDER STARTING")
+        logger.info("=" * 60)
+        await sender.start()
+    except KeyboardInterrupt:
+        logger.info("\n⏹️  Keyboard interrupt")
+        await sender.stop()
+    except Exception as e:
+        logger.error(f"Fatal error: {e}", exc_info=True)
+    finally:
+        logger.info("👋 Alert Sender shutdown")
+
+if __name__ == '__main__':
+    asyncio.run(main())
+

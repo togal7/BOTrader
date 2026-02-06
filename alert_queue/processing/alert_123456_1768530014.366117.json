@@ -1,0 +1,11 @@
+{
+  "user_id": 123456,
+  "alert_data": {
+    "type": "big_gain",
+    "symbol": "BTC/USDT",
+    "message": "Test alert!",
+    "timestamp": "2026-01-16T12:00:00"
+  },
+  "created_at": "2026-01-16T03:20:14.366167",
+  "status": "pending"
+}

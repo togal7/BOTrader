@@ -1,0 +1,11 @@
+{
+  "user_id": "1794363283",
+  "alert_data": {
+    "type": "big_loss",
+    "symbol": "BRETT/USDT:USDT",
+    "message": "\ud83d\udcc9 DU\u017bY SPADEK: BRETT/USDT:USDT\n\ud83d\udcb0 Cena: $0.00642\n\ud83d\udcc9 Zmiana 24h: -15.74%",
+    "timestamp": "2026-02-06T01:33:09.214344"
+  },
+  "created_at": "2026-02-06T01:33:09.214413",
+  "status": "pending"
+}

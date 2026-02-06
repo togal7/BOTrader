@@ -1,0 +1,11 @@
+{
+  "user_id": "1794363283",
+  "alert_data": {
+    "type": "big_loss",
+    "symbol": "WOTAMALAILE/USDT:USDT",
+    "message": "\ud83d\udcc9 DU\u017bY SPADEK: WOTAMALAILE/USDT:USDT\n\ud83d\udcb0 Cena: $0.0378\n\ud83d\udcc9 Zmiana 24h: -19.17%",
+    "timestamp": "2026-02-06T15:08:14.717379"
+  },
+  "created_at": "2026-02-06T15:08:14.717506",
+  "status": "pending"
+}

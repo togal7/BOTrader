@@ -1,0 +1,11 @@
+{
+  "user_id": "5157140630",
+  "alert_data": {
+    "type": "big_gain",
+    "symbol": "PSYOPANIME/USDT:USDT",
+    "message": "\ud83d\ude80 DU\u017bY WZROST: PSYOPANIME/USDT:USDT\n\ud83d\udcb0 Cena: $0.00265\n\ud83d\udcc8 Zmiana 24h: +46.32%",
+    "timestamp": "2026-02-06T08:18:45.748280"
+  },
+  "created_at": "2026-02-06T08:18:45.748347",
+  "status": "pending"
+}

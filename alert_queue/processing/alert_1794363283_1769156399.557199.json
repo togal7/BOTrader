@@ -1,0 +1,11 @@
+{
+  "user_id": "1794363283",
+  "alert_data": {
+    "type": "big_gain",
+    "symbol": "ELSA/USDT:USDT",
+    "message": "\ud83d\ude80 DU\u017bY WZROST: ELSA/USDT:USDT\n\ud83d\udcb0 Cena: $0.198\n\ud83d\udcc8 Zmiana 24h: +23.75%",
+    "timestamp": "2026-01-23T09:19:59.557173"
+  },
+  "created_at": "2026-01-23T09:19:59.557225",
+  "status": "pending"
+}

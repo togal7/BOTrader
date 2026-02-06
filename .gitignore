@@ -1,0 +1,9 @@
+
+# Logs (za duże dla GitHub)
+bot.log
+*.log
+
+# Backups
+*.backup
+*.before_*
+

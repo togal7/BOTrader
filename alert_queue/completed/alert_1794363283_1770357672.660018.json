@@ -1,0 +1,11 @@
+{
+  "user_id": "1794363283",
+  "alert_data": {
+    "type": "big_gain",
+    "symbol": "FHE/USDT:USDT",
+    "message": "\ud83d\ude80 DU\u017bY WZROST: FHE/USDT:USDT\n\ud83d\udcb0 Cena: $0.12363\n\ud83d\udcc8 Zmiana 24h: +17.81%",
+    "timestamp": "2026-02-06T07:01:12.659968"
+  },
+  "created_at": "2026-02-06T07:01:12.660063",
+  "status": "pending"
+}

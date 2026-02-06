@@ -1,0 +1,11 @@
+{
+  "user_id": "1794363283",
+  "alert_data": {
+    "type": "big_loss",
+    "symbol": "PIPE/USDT:USDT",
+    "message": "\ud83d\udcc9 DU\u017bY SPADEK: PIPE/USDT:USDT\n\ud83d\udcb0 Cena: $0.02259\n\ud83d\udcc9 Zmiana 24h: -15.32%",
+    "timestamp": "2026-02-02T05:34:15.987328"
+  },
+  "created_at": "2026-02-02T05:34:15.987379",
+  "status": "pending"
+}

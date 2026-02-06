@@ -1,0 +1,3107 @@
+from alert_queue import alert_queue
+#!/usr/bin/env python3
+import asyncio
+from datetime import datetime, timedelta
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
+from timeframe_validator import is_timeframe_supported, get_fallback_timeframe, get_supported_timeframes_message
+from quick_timeframe_buttons import get_quick_timeframe_buttons
+from telegram.ext import ContextTypes
+from config import logger, ADMIN_IDS, EXCHANGES, TIMEFRAMES, USDT_ADDRESS
+from database import db
+from exchange_api import exchange_api
+from ai_trader import ai_trader
+import json
+# ==========================================
+# HELPER FUNCTIONS
+# ==========================================
+def format_subscription_status(subscription_end, is_blocked=False):
+    """Format subscription status"""
+    if is_blocked:
+        return '🚫 Zablokowany'
+    if not subscription_end:
+        return '⚠️ Brak subskrypcji (0 dni)'
+    try:
+        expires_date = datetime.fromisoformat(subscription_end)
+        days_left = (expires_date - datetime.now()).days
+        if days_left <= 0:
+            return '❌ Wygasła (0 dni)'
+        elif days_left <= 7:
+            return f'⚠️ Premium ({days_left} dni)'
+        else:
+            return f'✅ Premium ({days_left} dni)'
+    except:
+        return '⚠️ Brak subskrypcji'
+def back_button(callback_data='back_main'):
+    """Universal back button"""
+    return InlineKeyboardMarkup([[InlineKeyboardButton('⬅️ Powrót', callback_data=callback_data)]])
+# ==========================================
+# START COMMAND
+# ==========================================
+def create_quick_interval_buttons(symbol, current_timeframe, callback_prefix='analyze'):
+    """15 timeframes po 5 w rzędzie"""
+    
+    safe_symbol = symbol.replace('/', '_')
+    
+    timeframes_rows = [
+        ['1m', '3m', '5m', '15m', '30m'],
+        ['1h', '4h', '12h', '1d', '3d'],
+        ['5d', '1w', '1M', '6M', '1Y']
+    ]
+    
+    keyboard = []
+    
+    for row_tfs in timeframes_rows:
+        row = []
+        for tf in row_tfs:
+            if tf == current_timeframe:
+                row.append(InlineKeyboardButton(f"• {tf} •", callback_data="noop"))
+            else:
+                row.append(InlineKeyboardButton(tf, callback_data=f"{callback_prefix}_{safe_symbol}_mexc_{tf}"))
+        keyboard.append(row)
+    
+    return InlineKeyboardMarkup(keyboard)
+
+async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Start command - main menu"""
+    user = update.effective_user
+    user_id = user.id
+    # Get or create user
+    user_data = db.get_user(user_id)
+    # Format status
+    sub_status = format_subscription_status(user_data.get('subscription_end'), user_data.get('is_blocked', False))
+    is_admin = user_id in ADMIN_IDS
+    welcome = f"""👋 BOTrader Bot
+Status: {sub_status}
+🆔 ID: {user_id}
+✨ Wpisz nazwę pary (np. BTC) aby wyszukać
+📊 Lub użyj menu poniżej"""
+    keyboard = [
+        [InlineKeyboardButton("🔍 Wyszukaj parę", callback_data='search_pair')],
+        [InlineKeyboardButton("📊 Skaner ekstremów", callback_data='scan_extremes')],
+        [InlineKeyboardButton("🎯 Sygnały AI", callback_data='ai_signals')],
+        [InlineKeyboardButton("🔔 Alerty", callback_data='alerts_menu')],
+        [InlineKeyboardButton("💬 Czat z adminem", callback_data='admin_chat')],
+        [InlineKeyboardButton("⚙️ Ustawienia", callback_data='settings')],
+        [InlineKeyboardButton("ℹ️ Wyjaśnienia", callback_data='explanations_menu')],
+        [InlineKeyboardButton("💎 Subskrypcja", callback_data='subscription')],
+        [InlineKeyboardButton("⭐ Oceń bota", callback_data='rate_bot')]
+    ]
+    if is_admin:
+        keyboard.append([InlineKeyboardButton("👑 Admin Panel", callback_data='admin_panel')])
+    await update.message.reply_text(welcome, reply_markup=InlineKeyboardMarkup(keyboard))
+async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Handle all button callbacks"""
+    query = update.callback_query
+    await query.answer()
+    user_id = query.from_user.id
+    user = db.get_user(user_id)
+    if not user:
+        await query.edit_message_text("❌ Użytkownik nie znaleziony. Wyślij /start")
+        return
+    data = query.data
+    print(f"DEBUG: Callback data: {data}")
+    user['last_active'] = datetime.now().isoformat()
+    db.update_user(user_id, user)
+    if data == 'back_main':
+        await start_command_from_callback(query, user_id, user)
+        return
+    elif data == 'search_pair':
+        await search_pair_menu(query, user_id, user)
+        return
+    elif data == 'show_cached_scan':
+        await show_cached_scan(query, user_id, user)
+        return
+    elif data == 'ai_signals':
+        await ai_signals_menu_advanced(query, user_id, user)
+        return
+    elif data.startswith('ai_scan_'):
+        timeframe = data.replace('ai_scan_', '')
+        await ai_scan_select_size(query, user_id, user, timeframe)
+        return
+    elif data.startswith('ai_run_'):
+        parts = data.replace('ai_run_', '').split('_')
+        timeframe = parts[0]
+        scan_size = parts[1] if len(parts) > 1 else 'top10'
+        await ai_scan_execute(query, user_id, user, timeframe, scan_size)
+        return
+    elif data == 'rate_bot':
+        await rate_bot_menu(query, user_id, user)
+        return
+    elif data.startswith('rate_'):
+        stars = data.replace('rate_', '')
+        await query.answer(f"✅ Dziękujemy za {'⭐' * int(stars)}!")
+        await start_command_from_callback(query, user_id, user)
+        return
+    elif data == 'explanations_menu':
+        await explanations_menu(query, user_id, user)
+        return
+    elif data == 'scan_extremes':
+        await scan_extremes_menu(query, user_id, user)
+        return
+    elif data.startswith('scan_select_'):
+        # Menu wyboru rozmiaru
+        scan_type = data.replace('scan_select_', '')
+        await scan_size_menu(query, user_id, user, scan_type)
+        return
+    elif data.startswith('scan_') and '_' in data:
+        # scan_TYPE_SIZE (np. scan_gainers_50)
+        parts = data.replace('scan_', '').rsplit('_', 1)
+        if len(parts) == 2:
+            scan_type = f'scan_{parts[0]}'
+            size_str = parts[1]
+            size = int(size_str) if size_str.isdigit() else 9999  # 'all' = 9999
+            await handle_scan(query, user_id, user, scan_type, size)
+        return
+    elif data.startswith('scan_'):
+        # Stary format (fallback)
+        await handle_scan(query, user_id, user, data, 50)
+        return
+
+    elif data == 'explanations_menu':
+        await explanations_menu(query, user_id, user)
+        return
+    
+    elif data == 'explain_signals':
+        await explain_signals(query, user_id, user)
+        return
+    
+    elif data == 'explain_indicators':
+        await explain_indicators(query, user_id, user)
+        return
+    
+    elif data == 'explain_alerts':
+        await explain_alerts(query, user_id, user)
+        return
+    
+    elif data == 'explain_settings':
+        await explain_settings(query, user_id, user)
+        return
+    
+    elif data == 'settings':
+        await settings_menu(query, user_id, user)
+        return
+    elif data == 'back_main':
+        await start_command_from_callback(query, user_id, user)
+        return
+    elif data.startswith('alert_detail_'):
+        index = int(data.replace('alert_detail_', ''))
+        await show_alert_detail(query, user_id, user, index)
+        return
+    elif data == 'alerts_menu':
+        await alerts_menu(query, user_id, user)
+        return
+    elif data == 'alerts_settings':
+        await alerts_settings_menu(query, user_id, user)
+        return
+
+    elif data == 'alerts_sudden_settings':
+        await alerts_sudden_settings(query, user_id, user)
+        return
+    
+    elif data == 'toggle_sudden_alert':
+        await toggle_sudden_alert(query, user_id, user)
+        return
+    
+    elif data == 'set_sudden_threshold_menu':
+        await set_sudden_threshold_menu(query, user_id, user)
+        return
+
+    elif data.startswith('set_sudden_thresh_'):
+        threshold = int(data.replace('set_sudden_thresh_', ''))
+        await set_sudden_threshold(query, user_id, user, threshold)
+        return
+    
+    
+    elif data == 'set_sudden_timeframe_menu':
+        await set_sudden_timeframe_menu(query, user_id, user)
+        return
+    
+    elif data == 'alerts_history':
+        await alerts_history_menu(query, user_id, user)
+        return
+    elif data.startswith('toggle_alert_'):
+        await query.answer()
+        alert_type = data.replace('toggle_alert_', '')
+        await toggle_alert(query, user_id, user, alert_type)
+        return
+    elif data.startswith('set_scan_range_'):
+        range_val = int(data.replace('set_scan_range_', ''))
+        await set_scan_range(query, user_id, user, range_val)
+        return
+    elif data.startswith('set_scan_freq_'):
+        freq = data.replace('set_scan_freq_', '')
+        await set_scan_frequency(query, user_id, user, freq)
+        return
+    elif data == 'set_scan_range':
+        await set_scan_range(query, user_id, user)
+        return
+    elif data == 'set_scan_frequency':
+        await set_scan_frequency(query, user_id, user)
+        return
+    elif data == 'set_alert_timeframe':
+        await set_alert_timeframe(query, user_id, user)
+        return
+    elif data == 'set_sudden_timeframe':
+        await set_sudden_timeframe_menu(query, user_id, user)
+        return
+    elif data.startswith('set_sudden_tf_'):
+        tf = data.replace('set_sudden_tf_', '')
+        await set_sudden_timeframe(query, user_id, user, tf)
+        return
+    elif data == 'set_sudden_threshold':
+        await set_sudden_threshold_menu(query, user_id, user)
+        return
+    elif data.startswith('set_sudden_th_'):
+        threshold = int(data.replace('set_sudden_th_', ''))
+        await set_sudden_threshold(query, user_id, user, threshold)
+        return
+    elif data.startswith('analyze_'):
+        await query.answer()
+        # Format: analyze_BTC_USDT_USDT_1h
+        parts = data.replace('analyze_', '').rsplit('_', 1)
+        symbol_encoded = parts[0]
+        timeframe = parts[1] if len(parts) > 1 else '1h'
+        # Decode symbol
+        symbol = symbol_encoded.replace('_USDT_USDT', '/USDT:USDT').replace('_', '/')
+        await analyze_from_alert(query, user_id, user, symbol, timeframe)
+        return
+    elif data.startswith('set_alert_tf_'):
+        tf = data.replace('set_alert_tf_', '')
+        await set_alert_timeframe(query, user_id, user, tf)
+        return
+    elif data == 'back_main':
+        await start_command_from_callback(query, user_id, user)
+        return
+    elif data == 'alerts_menu':
+        await alerts_menu(query, user_id, user)
+        return
+    elif data == 'alerts_settings':
+        await alerts_settings_menu(query, user_id, user)
+        return
+    elif data == 'alerts_history':
+        await alerts_history_menu(query, user_id, user)
+        return
+    elif data.startswith('toggle_alert_'):
+        await query.answer()
+        alert_type = data.replace('toggle_alert_', '')
+        await toggle_alert(query, user_id, user, alert_type)
+        return
+    elif data.startswith('set_scan_range_'):
+        range_val = int(data.replace('set_scan_range_', ''))
+        await set_scan_range(query, user_id, user, range_val)
+        return
+    elif data.startswith('set_scan_freq_'):
+        freq = data.replace('set_scan_freq_', '')
+        await set_scan_frequency(query, user_id, user, freq)
+        return
+    elif data == 'change_exchange':
+        await change_exchange_menu(query, user_id, user)
+        return
+    elif data.startswith('set_exchange_'):
+        exchange = data.replace('set_exchange_', '')
+        user['selected_exchange'] = exchange
+        db.update_user(user_id, user)
+        await query.answer(f"✅ Zmieniono na {EXCHANGES[exchange]['name']}")
+        await settings_menu(query, user_id, user)
+        return
+    elif data == 'change_interval':
+        await change_interval_menu(query, user_id, user)
+        return
+    elif data.startswith('set_interval_'):
+        interval = data.replace('set_interval_', '')
+        user['interval'] = interval
+        db.update_user(user_id, user)
+        await query.answer(f"✅ Zmieniono na {TIMEFRAMES[interval]['label']}")
+        await settings_menu(query, user_id, user)
+        return
+    elif data == 'language_menu':
+        await language_menu(query, user_id, user)
+        return
+    elif data.startswith('set_lang_'):
+        lang = data.replace('set_lang_', '')
+        user['language'] = lang
+        db.update_user(user_id, user)
+        from languages import LANGUAGES
+        await query.answer(f"✅ Language changed to {LANGUAGES[lang]['name']}")
+        await settings_menu(query, user_id, user)
+        return
+    elif data == 'subscription':
+        await subscription_menu(query, user_id, user)
+        return
+    elif data == 'payment_info':
+        await payment_info_menu(query, user_id, user)
+        return
+    elif data == 'back_main':
+        await start_command_from_callback(query, user_id, user)
+        return
+    elif data == 'alerts_menu':
+        await alerts_menu(query, user_id, user)
+        return
+    elif data == 'admin_chat':
+        await admin_chat_menu(query, user_id, user)
+        return
+    elif data == 'admin_features_menu':
+        await admin_features_menu(query, user_id, user)
+        return
+    
+    elif data == 'admin_toggle_subscription':
+        await admin_toggle_feature(query, user_id, 'subscription_enabled')
+        return
+    
+    elif data == 'admin_toggle_referral':
+        await admin_toggle_feature(query, user_id, 'referral_enabled')
+        return
+    
+    elif data == 'admin_signals_stats':
+        await admin_signals_stats(query, user_id, user)
+        return
+    
+    elif data == 'admin_export_signals':
+        await admin_export_signals(query, user_id, user)
+        return
+    
+    elif data == 'admin_panel':
+        if user_id not in ADMIN_IDS:
+            await query.answer("❌ Brak dostępu")
+            return
+        await admin_panel(query, user_id, user)
+        return
+
+    elif data == 'admin_users_list':
+        await admin_users_list(query, user_id, user, page=0)
+        return
+    
+    elif data.startswith('admin_users_page_'):
+        page = int(data.replace('admin_users_page_', ''))
+        await admin_users_list(query, user_id, user, page=page)
+        return
+    
+    elif data.startswith('admin_user_'):
+        target_uid = data.replace('admin_user_', '')
+        await admin_user_manage(query, user_id, target_uid)
+        return
+    
+    elif data.startswith('admin_msg_write_'):
+        target_uid = data.replace('admin_msg_write_', '')
+        await admin_msg_write(query, user_id, target_uid)
+        return
+    
+    elif data.startswith('admin_chat_'):
+        target_uid = data.replace('admin_chat_', '')
+        await admin_chat_view(query, user_id, target_uid)
+        return
+    
+    elif data.startswith('admin_add_days_'):
+        target_uid = data.replace('admin_add_days_', '')
+        await admin_add_days_menu(query, user_id, target_uid)
+        return
+    
+    elif data.startswith('admin_remove_days_'):
+        target_uid = data.replace('admin_remove_days_', '')
+        await admin_remove_days_menu(query, user_id, target_uid)
+        return
+    
+    elif data.startswith('admin_give_days_'):
+        parts = data.replace('admin_give_days_', '').split('_')
+        target_uid = parts[0]
+        days = int(parts[1])
+        await admin_give_days(query, user_id, target_uid, days)
+        return
+    
+    elif data.startswith('admin_take_days_'):
+        parts = data.replace('admin_take_days_', '').split('_')
+        target_uid = parts[0]
+        days = int(parts[1])
+        await admin_take_days(query, user_id, target_uid, days)
+        return
+    
+    elif data.startswith('admin_toggle_premium_'):
+        target_uid = data.replace('admin_toggle_premium_', '')
+        await admin_toggle_premium(query, user_id, target_uid)
+        return
+    
+    elif data.startswith('admin_delete_confirm_'):
+        target_uid = data.replace('admin_delete_confirm_', '')
+        await admin_delete_user_confirm(query, user_id, target_uid)
+        return
+    
+    elif data.startswith('admin_delete_yes_'):
+        target_uid = data.replace('admin_delete_yes_', '')
+        await admin_delete_user(query, user_id, target_uid)
+        return
+    
+    elif data.startswith('admin_clear_chat_'):
+        target_uid = data.replace('admin_clear_chat_', '')
+        await admin_clear_chat(query, user_id, target_uid)
+        return
+    
+    elif data == 'admin_broadcast_write':
+        await admin_broadcast_write(query, user_id)
+        return
+    
+    elif data == 'admin_broadcast_send':
+        await admin_broadcast_send(query, user_id, context)
+        return
+    
+    elif data == 'admin_broadcast':
+        await admin_broadcast_menu(query, user_id)
+        return
+    
+    elif data == 'admin_stats_detailed':
+        await admin_stats_detailed(query, user_id)
+        return
+    elif data == 'admin_stats':
+        await admin_stats_menu(query, user_id, user)
+        return
+    elif data == 'admin_add_days':
+        await admin_add_days_menu(query, user_id, user)
+        return
+    elif data.startswith('admin_user_'):
+        target_uid = int(data.replace('admin_user_', ''))
+        await admin_user_manage(query, user_id, target_uid)
+        return
+    elif data.startswith('admin_give_'):
+        parts = data.replace('admin_give_', '').split('_')
+        target_uid = int(parts[0])
+        days = int(parts[1])
+        await admin_give_days(query, user_id, target_uid, days)
+        return
+    elif data.startswith('admin_promo_all_'):
+        days = int(data.replace('admin_promo_all_', ''))
+        await admin_promo_all(query, user_id, days)
+        return
+    elif data == 'ignore':
+        await query.answer()
+        return
+    elif data.startswith('analyze_'):
+        await query.answer()
+        # analyze_SYMBOL_TIMEFRAME lub analyze_SYMBOL (default 15m)
+        parts = data.replace('analyze_', '').split('_')
+        symbol = parts[0]
+        timeframe = parts[1] if len(parts) > 1 else user.get('interval', '15m')
+        exchange = user.get('selected_exchange', 'mexc').lower()
+        # Dodaj /USDT jeśli brak
+        if '/USDT' not in symbol:
+            symbol = symbol + '/USDT'
+        await show_pair_analysis(query, user_id, user, symbol, exchange, timeframe, 'manual')
+        return
+    elif data.startswith('ai_sig_'):
+        # ai_sig_SYMBOL_TIMEFRAME - z kontekstem AI signals
+        parts = data.replace('ai_sig_', '').split('_')
+        symbol = parts[0]
+        timeframe = parts[1] if len(parts) > 1 else user.get('interval', '15m')
+        exchange = user.get('selected_exchange', 'mexc').lower()
+        # Dodaj /USDT
+        if '/USDT' not in symbol:
+            symbol = symbol + '/USDT'
+        await show_pair_analysis(query, user_id, user, symbol, exchange, timeframe, 'ai_signal')
+        return
+    elif data.startswith('details_'):
+        # Pokazuje więcej szczegółów
+        parts = data.replace('details_', '').split('_')
+        symbol = parts[0]
+        timeframe = parts[1] if len(parts) > 1 else user.get('interval', '15m')
+        await query.answer("🔧 Szczegółowa analiza - w przygotowaniu!")
+        return
+# ==========================================
+# SCAN EXTREMES
+# ==========================================
+async def scan_extremes_menu(query, user_id, user):
+    """Scan extremes menu"""
+    text = """📊 SKANER EKSTREMÓW
+Wybierz typ skanowania:
+🚀 Wzrosty - największe wzrosty ceny
+📉 Spadki - największe spadki ceny
+🔥 RSI < 30 - oversold
+💎 RSI > 70 - overbought
+📈 Volume - największy wolumen"""
+    keyboard = [
+        [InlineKeyboardButton("🚀 Wzrosty", callback_data='scan_select_gainers')],
+        [InlineKeyboardButton("📉 Spadki", callback_data='scan_select_losers')],
+        [InlineKeyboardButton("🔥 RSI Oversold", callback_data='scan_select_rsi_oversold')],
+        [InlineKeyboardButton("💎 RSI Overbought", callback_data='scan_select_rsi_overbought')],
+        [InlineKeyboardButton("📈 Volume TOP", callback_data='scan_select_volume')],
+        [InlineKeyboardButton('⬅️ Powrót', callback_data='back_main')]
+    ]
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+async def scan_size_menu(query, user_id, user, scan_type):
+    """Menu wyboru rozmiaru skanowania"""
+    scan_names = {
+        'gainers': '🚀 WZROSTY',
+        'losers': '📉 SPADKI',
+        'rsi_oversold': '🔥 RSI OVERSOLD',
+        'rsi_overbought': '💎 RSI OVERBOUGHT',
+        'volume': '📈 VOLUME TOP'
+    }
+    text = f"""📊 {scan_names.get(scan_type, 'SKANER')}
+Wybierz zakres skanowania:
+• TOP 50 - szybkie (~10 sek)
+• TOP 100 - średnie (~20 sek)
+• TOP 200 - wolne (~40 sek)
+• WSZYSTKIE - najdokładniejsze (~2 min)
+Im więcej par, tym lepsze okazje! 💎"""
+    keyboard = [
+        [InlineKeyboardButton('⚡ TOP 50 (~10s)', callback_data=f'scan_{scan_type}_50')],
+        [InlineKeyboardButton('📊 TOP 100 (~20s)', callback_data=f'scan_{scan_type}_100')],
+        [InlineKeyboardButton('🔍 TOP 200 (~40s)', callback_data=f'scan_{scan_type}_200')],
+        [InlineKeyboardButton('💎 WSZYSTKIE (~2min)', callback_data=f'scan_{scan_type}_all')],
+        [InlineKeyboardButton('⬅️ Powrót', callback_data='scan_extremes')]
+    ]
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+async def handle_scan(query, user_id, user, scan_type, scan_size=50):
+    """Handle scanning"""
+    exchange = user.get('selected_exchange', 'mexc').lower()
+    interval = user.get('interval', '15m')
+    await query.edit_message_text(f"🔍 Skanuję {EXCHANGES[exchange]['name']}...\n\nCzekaj...")
+    try:
+        symbols = await exchange_api.get_symbols(exchange)
+        if not symbols:
+            await query.edit_message_text("❌ Błąd pobierania par", reply_markup=back_button('scan_extremes'))
+            return
+        results = []
+        # Limit do wybranego rozmiaru
+        scan_limit = min(scan_size, len(symbols)) if scan_size < 9999 else len(symbols)
+        logger.info(f'Scanning {scan_limit}/{len(symbols)} pairs')
+        for symbol in list(symbols)[:scan_limit]:
+            try:
+                data = await exchange_api.get_ohlcv(symbol, exchange, interval)
+                if not data or len(data) < 2:
+                    continue
+                current_price = data[-1][4]
+                prev_price = data[-2][4]
+                change_pct = ((current_price - prev_price) / prev_price) * 100
+                closes = [candle[4] for candle in data[-14:]]
+                gains = [closes[i] - closes[i-1] for i in range(1, len(closes)) if closes[i] > closes[i-1]]
+                losses = [closes[i-1] - closes[i] for i in range(1, len(closes)) if closes[i] < closes[i-1]]
+                avg_gain = sum(gains) / len(gains) if gains else 0
+                avg_loss = sum(losses) / len(losses) if losses else 0
+                if avg_loss == 0:
+                    rsi = 100
+                else:
+                    rs = avg_gain / avg_loss
+                    rsi = 100 - (100 / (1 + rs))
+                volume = data[-1][5]
+                result = {
+                    'symbol': symbol,
+                    'price': current_price,
+                    'change': change_pct,
+                    'rsi': rsi,
+                    'volume': volume
+                }
+                if scan_type == 'scan_gainers' and change_pct > 0:
+                    results.append(result)
+                elif scan_type == 'scan_losers' and change_pct < 0:
+                    results.append(result)
+                elif scan_type == 'scan_rsi_oversold' and rsi < 20:
+                    results.append(result)
+                elif scan_type == 'scan_rsi_overbought' and rsi > 80:
+                    results.append(result)
+                elif scan_type == 'scan_volume':
+                    results.append(result)
+            except Exception as e:
+                logger.error(f"Scan error for {symbol}: {e}")
+                continue
+        if not results:
+            await query.edit_message_text("❌ Brak wyników", reply_markup=back_button('scan_extremes'))
+            return
+        if scan_type in ['scan_gainers', 'scan_losers']:
+            results.sort(key=lambda x: abs(x['change']), reverse=True)
+        elif scan_type in ['scan_rsi_oversold', 'scan_rsi_overbought']:
+            results.sort(key=lambda x: x['rsi'])
+        elif scan_type == 'scan_volume':
+            results.sort(key=lambda x: x['volume'], reverse=True)
+        top_results = results[:10]
+        # Get user language
+        lang = get_user_language(user)
+        scan_names = {
+            'scan_gainers': f"🚀 {t('gainers', lang)}",
+            'scan_losers': f"📉 {t('losers', lang)}",
+            'scan_rsi_oversold': f"🔥 {t('rsi_oversold', lang)}",
+            'scan_rsi_overbought': f"💎 {t('rsi_overbought', lang)}",
+            'scan_volume': f"📈 {t('volume_top', lang)}"
+        }
+        text = f"{scan_names.get(scan_type, 'SKANER')}\n{EXCHANGES[exchange]['name']} | {TIMEFRAMES[interval]['label']}\n\n"
+        text += f"{t('found_pairs', lang)}: {len(results)} {t('pairs', lang)}\n{t('top_10', lang)}:\n"
+        keyboard = []
+        for r in top_results:
+            display_symbol = r["symbol"].replace(":USDT", "")
+            symbol = display_symbol
+            price = r['price']
+            change = r['change']
+            rsi = r['rsi']
+            if scan_type in ['scan_gainers', 'scan_losers']:
+                label = f"{'🟢' if change > 0 else '🔴'} {symbol} | {change:+.2f}%"
+            else:
+                label = f"📊 {symbol} | RSI {rsi:.0f}"
+            symbol_encoded = symbol.replace("/", "_").replace(":", "_"); keyboard.append([InlineKeyboardButton(label, callback_data=f"analyze_{symbol_encoded}_{user.get('interval', '15m')}")])
+        keyboard.append([InlineKeyboardButton('🔄 Odśwież', callback_data=scan_type)])
+        keyboard.append([InlineKeyboardButton('⬅️ Powrót', callback_data='scan_extremes')])
+        await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+        user['signals_count'] = user.get('signals_count', 0) + 1
+        db.update_user(user_id, user)
+    except Exception as e:
+        logger.error(f"Scan error: {e}")
+        await query.edit_message_text(f"❌ Błąd: {e}", reply_markup=back_button('scan_extremes'))
+# ==========================================
+# SETTINGS
+# ==========================================
+async def settings_menu(query, user_id, user):
+    """Settings menu"""
+    exchange = user.get('selected_exchange', 'mexc').lower()
+    interval = user.get('interval', '15m')
+    lang = get_user_language(user)
+    text = f"""⚙️ {t('settings', lang).upper()}
+🌐 {t('exchange', lang)}: {EXCHANGES[exchange]['name']}
+⏰ {t('interval', lang)}: {TIMEFRAMES[interval]['label']}"""
+    keyboard = [
+        [InlineKeyboardButton("🌍 Język / Language", callback_data='language_menu')],
+        [InlineKeyboardButton(t('change_exchange', lang), callback_data='change_exchange')],
+        [InlineKeyboardButton(t('change_interval', lang), callback_data='change_interval')],
+        [InlineKeyboardButton(t('back', lang), callback_data='back_main')]
+    ]
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+async def change_exchange_menu(query, user_id, user):
+    """Change exchange"""
+    text = "🌐 WYBIERZ GIEŁDĘ\n\nDostępne giełdy:"
+    keyboard = []
+    for ex_id, ex_data in EXCHANGES.items():
+        keyboard.append([InlineKeyboardButton(f"{ex_data['name']}", callback_data=f'set_exchange_{ex_id}')])
+    keyboard.append([InlineKeyboardButton('⬅️ Powrót', callback_data='settings')])
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+async def change_interval_menu(query, user_id, user):
+    """Change interval"""
+    text = "⏰  WYBIERZ INTERWAŁ"
+    keyboard = [
+        [InlineKeyboardButton('1m', callback_data='set_interval_1m'), InlineKeyboardButton('5m', callback_data='set_interval_5m'), InlineKeyboardButton('15m', callback_data='set_interval_15m'), InlineKeyboardButton('30m', callback_data='set_interval_30m')],
+        [InlineKeyboardButton('1h', callback_data='set_interval_1h'), InlineKeyboardButton('2h', callback_data='set_interval_2h'), InlineKeyboardButton('4h', callback_data='set_interval_4h'), InlineKeyboardButton('12h', callback_data='set_interval_12h')],
+        [InlineKeyboardButton('1d', callback_data='set_interval_1d'), InlineKeyboardButton('3d', callback_data='set_interval_3d'), InlineKeyboardButton('5d', callback_data='set_interval_5d'), InlineKeyboardButton('1w', callback_data='set_interval_1w')],
+        [InlineKeyboardButton('2w', callback_data='set_interval_2w')],
+        [InlineKeyboardButton('1M', callback_data='set_interval_1M'), InlineKeyboardButton('3M', callback_data='set_interval_3M'), InlineKeyboardButton('6M', callback_data='set_interval_6M'), InlineKeyboardButton('1Y', callback_data='set_interval_1Y')],
+        [InlineKeyboardButton('8h', callback_data='set_interval_8h'), InlineKeyboardButton('1d', callback_data='set_interval_1d'), InlineKeyboardButton('1w', callback_data='set_interval_1w')],
+        [InlineKeyboardButton('1M', callback_data='set_interval_1M')],
+        [InlineKeyboardButton('⬅️ Powrót', callback_data='settings')]
+    ]
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+# ==========================================
+# SUBSCRIPTION
+# ==========================================
+async def subscription_menu(query, user_id, user):
+    """Subscription menu"""
+    sub_status = format_subscription_status(user.get('subscription_end'), user.get('is_blocked', False))
+    text = f"""💎 SUBSKRYPCJA
+🆔 ID: {user_id}
+📅 Status: {sub_status}
+✨ PREMIUM:
+• 🎯 Nielimitowane sygnały AI
+• 🔔 Nielimitowane alerty
+• 📊 16 timeframe'ów
+• 🚀 Priorytet wsparcia
+💰 PAKIETY:
+• 7 dni - 50 PLN / 12 USDT
+• 30 dni - 150 PLN / 35 USDT ⭐
+• 90 dni - 350 PLN / 80 USDT 🔥 -20%
+• 365 dni - 1000 PLN / 230 USDT 💎 -50%
+💬 Kontakt: @YOUR_ADMIN"""
+    keyboard = [
+        [InlineKeyboardButton("💳 Metody płatności", callback_data='payment_info')],
+        [InlineKeyboardButton("💬 Kontakt z adminem", callback_data='admin_chat')],
+        [InlineKeyboardButton('⬅️ Powrót', callback_data='back_main')]
+    ]
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+async def payment_info_menu(query, user_id, user):
+    """Payment info"""
+    text = f"""💳 METODY PŁATNOŚCI
+🏦 BLIK / Przelew bankowy (PLN)
+   → Szybki kontakt z adminem
+💎 USDT (TRC20)
+   → Adres: `{USDT_ADDRESS}`
+   → Natychmiastowa aktywacja
+📝 Proces:
+1. Wybierz pakiet
+2. Napisz do admina
+3. Wyślij płatność
+4. Aktywacja!
+💬 Kontakt: @YOUR_ADMIN"""
+    keyboard = [
+        [InlineKeyboardButton("💬 Napisz do admina", callback_data='admin_chat')],
+        [InlineKeyboardButton('⬅️ Powrót', callback_data='subscription')]
+    ]
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard), parse_mode='Markdown')
+# ==========================================
+# ALERTS
+# ==========================================
+async def alerts_menu(query, user_id, user):
+    """Alerts menu"""
+    text = """🔔 ALERTY
+Funkcja w przygotowaniu!
+Wkrótce dostępne:
+• 💰 Alert cenowy
+• 📊 Alert RSI
+• 📈 Alert MACD
+Zostaniesz powiadomiony! 🚀"""
+    keyboard = [[InlineKeyboardButton('⬅️ Powrót', callback_data='back_main')]]
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+# ==========================================
+# ADMIN CHAT
+# ==========================================
+async def admin_chat_menu(query, user_id, user):
+    """Admin chat"""
+    text = f"""💬 CZAT Z ADMINEM
+🆔 Twoje ID: {user_id}
+Napisz swoją wiadomość w następnej wiadomości.
+Admin odpowie bezpośrednio.
+📝 Możesz wysłać:
+• Tekst
+• Zdjęcia
+• Dokumenty"""
+    keyboard = [[InlineKeyboardButton('⬅️ Powrót', callback_data='back_main')]]
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+    user['awaiting_admin_message'] = True
+    db.update_user(user_id, user)
+# ==========================================
+# ADMIN PANEL
+# ==========================================
+async def handle_text_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Handle text messages - search pairs or admin messages"""
+    user_id = update.effective_user.id
+    user = db.get_user(user_id)
+
+    # Check if admin is writing broadcast (MUST BE FIRST!)
+    if user.get('awaiting_broadcast'):
+        message_text = update.message.text
+        
+        if message_text == '/cancel':
+            user['awaiting_broadcast'] = False
+            db.update_user(user_id, user)
+            await update.message.reply_text("❌ Anulowano")
+            return
+    
+    # Check if admin is writing message to specific user
+    target_uid = user.get('awaiting_admin_message')
+    if target_uid:
+        message_text = update.message.text
+        
+        if message_text == '/cancel':
+            user['awaiting_admin_message'] = None
+            db.update_user(user_id, user)
+            await update.message.reply_text("❌ Anulowano")
+            return
+        
+        # Clear state
+        user['awaiting_admin_message'] = None
+        db.update_user(user_id, user)
+        
+        await admin_msg_send(update, context, target_uid, message_text)
+        return
+        
+        await admin_broadcast_confirm(update, context, message_text)
+        return
+    
+    if not user:
+        await update.message.reply_text("❌ Wyślij /start aby rozpocząć")
+        return
+    if user.get('awaiting_admin_message'):
+        await handle_admin_message_forward(update, context, user_id, user)
+        return
+    search_term = update.message.text.strip().upper()
+    exchange = user.get('selected_exchange', 'mexc').lower()
+    await update.message.reply_text(f"🔍 Szukam '{search_term}' na {EXCHANGES[exchange]['name']}...")
+    try:
+        symbols = await exchange_api.get_symbols(exchange)
+        if not symbols:
+            await update.message.reply_text("❌ Błąd pobierania par", reply_markup=back_button())
+            return
+        matching = [s for s in symbols if search_term in s.upper()]
+        if not matching:
+            await update.message.reply_text(f"❌ Nie znaleziono par zawierających '{search_term}'", reply_markup=back_button())
+            return
+        text = f"🔍 WYNIKI WYSZUKIWANIA\n\nZnaleziono: {len(matching)} par\n\n"
+        keyboard = []
+        for symbol in matching[:20]:
+            display_symbol = symbol.replace(':USDT', '')
+            symbol_encoded = symbol.replace("/", "_").replace(":", "_"); keyboard.append([InlineKeyboardButton(f"📊 {display_symbol}", callback_data=f"analyze_{symbol_encoded}_{user.get('interval', '15m')}")])
+        keyboard.append([InlineKeyboardButton('⬅️ Menu', callback_data='back_main')])
+        await update.message.reply_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+    except Exception as e:
+        logger.error(f"Search error: {e}")
+        await update.message.reply_text(f"❌ Błąd: {e}", reply_markup=back_button())
+async def handle_admin_message_forward(update: Update, context: ContextTypes.DEFAULT_TYPE, user_id, user):
+    """Forward message to admin"""
+    if not ADMIN_IDS:
+        await update.message.reply_text("❌ Brak skonfigurowanego admina")
+        return
+    admin_id = ADMIN_IDS[0]
+    username = update.effective_user.username or "Brak username"
+    first_name = update.effective_user.first_name or "User"
+    try:
+        header = f"💬 Wiadomość od:\n\n"
+        header += f"👤 {first_name} (@{username})\n"
+        header += f"🆔 ID: {user_id}\n"
+        header += f"{'='*30}\n\n"
+        await context.bot.send_message(chat_id=admin_id, text=header)
+        await update.message.forward(admin_id)
+        await update.message.reply_text(
+            "✅ Wiadomość wysłana!\n\nAdmin odpowie najszybciej jak to możliwe.",
+            reply_markup=back_button()
+        )
+        user['awaiting_admin_message'] = False
+        db.update_user(user_id, user)
+    except Exception as e:
+        logger.error(f"Forward error: {e}")
+        await update.message.reply_text(f"❌ Błąd: {e}", reply_markup=back_button())
+# ==========================================
+# START FROM CALLBACK
+# ==========================================
+async def start_command_from_callback(query, user_id, user):
+    """Start command from callback (recreate menu)"""
+    sub_status = format_subscription_status(user.get('subscription_end'), user.get('is_blocked', False))
+    is_admin = user_id in ADMIN_IDS
+    welcome = f"""👋 BOTrader Bot
+Status: {sub_status}
+🆔 ID: {user_id}
+✨ Wpisz nazwę pary (np. BTC) aby wyszukać
+📊 Lub użyj menu poniżej"""
+    keyboard = [
+        [InlineKeyboardButton("🔍 Wyszukaj parę", callback_data='search_pair')],
+        [InlineKeyboardButton("📊 Skaner ekstremów", callback_data='scan_extremes')],
+        [InlineKeyboardButton("🎯 Sygnały AI", callback_data='ai_signals')],
+        [InlineKeyboardButton("🔔 Alerty", callback_data='alerts_menu')],
+        [InlineKeyboardButton("💬 Czat z adminem", callback_data='admin_chat')],
+        [InlineKeyboardButton("⚙️ Ustawienia", callback_data='settings')],
+        [InlineKeyboardButton("💎 Subskrypcja", callback_data='subscription')],
+        [InlineKeyboardButton("⭐ Oceń bota", callback_data='rate_bot')]
+    ]
+    if is_admin:
+        keyboard.append([InlineKeyboardButton("👨‍💼 Admin", callback_data='admin_panel')])
+    keyboard.append([
+        InlineKeyboardButton("📊 MEXC", url='https://promote.mexc.com/r/gspEf2nl'),
+        InlineKeyboardButton("📊 Bybit", url='https://www.bybit.com/invite?ref=64NXL'),
+        InlineKeyboardButton("📊 Binance", url='https://www.binance.com/activity/referral-entry/CPA?ref=CPA_00J86WYYZV')
+    ])
+    await query.edit_message_text(welcome, reply_markup=InlineKeyboardMarkup(keyboard))
+logger.info("✅ Handlers initialized")
+# ==========================================
+# SEARCH PAIR MENU
+# ==========================================
+async def search_pair_menu(query, user_id, user):
+    """Search pair menu"""
+    text = """🔍 WYSZUKAJ PARĘ
+Wpisz nazwę kryptowaluty (np. BTC, ETH, SOL)
+Bot znajdzie wszystkie pary z USDT na wybranej giełdzie.
+💡 Możesz też wpisać nazwę w dowolnym momencie bez klikania tego przycisku!"""
+    keyboard = [[InlineKeyboardButton('⬅️ Powrót', callback_data='back_main')]]
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+    user['awaiting_search'] = True
+    db.update_user(user_id, user)
+# ==========================================
+# AI SIGNALS MENU
+# ==========================================
+async def ai_signals_menu(query, user_id, user):
+    """AI Signals menu"""
+    text = """🎯 SYGNAŁY AI
+Wybierz timeframe:
+Bot przeanalizuje TOP pary używając:
+• DeepSeek AI - analiza techniczna
+• RSI, MACD, Volume
+• Support/Resistance
+• Rekomendacje TP1/TP2/TP3"""
+    keyboard = [
+        [InlineKeyboardButton("📊 15m", callback_data='ai_15m'), InlineKeyboardButton("📊 1h", callback_data='ai_1h')],
+        [InlineKeyboardButton("📊 4h", callback_data='ai_4h'), InlineKeyboardButton("📊 1d", callback_data='ai_1d')],
+        [InlineKeyboardButton('⬅️ Powrót', callback_data='back_main')]
+    ]
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+# ==========================================
+# RATE BOT MENU
+# ==========================================
+async def rate_bot_menu(query, user_id, user):
+    """Rate bot menu"""
+    text = """⭐ OCEŃ BOTA
+Pomóż nam się rozwijać!
+📝 Twoja opinia:
+• Co działa świetnie?
+• Co można poprawić?
+• Jakie funkcje dodać?
+💬 Napisz swoją opinię w następnej wiadomości lub kliknij poniżej:"""
+    keyboard = [
+        [InlineKeyboardButton("⭐⭐⭐⭐⭐ Świetny!", callback_data='rate_5')],
+        [InlineKeyboardButton("⭐⭐⭐⭐ Dobry", callback_data='rate_4')],
+        [InlineKeyboardButton("⭐⭐⭐ OK", callback_data='rate_3')],
+        [InlineKeyboardButton("💬 Napisz opinię", callback_data='admin_chat')],
+        [InlineKeyboardButton('⬅️ Powrót', callback_data='back_main')]
+    ]
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+logger.info("✅ New menu handlers added")
+# ==========================================
+# ADVANCED AI SIGNALS
+# ==========================================
+from ai_signals_advanced import advanced_ai_signals
+async def ai_signals_menu_advanced(query, user_id, user):
+    """Advanced AI Signals menu"""
+    exchange = user.get('selected_exchange', 'mexc').lower()
+    text = f"""🤖 SYGNAŁY AI - {EXCHANGES[exchange]['name']}
+⏱ Wybierz TIMEFRAME:
+(czas w jakim sygnał się sprawdzi)
+📊 Skanowanie z filtrami:
+• Volume + Volatility + Likwidność
+• Multi-timeframe analysis
+• DeepSeek AI + wskaźniki"""
+    keyboard = [
+        [InlineKeyboardButton("⚡ 1m", callback_data='ai_scan_1m'), InlineKeyboardButton("⚡ 3m", callback_data='ai_scan_3m'), InlineKeyboardButton("⚡ 5m", callback_data='ai_scan_5m')],
+        [InlineKeyboardButton("📊 15m", callback_data='ai_scan_15m'), InlineKeyboardButton("📊 30m", callback_data='ai_scan_30m'), InlineKeyboardButton("📊 1h", callback_data='ai_scan_1h')],
+        [InlineKeyboardButton("📈 2h", callback_data='ai_scan_2h'), InlineKeyboardButton("📈 4h", callback_data='ai_scan_4h'), InlineKeyboardButton("📈 8h", callback_data='ai_scan_8h')],
+        [InlineKeyboardButton("🔥 12h", callback_data='ai_scan_12h'), InlineKeyboardButton("🔥 1d", callback_data='ai_scan_1d'), InlineKeyboardButton("🔥 3d", callback_data='ai_scan_3d')],
+        [InlineKeyboardButton("💎 1w", callback_data='ai_scan_1w'), InlineKeyboardButton("💎 2w", callback_data='ai_scan_2w'), InlineKeyboardButton("💎 1M", callback_data='ai_scan_1M')],
+        [InlineKeyboardButton("⚙️ Ustawienia skanowania", callback_data='ai_scan_settings')],
+        [InlineKeyboardButton('⬅️ Powrót', callback_data='back_main')]
+    ]
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+async def ai_scan_settings_menu(query, user_id, user):
+    """Scan settings"""
+    text = """⚙️ USTAWIENIA SKANOWANIA
+Wybierz ile par przeskanować:
+💡 Większa liczba = więcej sygnałów
+⚠️ Większa liczba = dłuższe skanowanie"""
+    keyboard = [
+        [InlineKeyboardButton("🔟 TOP 10 par", callback_data='ai_size_top10')],
+        [InlineKeyboardButton("5️⃣0️⃣ TOP 50 par", callback_data='ai_size_top50')],
+        [InlineKeyboardButton("💯 TOP 100 par", callback_data='ai_size_top100')],
+        [InlineKeyboardButton("2️⃣0️⃣0️⃣ TOP 200 par", callback_data='ai_size_top200')],
+        [InlineKeyboardButton("3️⃣0️⃣0️⃣ TOP 300 par", callback_data='ai_size_top300')],
+        [InlineKeyboardButton("🌐 WSZYSTKIE pary", callback_data='ai_size_all')],
+        [InlineKeyboardButton('⬅️ Powrót', callback_data='show_cached_scan')]
+    ]
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+async def ai_scan_select_size(query, user_id, user, timeframe):
+    """Select scan size before scanning"""
+    exchange = user.get('selected_exchange', 'mexc').lower()
+    text = f"""🤖 SYGNAŁY AI - {EXCHANGES[exchange]['name']}
+⏱ Timeframe: {advanced_ai_signals.timeframes.get(timeframe, timeframe)}
+📊 WYBIERZ ZAKRES SKANOWANIA:
+🔝 TOP 10/50 = Największe kryptowaluty (BTC, ETH, SOL...)
+📊 100+ = Wszystkie dostępne pary na giełdzie
+💡 Więcej par = więcej sygnałów
+⚠️ Więcej par = dłuższe skanowanie"""
+    keyboard = [
+        [InlineKeyboardButton("🔝 TOP 10 crypto (~5s)", callback_data=f'ai_run_{timeframe}_top10')],
+        [InlineKeyboardButton("🔝 TOP 50 crypto (~20s)", callback_data=f'ai_run_{timeframe}_top50')],
+        [InlineKeyboardButton("📊 TOP 100 par (~40s)", callback_data=f'ai_run_{timeframe}_top100')],
+        [InlineKeyboardButton("📊 TOP 200 par (~80s)", callback_data=f'ai_run_{timeframe}_top200')],
+        [InlineKeyboardButton("📊 TOP 500 par (~3min)", callback_data=f'ai_run_{timeframe}_top500')],
+        [InlineKeyboardButton("🌐 WSZYSTKIE pary (~5min)", callback_data=f'ai_run_{timeframe}_all')],
+        [InlineKeyboardButton('⬅️ Powrót', callback_data='show_cached_scan')]
+    ]
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+async def ai_scan_execute(query, user_id, user, timeframe, scan_size="top10"):
+    """Execute AI scan with TILES"""
+    exchange = user.get('selected_exchange', 'mexc').lower()
+    await query.edit_message_text(f"""🤖 SKANOWANIE AI...
+⏱ Timeframe: {advanced_ai_signals.timeframes.get(timeframe, timeframe)}
+🌐 Giełda: {EXCHANGES[exchange]['name']}
+📊 Zakres: {scan_size.upper()}
+⏳ Proszę czekać...""")
+    try:
+        results = await advanced_ai_signals.scan_with_filters(exchange, timeframe, scan_size)
+        if not results:
+            await query.edit_message_text("❌ Brak sygnałów spełniających kryteria", reply_markup=back_button('ai_signals'))
+            return
+        # Tekst nagłówka
+        text = f"""🤖 SYGNAŁY AI - {EXCHANGES[exchange]['name']}
+⏱ Timeframe: {advanced_ai_signals.timeframes.get(timeframe, timeframe)}
+📊 Znaleziono: {len(results)} sygnałów
+💡 Kliknij parę aby zobaczyć pełną analizę AI!
+"""
+        # KAFELKI zamiast tekstu!
+        keyboard = []
+        for r in results[:10]:
+            emoji = "🟢" if r['signal'] == 'LONG' else "🔴"
+            clean_symbol = r['symbol'].replace('/USDT:USDT', '').replace(':USDT', '')
+            display_symbol = r["symbol"].replace(":USDT", "")
+            label = f"{emoji} {display_symbol} | {r['signal']} {int(r.get('score', r.get('confidence', 50)))}%~"
+            # Dodaj marker context: ai_sig_
+            keyboard.append([InlineKeyboardButton(label, callback_data=f'ai_sig_{clean_symbol}_{timeframe}')])
+        # Przyciski akcji
+        keyboard.append([InlineKeyboardButton('🔄 Odśwież', callback_data=f'ai_run_{timeframe}_{scan_size}')])
+        keyboard.append([InlineKeyboardButton('⬅️ Powrót', callback_data='show_cached_scan')])
+        await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+        # Zapisz context dla przycisku powrót
+        user['signals_count'] = user.get('signals_count', 0) + len(results)
+        user['last_scan_size'] = scan_size
+        user['last_timeframe'] = timeframe
+        user['cached_scan_results'] = [
+            {
+                'symbol': r['symbol'],
+                'signal': r['signal'],
+                'score': int(r.get('score', r.get('confidence', 50)))
+            }
+            for r in results[:10]
+        ]
+        logger.info(f"Cached {len(user['cached_scan_results'])} results")
+        user['last_scan_size'] = scan_size
+        db.update_user(user_id, user)
+    except Exception as e:
+        logger.error(f"AI scan error: {e}")
+        await query.edit_message_text(f"❌ Błąd: {e}", reply_markup=back_button('ai_signals'))
+logger.info("✅ Advanced AI Signals handlers added")
+# ==========================================
+# CENTRALNY ANALYZER - DETAILED VIEW
+# ==========================================
+from analyzer_wrapper import analyzer_with_learning as central_analyzer
+from languages import t, get_user_language, TRANSLATIONS
+async def show_cached_scan(query, user_id, user):
+    """Show cached scan results"""
+    # Pobierz świeży user z DB (z zapisanym cache)
+    user = db.get_user(user_id)
+    cached = user.get('cached_scan_results')
+    if not cached or len(cached) == 0:
+        logger.info(f"No cache, starting new scan")
+        timeframe = user.get('last_timeframe', '30m')
+        scan_size = user.get('last_scan_size', 'top50')
+        await ai_scan_execute(query, user_id, user, timeframe, scan_size)
+        return
+    logger.info(f"Showing {len(cached)} cached results")
+    timeframe = user.get('last_timeframe', '30m')
+    scan_size = user.get('last_scan_size', 'top50')
+    exchange = user.get('selected_exchange', 'mexc')
+    size_labels = {
+        'top10': 'TOP10', 'top20': 'TOP20', 'top30': 'TOP30',
+        'top50': 'TOP50', 'top100': 'TOP100', 'all': 'WSZYSTKIE'
+    }
+    tf_labels = {'15m': '15 minut', '30m': '30 minut', '1h': '1 godzina', '4h': '4 godziny'}
+    text = f"""🎯 SYGNAŁY AI - {exchange.upper()}
+⏱ Timeframe: {tf_labels.get(timeframe, timeframe)}
+📊 Zakres: {size_labels.get(scan_size, scan_size.upper())}
+🔍 Znaleziono: {len(cached)} sygnałów
+{"="*30}
+"""
+    for i, r in enumerate(cached[:10], 1):
+        emoji = "🟢" if r['signal'] == 'LONG' else "🔴" if r['signal'] == 'SHORT' else "⚪"
+        display_symbol = r['symbol'].replace(":USDT", "")
+        text += f"""{i}. {emoji} {display_symbol}
+   {r['signal']} | Pewność: {r['score']}%~
+"""
+    text += f"""{"="*30}
+💡 Kliknij parę aby zobaczyć szczegóły
+⚠️ %~ = wstępna ocena"""
+    # Kafelki
+    keyboard = []
+    for r in cached[:10]:
+        clean_symbol = r['symbol'].replace('/USDT:USDT', '').replace(':USDT', '')
+        emoji = "🟢" if r['signal'] == 'LONG' else "🔴"
+        label = f"{emoji} {clean_symbol} | {r['signal']} {r['score']}%~"
+        keyboard.append([InlineKeyboardButton(
+            label, 
+            callback_data=f"ai_sig_{clean_symbol}_{timeframe}"
+        )])
+    keyboard.append([InlineKeyboardButton('🔄 Skanuj ponownie', callback_data=f'ai_scan_tf_{timeframe}')])
+    keyboard.append([InlineKeyboardButton('⚙️ Zmień ustawienia', callback_data='ai_scan_menu')])
+    keyboard.append([InlineKeyboardButton('⬅️ Menu główne', callback_data='back_main')])
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+async def show_pair_analysis(query, user_id, user, symbol, exchange, timeframe,
+    """
+    GŁÓWNA FUNKCJA - Pokaż pełną analizę pary
+    Wywołana z KAŻDEGO miejsca w bocie (search, scan, ai_signal)
+    """
+    # Show loading
+    await query.edit_message_text(f"""🤖 ANALIZA AI - {symbol}
+⏳ Analizuję...
+📊 Pobieranie danych z giełdy
+🔍 Analiza techniczna (RSI, EMA, MACD...)
+📈 Wykrywanie struktur rynku
+💎 DeepSeek AI reasoning
+📰 Sprawdzanie newsów
+Proszę czekać ~10 sekund...""")
+    try:
+        # CALL CENTRAL ANALYZER
+        analysis = await central_analyzer.analyze_pair_full(
+            exchange=exchange,
+            symbol=symbol,
+            timeframe=timeframe,
+            
+        )
+        if not analysis:
+            # STEP 1: Jeśli FUTURES nie działa, spróbuj SPOT (ta sama para może być starsza na spot)
+            if exchange == 'mexc' and ':USDT' in symbol:
+                # To jest FUTURES, spróbuj SPOT
+                spot_symbol = symbol.replace(':USDT', '')  # BTC/USDT:USDT → BTC/USDT
+                logger.info(f"Futures failed, trying SPOT: {spot_symbol}")
+                try:
+                    analysis = await central_analyzer.analyze_pair_full(
+                        exchange=exchange,
+                        symbol=spot_symbol,
+                        timeframe=timeframe,
+                        
+                    )
+                    if analysis:
+                        analysis['fallback_info'] = {
+                            'original_market': 'FUTURES',
+                            'used_market': 'SPOT',
+                            'original_symbol': symbol,
+                            'used_symbol': spot_symbol,
+                            'reason': f"⚠️ Para {symbol} jest nowa na FUTURES lub brak danych.\n✅ Znaleziono dane na rynku SPOT."
+                        }
+                        symbol = spot_symbol  # Update symbol dla display
+                except Exception as e:
+                    logger.error(f"SPOT fallback failed: {e}")
+            # STEP 2: Jeśli nadal brak analizy, próbuj inne timeframe'y
+            if not analysis:
+                # SMART FALLBACK - próbuj inne timeframe'y jeśli brak danych
+                fallback_timeframes = ['15m', '1h', '4h', '1d']
+            # Usuń aktualny timeframe z fallback
+            if timeframe in fallback_timeframes:
+                fallback_timeframes.remove(timeframe)
+            # Próbuj alternatywne timeframe'y
+            for alt_tf in fallback_timeframes:
+                logger.info(f"Trying fallback timeframe: {alt_tf}")
+                analysis = await central_analyzer.analyze_pair_full(
+                    exchange=exchange,
+                    symbol=symbol,
+                    timeframe=alt_tf,
+                    
+                )
+                if analysis:
+                    # SUKCES - wyjaśnij użytkownikowi
+                    reason = ""
+                    if timeframe in ['1m', '3m', '5m']:
+                        reason = f"⚠️ Zbyt krótki interwał ({timeframe}) - para może być nowa lub brak wystarczających danych."
+                    elif timeframe in ['1w', '1M']:
+                        reason = f"⚠️ Zbyt długi interwał ({timeframe}) - para może nie mieć wystarczającej historii."
+                    else:
+                        reason = f"⚠️ Brak danych dla interwału {timeframe} - para może być nowa lub nieaktywna."
+                    # Dodaj info na początku analizy
+                    analysis['fallback_info'] = {
+                        'original_tf': timeframe,
+                        'used_tf': alt_tf,
+                        'reason': reason
+                    }
+                    timeframe = alt_tf  # Update dla dalszej części
+                    break
+            if not analysis:
+                await query.edit_message_text(
+                    f"❌ Nie udało się przeanalizować {symbol}\n\n"
+                    f"Próbowano interwałów: {timeframe}, {', '.join(fallback_timeframes)}\n\n"
+                    f"Możliwe przyczyny:\n"
+                    f"• Para zbyt nowa (brak historii)\n"
+                    f"• Nieaktywna para (brak wolumenu)\n"
+                    f"• Problem z giełdą\n\n"
+                    f"Spróbuj innej pary lub giełdy.",
+                reply_markup=back_button('back_main')
+            )
+            return
+        # Build beautiful report with user's language
+        lang = get_user_language(user)
+        text = format_analysis_report(analysis, lang)
+        # Buttons - context-aware back button
+        clean_symbol = symbol.replace('/USDT', '').replace('/', '')
+        # Determine back button based on context
+        if
+            back_data = f'ai_run_{timeframe}_{user.get("last_scan_size", "top10")}'
+            back_label = '⬅️ Wróć do sygnałów'
+        elif
+            back_data = f'scan_{user.get("last_scan_type", "gainers")}'
+            back_label = '⬅️ Wróć do skanera'
+        elif
+            back_data = 'back_main'
+            back_label = '⬅️ Menu główne'
+        else:
+            back_data = 'back_main'
+            back_label = '⬅️ Menu główne'
+        keyboard = [
+            [InlineKeyboardButton('🔄 Odśwież analizę', callback_data=f'refresh_analysis_{symbol}_{timeframe}')],
+            [InlineKeyboardButton(back_label, callback_data=back_data)]
+        ]
+        await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+        # Increment counter
+        user['signals_count'] = user.get('signals_count', 0) + 1
+        db.update_user(user_id, user)
+    except Exception as e:
+        logger.error(f"Analysis display error: {e}")
+        await query.edit_message_text(
+            f"❌ Błąd analizy: {e}",
+            reply_markup=back_button('back_main')
+        )
+def generate_ai_summary(signal, technical, sentiment, lang='pl'):
+    """Generate simple AI summary in user's language"""
+    direction = signal['direction']
+    confidence = signal['confidence']
+    rsi = technical['rsi']['14']
+    price = technical['price']
+    # Templates for each language
+    templates = {
+        'pl': {
+            'LONG': f"📊 Analiza wskazuje na potencjalną okazję do KUPNA z pewnością {confidence}%. RSI na poziomie {rsi:.0f} {'sugeruje wyprzedanie - dobry moment na wejście' if rsi < 35 else 'jest w akceptowalnym zakresie'}. Cena wynosi ${price:.6f}. Rekomendujemy rozważenie pozycji długiej z zaproponowanymi poziomami TP/SL.",
+            'SHORT': f"📊 Analiza wskazuje na potencjalną okazję do SPRZEDAŻY z pewnością {confidence}%. RSI na poziomie {rsi:.0f} {'sugeruje wykupienie - możliwa korekta' if rsi > 65 else 'jest w akceptowalnym zakresie'}. Cena wynosi ${price:.6f}. Rekomendujemy rozważenie pozycji krótkiej z zaproponowanymi poziomami TP/SL.",
+            'NEUTRAL': f"📊 Analiza nie wskazuje wyraźnego kierunku (pewność {confidence}%). RSI na poziomie {rsi:.0f}. Cena wynosi ${price:.6f}. Rekomendujemy poczekać na lepszy setup lub potwierdzenie sygnału."
+        },
+        'en': {
+            'LONG': f"📊 Analysis indicates potential BUY opportunity with {confidence}% confidence. RSI at {rsi:.0f} {'suggests oversold conditions - good entry point' if rsi < 35 else 'is within acceptable range'}. Price is ${price:.6f}. Consider long position with suggested TP/SL levels.",
+            'SHORT': f"📊 Analysis indicates potential SELL opportunity with {confidence}% confidence. RSI at {rsi:.0f} {'suggests overbought conditions - correction possible' if rsi > 65 else 'is within acceptable range'}. Price is ${price:.6f}. Consider short position with suggested TP/SL levels.",
+            'NEUTRAL': f"📊 Analysis shows no clear direction (confidence {confidence}%). RSI at {rsi:.0f}. Price is ${price:.6f}. Recommend waiting for better setup or signal confirmation."
+        }
+    }
+    # Get template for language (fallback to English)
+    lang_templates = templates.get(lang, templates['en'])
+    summary = lang_templates.get(direction, lang_templates['NEUTRAL'])
+    return summary
+def format_analysis_report(analysis, lang='pl'):
+    """Format analysis into beautiful Telegram message"""
+    symbol = analysis['symbol']
+    signal = analysis['signal']
+    technical = analysis['technical']
+    sentiment = analysis['sentiment']
+    structure = analysis['structure']
+    volume = analysis['volume']
+    # Header
+    direction_emoji = "🟢" if signal['direction'] == 'LONG' else "🔴" if signal['direction'] == 'SHORT' else "⚪"
+    # Translations
+    direction_text = {
+        'LONG': {'pl': 'KUPUJ', 'en': 'BUY', 'es': 'COMPRAR', 'de': 'KAUFEN', 'fr': 'ACHETER', 'it': 'ACQUISTA', 'pt': 'COMPRAR', 'ru': 'ПОКУПАТЬ', 'tr': 'AL', 'zh': '买入'},
+        'SHORT': {'pl': 'SPRZEDAJ', 'en': 'SELL', 'es': 'VENDER', 'de': 'VERKAUFEN', 'fr': 'VENDRE', 'it': 'VENDI', 'pt': 'VENDER', 'ru': 'ПРОДАТЬ', 'tr': 'SAT', 'zh': '卖出'},
+        'NEUTRAL': {'pl': 'CZEKAJ', 'en': 'WAIT', 'es': 'ESPERAR', 'de': 'WARTEN', 'fr': 'ATTENDRE', 'it': 'ASPETTA', 'pt': 'AGUARDAR', 'ru': 'ЖДАТЬ', 'tr': 'BEKLE', 'zh': '等待'}
+    }
+    direction_label = direction_text.get(signal['direction'], {}).get(lang, signal['direction'])
+    # Calculate TP percentages properly
+    entry = signal['entry']
+    tp1_pct = ((signal['tp1'] - entry) / entry * 100) if entry > 0 else 0
+    tp2_pct = ((signal['tp2'] - entry) / entry * 100) if entry > 0 else 0
+    tp3_pct = ((signal['tp3'] - entry) / entry * 100) if entry > 0 else 0
+    # Specjalne formatowanie dla NEUTRAL
+    if signal['direction'] == 'NEUTRAL':
+        reco_text = f"""🎯 REKOMENDACJE:
+⚠️ Brak wyraźnego kierunku - podajemy range:
+• Cena: ${entry:.6f}
+• Upside target: ${signal['tp1']:.6f} ({tp1_pct:+.2f}%)
+• Downside target: ${signal['tp2']:.6f} ({tp2_pct:+.2f}%)
+💡 Rekomendacja: Poczekaj na wyraźniejszy sygnał!"""
+    else:
+        reco_text = f"""🎯 REKOMENDACJE:
+• Entry: ${entry:.6f}
+• TP1: ${signal['tp1']:.6f} ({tp1_pct:+.2f}%)
+• TP2: ${signal['tp2']:.6f} ({tp2_pct:+.2f}%)
+• TP3: ${signal['tp3']:.6f} ({tp3_pct:+.2f}%)
+• Stop Loss: ${signal['sl']:.6f}
+• R/R Ratio: {signal['rr_ratio']:.2f}"""
+    text = f"""{direction_emoji} {t('signal', lang)} AI - {symbol}
+{'='*30}
+🎯 SYGNAŁ: {direction_label} ({signal['confidence']}%)
+{'='*30}
+💰 CENA: ${technical['price']:.6f}
+📊 Zmiana 24h: {technical['change_24h']:+.2f}%
+⏱ Timeframe: {analysis['timeframe']} | 🌐 {analysis['exchange'].upper()} | 🕐 {datetime.now().strftime('%H:%M:%S')}
+{reco_text}
+"""
+    # Sentiment (multilang)
+    sentiment_labels = {
+        'pl': {'label': '📈 SENTYMENT RYNKU:'},
+        'en': {'label': '📈 MARKET SENTIMENT:'},
+        'es': {'label': '📈 SENTIMIENTO:'},
+        'de': {'label': '📈 MARKTSTIMMUNG:'},
+        'fr': {'label': '📈 SENTIMENT:'},
+        'it': {'label': '📈 SENTIMENTO:'},
+        'pt': {'label': '📈 SENTIMENTO:'},
+        'ru': {'label': '📈 НАСТРОЕНИЕ:'},
+        'tr': {'label': '📈 DUYGU:'},
+        'zh': {'label': '📈 市场情绪:'}
+    }
+    text += f"""{sentiment_labels.get(lang, sentiment_labels['pl'])['label']}
+{sentiment['label']} ({sentiment['score']:+d}/100)
+"""
+    # Technical indicators (multilang)
+    rsi = technical['rsi']['14']
+    tech_labels = {
+        'pl': 'WSKAŹNIKI TECHNICZNE',
+        'en': 'TECHNICAL INDICATORS',
+        'es': 'INDICADORES TÉCNICOS',
+        'de': 'TECHNISCHE INDIKATOREN',
+        'fr': 'INDICATEURS TECHNIQUES',
+        'it': 'INDICATORI TECNICI',
+        'pt': 'INDICADORES TÉCNICOS',
+        'ru': 'ТЕХНИЧЕСКИЕ ИНДИКАТОРЫ',
+        'tr': 'TEKNİK GÖSTERGELER',
+        'zh': '技术指标'
+    }
+    rsi_label = "🔥 Oversold" if rsi < 20 else "💎 Overbought" if rsi > 80 else ""
+    text += f"""🔧 {tech_labels.get(lang, 'WSKAŹNIKI TECHNICZNE')}:
+• RSI(14): {rsi:.1f} {rsi_label}
+• EMA(9): ${technical['ema']['9']:.2f}
+• EMA(21): ${technical['ema']['21']:.2f}
+• MACD: {technical['macd']['histogram']:.2f}
+"""
+    # Volume (multilang)
+    vol_labels = {
+        'pl': {'title': 'WOLUMEN', 'ratio': 'Ratio', 'avg': 'średniej', 'buy': 'Buying pressure', 'sell': 'Selling pressure'},
+        'en': {'title': 'VOLUME', 'ratio': 'Ratio', 'avg': 'average', 'buy': 'Buying pressure', 'sell': 'Selling pressure'},
+        'es': {'title': 'VOLUMEN', 'ratio': 'Ratio', 'avg': 'promedio', 'buy': 'Presión compradora', 'sell': 'Presión vendedora'},
+        'de': {'title': 'VOLUMEN', 'ratio': 'Verhältnis', 'avg': 'Durchschnitt', 'buy': 'Kaufdruck', 'sell': 'Verkaufsdruck'},
+        'ru': {'title': 'ОБЪЕМ', 'ratio': 'Соотношение', 'avg': 'среднего', 'buy': 'Давление покупок', 'sell': 'Давление продаж'},
+    }
+    v = vol_labels.get(lang, vol_labels['pl'])
+    text += f"""📊 {v['title']}:
+• {v['ratio']}: {volume['ratio']:.2f}x {v['avg']}
+• {v['buy']}: {volume['buy_pressure']:.0f}%
+• {v['sell']}: {volume['sell_pressure']:.0f}%
+"""
+    # Support/Resistance (multilang)
+    if structure.get('support'):
+        sr_labels = {
+            'pl': {'title': 'WSPARCIE/OPÓR', 'support': 'Wsparcie', 'resistance': 'Opór'},
+            'en': {'title': 'SUPPORT/RESISTANCE', 'support': 'Support', 'resistance': 'Resistance'},
+            'es': {'title': 'SOPORTE/RESISTENCIA', 'support': 'Soporte', 'resistance': 'Resistencia'},
+            'de': {'title': 'UNTERSTÜTZUNG/WIDERSTAND', 'support': 'Unterstützung', 'resistance': 'Widerstand'},
+            'ru': {'title': 'ПОДДЕРЖКА/СОПРОТИВЛЕНИЕ', 'support': 'Поддержка', 'resistance': 'Сопротивление'},
+        }
+        sr = sr_labels.get(lang, sr_labels['pl'])
+        text += f"""📍 {sr['title']}:
+• {sr['support']}: ${structure['support'][0]:.4f}
+• {sr['resistance']}: ${structure['resistance'][0]:.4f}
+"""
+    # AI Reasoning (multilang)
+    reasoning_labels = {
+        'pl': 'ANALIZA AI',
+        'en': 'AI REASONING',
+        'es': 'ANÁLISIS IA',
+        'de': 'KI-ANALYSE',
+        'fr': 'ANALYSE IA',
+        'it': 'ANALISI IA',
+        'pt': 'ANÁLISE IA',
+        'ru': 'ИИ АНАЛИЗ',
+        'tr': 'YAPAY ZEKA ANALİZİ',
+        'zh': 'AI分析'
+    }
+    # Translate reasons
+    reason_translations = {
+        'oversold_signal': {'pl': 'Sygnał wyprzedania', 'en': 'Oversold signal'},
+        'Low RSI': {'pl': 'Niski RSI', 'en': 'Low RSI'},
+        'Strong downtrend': {'pl': 'Silny trend spadkowy', 'en': 'Strong downtrend'},
+        'Selling pressure': {'pl': 'Presja sprzedaży', 'en': 'Selling pressure'},
+        'Strong uptrend': {'pl': 'Silny trend wzrostowy', 'en': 'Strong uptrend'},
+        'Buying pressure': {'pl': 'Presja kupna', 'en': 'Buying pressure'},
+        'Volume spike': {'pl': 'Skok wolumenu', 'en': 'Volume spike'},
+        'High volatility': {'pl': 'Wysoka zmienność', 'en': 'High volatility'},
+    }
+    text += f"""🤖 {reasoning_labels.get(lang, 'ANALIZA AI')}:
+"""
+    for reason in signal['reasons'][:5]:
+        # Try to translate
+        translated = reason
+        for key, trans in reason_translations.items():
+            if key in reason:
+                translated = trans.get(lang, reason)
+                break
+        text += f"• {translated}\n"
+    # AI PODSUMOWANIE
+    ai_summary = generate_ai_summary(signal, technical, sentiment, lang)
+    text += f"""
+{'='*30}
+🤖 PODSUMOWANIE AI
+{'='*30}
+{ai_summary}
+{'='*30}
+{t('disclaimer', lang)}
+{'='*30}
+"""
+    return text
+logger.info("✅ Central analyzer handlers added")
+# ==========================================
+# LANGUAGE SETTINGS
+# ==========================================
+async def language_menu(query, user_id, user):
+    """Language selection menu"""
+    from languages import LANGUAGES
+    text = """🌍 WYBIERZ JĘZYK / SELECT LANGUAGE
+Wybierz swój język:
+Select your language:"""
+    keyboard = []
+    for lang_code, lang_data in LANGUAGES.items():
+        keyboard.append([InlineKeyboardButton(lang_data['name'], callback_data=f'set_lang_{lang_code}')])
+    keyboard.append([InlineKeyboardButton('⬅️ Powrót / Back', callback_data='settings')])
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+logger.info("✅ Language menu added")
+# ==========================================
+# EXPLANATIONS MENU
+# ==========================================
+# ALERTS SYSTEM
+# ==========================================
+async def alerts_menu(query, user_id, user):
+    """Main alerts menu"""
+    settings = db.get_alert_settings(user_id)
+    # Status emoji
+    def status(enabled):
+        return '✅' if enabled else '❌'
+    text = f"""🔔 SYSTEM ALERTÓW
+📊 Status alertów:
+{status(settings['oversold_enabled'])} Oversold (RSI < 20)
+{status(settings['overbought_enabled'])} Overbought (RSI > 80)
+{status(settings['big_gains_enabled'])} Duże Wzrosty (+{settings['gain_threshold']}%)
+{status(settings['big_losses_enabled'])} Duże Spadki (-{settings['loss_threshold']}%)
+{status(settings['ai_signals_enabled'])} Sygnały AI (>{settings['min_confidence']}%)
+{status(settings['volume_spike_enabled'])} Volume Spike (>{settings['volume_multiplier']}x)
+{status(settings['macd_cross_enabled'])} MACD Cross
+{status(settings['ema_cross_enabled'])} EMA Cross
+{status(settings.get('sudden_change_enabled', 0))} Nagłe Zmiany ({settings.get('sudden_timeframe', '15m')}, ±{settings.get('sudden_threshold', 5)}%)
+🔔 Powiadomienia: {'✅ Włączone' if settings.get('notifications_enabled', 1) else '❌ Wyłączone'}
+⚙️ Ustawienia skanera:
+📊 Zakres: TOP {settings['scan_range']}
+⏰ Częstotliwość: {settings['scan_frequency']}
+📈 Timeframe: {settings.get('alert_timeframe', '1h')}
+Bot automatycznie skanuje rynek i wysyła powiadomienia o okazjach!"""
+    keyboard = [
+        [InlineKeyboardButton('⚙️ Ustawienia Alertów', callback_data='alerts_settings')],
+        [InlineKeyboardButton('📜 Historia (ostatnie 50)', callback_data='alerts_history')],
+        [InlineKeyboardButton('⬅️ Menu główne', callback_data='back_main')]
+    ]
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+async def alerts_settings_menu(query, user_id, user):
+    """Alert settings menu"""
+    settings = db.get_alert_settings(user_id)
+    def btn(name, enabled):
+        emoji = '✅' if enabled else '❌'
+        return InlineKeyboardButton(f'{emoji} {name}', callback_data=f'toggle_alert_{name.lower().replace(" ", "_")}')
+    text = """⚙️ USTAWIENIA ALERTÓW
+Kliknij aby włączyć/wyłączyć:"""
+    keyboard = [
+        [btn('Oversold', settings['oversold_enabled'])],
+        [btn('Overbought', settings['overbought_enabled'])],
+        [btn('Duże Wzrosty', settings['big_gains_enabled'])],
+        [btn('Duże Spadki', settings['big_losses_enabled'])],
+        [btn('Sygnały AI', settings['ai_signals_enabled'])],
+        [btn('Volume Spike', settings['volume_spike_enabled'])],
+        [btn('MACD Cross', settings['macd_cross_enabled'])],
+        [btn('EMA Cross', settings['ema_cross_enabled'])],
+        [InlineKeyboardButton('━━━━━━━━━━', callback_data='none')],
+        [InlineKeyboardButton('📊 Zakres skanowania', callback_data='set_scan_range')],
+        [InlineKeyboardButton('⏰ Częstotliwość', callback_data='set_scan_frequency')],
+        [InlineKeyboardButton('📈 Timeframe alertów', callback_data='set_alert_timeframe')],
+        [InlineKeyboardButton('⚡ Nagłe zmiany - TF', callback_data='set_sudden_timeframe')],
+        [InlineKeyboardButton('⚡ Nagłe zmiany - %', callback_data='set_sudden_threshold')],
+        [InlineKeyboardButton('🔔 Powiadomienia', callback_data='toggle_alert_notifications_enabled')],
+        [InlineKeyboardButton('⬅️ Powrót', callback_data='alerts_menu')]
+    ]
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+async def toggle_alert(query, user_id, user, alert_type):
+    """Toggle alert on/off"""
+    settings = db.get_alert_settings(user_id)
+    # Map button name to db field
+    field_map = {
+        'oversold': 'oversold_enabled',
+        'overbought': 'overbought_enabled',
+        'duże_wzrosty': 'big_gains_enabled',
+        'duże_spadki': 'big_losses_enabled',
+        'sygnały_ai': 'ai_signals_enabled',
+        'volume_spike': 'volume_spike_enabled',
+        'macd_cross': 'macd_cross_enabled',
+        'ema_cross': 'ema_cross_enabled'
+    }
+    field = field_map.get(alert_type)
+    if field:
+        new_value = 0 if settings[field] else 1
+        db.update_alert_settings(user_id, {field: new_value})
+        await query.answer(f"{'✅ Włączono' if new_value else '❌ Wyłączono'} alert")
+    await alerts_settings_menu(query, user_id, user)
+async def set_scan_range(query, user_id, user, range_val=None):
+    """Set scan range menu"""
+    if range_val:
+        db.update_alert_settings(user_id, {'scan_range': range_val})
+        await query.answer(f'✅ Ustawiono zakres: TOP {range_val}')
+        await alerts_settings_menu(query, user_id, user)
+        return
+    text = """📊 ZAKRES SKANOWANIA
+Ile par ma być skanowanych?
+• TOP 10 - najszybsze
+• TOP 50 - balans
+• TOP 100 - dokładne
+• TOP 200 - bardzo dokładne
+• ALL - wszystkie pary (wolne)"""
+    keyboard = [
+        [InlineKeyboardButton('TOP 10', callback_data='set_scan_range_10'), InlineKeyboardButton('TOP 50', callback_data='set_scan_range_50')],
+        [InlineKeyboardButton('TOP 100', callback_data='set_scan_range_100'), InlineKeyboardButton('TOP 200', callback_data='set_scan_range_200')],
+        [InlineKeyboardButton('ALL (~700)', callback_data='set_scan_range_9999')],
+        [InlineKeyboardButton('⬅️ Powrót', callback_data='alerts_settings')]
+    ]
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+async def set_scan_frequency(query, user_id, user, freq=None):
+    """Set scan frequency"""
+    if freq:
+        db.update_alert_settings(user_id, {'scan_frequency': freq})
+        await query.answer(f'✅ Częstotliwość: {freq}')
+        await alerts_settings_menu(query, user_id, user)
+        return
+    text = """⏰ CZĘSTOTLIWOŚĆ SKANOWANIA
+Jak często bot ma sprawdzać rynek?
+• 5m - bardzo często (więcej alertów)
+• 15m - balans ⭐
+• 30m - rzadziej
+• 1h - oszczędne"""
+    keyboard = [
+        [InlineKeyboardButton('5 minut', callback_data='set_scan_freq_5m'), InlineKeyboardButton('15 minut', callback_data='set_scan_freq_15m')],
+        [InlineKeyboardButton('30 minut', callback_data='set_scan_freq_30m'), InlineKeyboardButton('1 godzina', callback_data='set_scan_freq_1h')],
+        [InlineKeyboardButton('⬅️ Powrót', callback_data='alerts_settings')]
+    ]
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+# ==========================================
+# ALERTS SYSTEM
+# ==========================================
+async def alerts_menu(query, user_id, user):
+    """Main alerts menu"""
+    settings = db.get_alert_settings(user_id)
+    # Status emoji
+    def status(enabled):
+        return '✅' if enabled else '❌'
+    text = f"""🔔 SYSTEM ALERTÓW
+📊 Status alertów:
+{status(settings['oversold_enabled'])} Oversold (RSI < 20)
+{status(settings['overbought_enabled'])} Overbought (RSI > 80)
+{status(settings['big_gains_enabled'])} Duże Wzrosty (+{settings['gain_threshold']}%)
+{status(settings['big_losses_enabled'])} Duże Spadki (-{settings['loss_threshold']}%)
+{status(settings['ai_signals_enabled'])} Sygnały AI (>{settings['min_confidence']}%)
+{status(settings['volume_spike_enabled'])} Volume Spike (>{settings['volume_multiplier']}x)
+{status(settings['macd_cross_enabled'])} MACD Cross
+{status(settings['ema_cross_enabled'])} EMA Cross
+{status(settings.get('sudden_change_enabled', 0))} Nagłe Zmiany ({settings.get('sudden_timeframe', '15m')}, ±{settings.get('sudden_threshold', 5)}%)
+🔔 Powiadomienia: {'✅ Włączone' if settings.get('notifications_enabled', 1) else '❌ Wyłączone'}
+⚙️ Ustawienia skanera:
+📊 Zakres: TOP {settings['scan_range']}
+⏰ Częstotliwość: {settings['scan_frequency']}
+📈 Timeframe: {settings.get('alert_timeframe', '1h')}
+Bot automatycznie skanuje rynek i wysyła powiadomienia o okazjach!"""
+    keyboard = [
+        [InlineKeyboardButton('⚙️ Ustawienia Alertów', callback_data='alerts_settings')],
+        [InlineKeyboardButton('📜 Historia (ostatnie 50)', callback_data='alerts_history')],
+        [InlineKeyboardButton('⬅️ Menu główne', callback_data='back_main')]
+    ]
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+async def alerts_settings_menu(query, user_id, user):
+    """Alert settings menu"""
+    settings = db.get_alert_settings(user_id)
+    def btn(name, field):
+        emoji = '✅' if settings[field] else '❌'
+        return InlineKeyboardButton(f'{emoji} {name}', callback_data=f'toggle_alert_{field}')
+    text = """⚙️ USTAWIENIA ALERTÓW
+Kliknij aby włączyć/wyłączyć:"""
+    keyboard = [
+        [btn('Oversold', 'oversold_enabled')],
+        [btn('Overbought', 'overbought_enabled')],
+        [btn('Duże Wzrosty', 'big_gains_enabled')],
+        [btn('Duże Spadki', 'big_losses_enabled')],
+        [btn('Sygnały AI', 'ai_signals_enabled')],
+        [btn('Volume Spike', 'volume_spike_enabled')],
+        [btn('MACD Cross', 'macd_cross_enabled')],
+        [btn('EMA Cross', 'ema_cross_enabled')],
+        [btn('Nagłe Zmiany', 'sudden_change_enabled')],
+        [InlineKeyboardButton('━━━━━━━━━━', callback_data='none')],
+        [InlineKeyboardButton('📊 Zakres skanowania', callback_data='set_scan_range')],
+        [InlineKeyboardButton('⏰ Częstotliwość', callback_data='set_scan_frequency')],
+        [InlineKeyboardButton('📈 Timeframe alertów', callback_data='set_alert_timeframe')],
+        [InlineKeyboardButton('⚡ Nagłe zmiany - TF', callback_data='set_sudden_timeframe')],
+        [InlineKeyboardButton('⚡ Nagłe zmiany - %', callback_data='set_sudden_threshold')],
+        [InlineKeyboardButton('🔔 Powiadomienia', callback_data='toggle_alert_notifications_enabled')],
+        [InlineKeyboardButton('⬅️ Powrót', callback_data='alerts_menu')]
+    ]
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+async def toggle_alert(query, user_id, user, alert_type):
+    """Toggle alert on/off"""
+    settings = db.get_alert_settings(user_id)
+    # alert_type to już nazwa pola z db (oversold_enabled, etc.)
+    if alert_type in settings:
+        new_value = 0 if settings[alert_type] else 1
+        db.update_alert_settings(user_id, {alert_type: new_value})
+        await query.answer(f"{'✅ Włączono' if new_value else '❌ Wyłączono'} alert")
+    await alerts_settings_menu(query, user_id, user)
+async def set_scan_range(query, user_id, user, range_val=None):
+    """Set scan range menu"""
+    if range_val:
+        db.update_alert_settings(user_id, {'scan_range': range_val})
+        await query.answer(f'✅ Ustawiono zakres: TOP {range_val}')
+        await alerts_settings_menu(query, user_id, user)
+        return
+    text = """📊 ZAKRES SKANOWANIA
+Ile par ma być skanowanych?
+• TOP 10 - najszybsze
+• TOP 50 - balans
+• TOP 100 - dokładne
+• TOP 200 - bardzo dokładne
+• ALL - wszystkie pary (wolne)"""
+    keyboard = [
+        [InlineKeyboardButton('TOP 10', callback_data='set_scan_range_10'), InlineKeyboardButton('TOP 50', callback_data='set_scan_range_50')],
+        [InlineKeyboardButton('TOP 100', callback_data='set_scan_range_100'), InlineKeyboardButton('TOP 200', callback_data='set_scan_range_200')],
+        [InlineKeyboardButton('ALL (~700)', callback_data='set_scan_range_9999')],
+        [InlineKeyboardButton('⬅️ Powrót', callback_data='alerts_settings')]
+    ]
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+async def set_scan_frequency(query, user_id, user, freq=None):
+    """Set scan frequency"""
+    if freq:
+        db.update_alert_settings(user_id, {'scan_frequency': freq})
+        await query.answer(f'✅ Częstotliwość: {freq}')
+        await alerts_settings_menu(query, user_id, user)
+        return
+    text = """⏰ CZĘSTOTLIWOŚĆ SKANOWANIA
+Jak często bot ma sprawdzać rynek?
+• 5m - bardzo często (więcej alertów)
+• 15m - balans ⭐
+• 30m - rzadziej
+• 1h - oszczędne"""
+    keyboard = [
+        [InlineKeyboardButton('5 minut', callback_data='set_scan_freq_5m'), InlineKeyboardButton('15 minut', callback_data='set_scan_freq_15m')],
+        [InlineKeyboardButton('30 minut', callback_data='set_scan_freq_30m'), InlineKeyboardButton('1 godzina', callback_data='set_scan_freq_1h')],
+        [InlineKeyboardButton('⬅️ Powrót', callback_data='alerts_settings')]
+    ]
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+async def alerts_history_menu(query, user_id, user):
+    """Show alert history as interactive cards"""
+    history = db.get_alert_history(user_id, limit=50)  # More alerts
+    if not history:
+        text = "📜 HISTORIA ALERTÓW\n\nBrak alertów w historii."
+        keyboard = [[InlineKeyboardButton('⬅️ Powrót', callback_data='alerts_menu')]]
+    else:
+        recent = history[:20]  # Show 20
+        text = "📜 HISTORIA ALERTÓW\n\nKliknij aby zobaczyć szczegóły i analizę:\n"
+        keyboard = []
+        for i, alert in enumerate(recent):
+            alert_type = alert['alert_type'].upper()
+            symbol = alert['symbol'].split('/')[0]
+            message = alert['message']
+            # Extract info from message
+            change = ""
+            if 'Zmiana 24h:' in message:
+                parts = message.split('Zmiana 24h:')
+                if len(parts) > 1:
+                    change = parts[1].split('\n')[0].strip()[:10]  # +15.3% or -10.2%
+            elif 'WZROST:' in message or 'SPADEK:' in message:
+                if '%' in message:
+                    # Extract % from sudden change
+                    parts = message.split('%')
+                    if len(parts) > 1:
+                        # Find number before %
+                        num_part = parts[0].split()[-1]
+                        change = num_part + '%'
+            time = alert.get('triggered_at', alert.get('timestamp', ''))[:16].replace('T', ' ')[5:]  # MM-DD HH:MM
+            emoji = {
+                'BIG_GAIN': '🚀', 'BIG_LOSS': '📉',
+                'OVERSOLD': '🔥', 'OVERBOUGHT': '💎',
+                'AI_SIGNAL': '🤖', 'VOLUME_SPIKE': '📊',
+                'SUDDEN_CHANGE': '⚡'
+            }.get(alert_type, '🔔')
+            # Better button text: emoji + symbol + change + time
+            button_text = f"{emoji} {symbol} {change} | {time}"
+            keyboard.append([InlineKeyboardButton(
+                button_text,
+                callback_data=f'alert_detail_{i}'
+            )])
+        keyboard.append([
+            InlineKeyboardButton('🔄 Odśwież', callback_data='alerts_history'),
+            InlineKeyboardButton('⬅️ Menu', callback_data='alerts_menu')
+        ])
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+async def analyze_from_alert(query, user_id, user, symbol, timeframe):
+    """Show FULL professional analysis using format_analysis_report"""
+    # === WALIDACJA TIMEFRAME DLA GIEŁDY ===
+    try:
+        # Wyciągnij exchange z symbolu
+        if ':' in symbol:
+            exchange = symbol.split(':')[-1].lower()
+        else:
+            exchange = 'mexc'
+        
+        from timeframe_validator import is_timeframe_supported, get_fallback_timeframe, get_supported_timeframes_message
+        
+        if not is_timeframe_supported(exchange, timeframe):
+            fallback_tf = get_fallback_timeframe(exchange, timeframe)
+            supported_msg = get_supported_timeframes_message(exchange)
+            
+            safe_symbol = symbol.replace('/', '_')
+            
+            error_message = f'''⚠️ Giełda {exchange.upper()} nie obsługuje interwału {timeframe}
+
+📊 Obsługiwane interwały na {exchange.upper()}:
+{supported_msg}
+
+💡 Użyj innego interwału lub zmień giełdę
+
+Sugerowany interwał: {fallback_tf}'''
+            
+            keyboard = InlineKeyboardMarkup([
+                [InlineKeyboardButton(f"✅ Analiza na {fallback_tf}", callback_data=f"analyze_{safe_symbol}_{exchange}_{fallback_tf}")],
+                [InlineKeyboardButton("« Powrót", callback_data=f"pair_menu_{safe_symbol}_{exchange}")]
+            ])
+            
+            await query.edit_message_text(error_message, reply_markup=keyboard)
+            return
+    except Exception as e:
+        logger.error(f"Timeframe validation error: {e}")
+    
+    try:
+
+        # === WALIDACJA TIMEFRAME DLA GIEŁDY ===
+        exchange = symbol.split(':')[-1] if ':' in symbol else 'mexc'
+        exchange_name = exchange.lower()
+        
+        if not is_timeframe_supported(exchange_name, timeframe):
+            fallback_tf = get_fallback_timeframe(exchange_name, timeframe)
+            supported_msg = get_supported_timeframes_message(exchange_name)
+            
+            error_message = f'''⚠️ Giełda {exchange.upper()} nie obsługuje interwału {timeframe}
+
+📊 Obsługiwane interwały na {exchange.upper()}:
+{supported_msg}
+
+💡 Użyj innego interwału lub zmień giełdę
+
+Sugerowany interwał: {fallback_tf}'''
+            
+            keyboard = InlineKeyboardMarkup([
+                [InlineKeyboardButton(f"Analiza na {fallback_tf}", callback_data=f"analyze_{symbol.replace('/', '_')}_{exchange_name}_{fallback_tf}")],
+                [InlineKeyboardButton("« Powrót", callback_data=f"pair_menu_{symbol.replace('/', '_')}_{exchange_name}")]
+            ])
+            
+            await query.edit_message_text(error_message, reply_markup=keyboard)
+            return
+        
+        await query.answer()
+        await query.edit_message_text('⏳ Analizuję...')
+        exchange = user.get('selected_exchange', 'mexc')
+        # Use central_analyzer (same as AI Signals)
+        from analyzer_wrapper import analyzer_with_learning as central_analyzer
+        analysis = await central_analyzer.analyze_pair_full(symbol, exchange, timeframe)
+        if not analysis:
+            # STEP 1: Jeśli FUTURES nie działa, spróbuj SPOT (ta sama para może być starsza na spot)
+            if exchange == 'mexc' and ':USDT' in symbol:
+                # To jest FUTURES, spróbuj SPOT
+                spot_symbol = symbol.replace(':USDT', '')  # BTC/USDT:USDT → BTC/USDT
+                logger.info(f"Futures failed, trying SPOT: {spot_symbol}")
+                try:
+                    analysis = await central_analyzer.analyze_pair_full(
+                        exchange=exchange,
+                        symbol=spot_symbol,
+                        timeframe=timeframe,
+                        
+                    )
+                    if analysis:
+                        analysis['fallback_info'] = {
+                            'original_market': 'FUTURES',
+                            'used_market': 'SPOT',
+                            'original_symbol': symbol,
+                            'used_symbol': spot_symbol,
+                            'reason': f"⚠️ Para {symbol} jest nowa na FUTURES lub brak danych.\n✅ Znaleziono dane na rynku SPOT."
+                        }
+                        symbol = spot_symbol  # Update symbol dla display
+                except Exception as e:
+                    logger.error(f"SPOT fallback failed: {e}")
+            # STEP 2: Jeśli nadal brak analizy, próbuj inne timeframe'y
+            if not analysis:
+                # SMART FALLBACK - próbuj inne timeframe'y jeśli brak danych
+                fallback_timeframes = ['15m', '1h', '4h', '1d']
+            # Usuń aktualny timeframe z fallback
+            if timeframe in fallback_timeframes:
+                fallback_timeframes.remove(timeframe)
+            # Próbuj alternatywne timeframe'y
+            for alt_tf in fallback_timeframes:
+                logger.info(f"Trying fallback timeframe: {alt_tf}")
+                analysis = await central_analyzer.analyze_pair_full(
+                    exchange=exchange,
+                    symbol=symbol,
+                    timeframe=alt_tf,
+                    
+                )
+                if analysis:
+                    # SUKCES - wyjaśnij użytkownikowi
+                    reason = ""
+                    if timeframe in ['1m', '3m', '5m']:
+                        reason = f"⚠️ Zbyt krótki interwał ({timeframe}) - para może być nowa lub brak wystarczających danych."
+                    elif timeframe in ['1w', '1M']:
+                        reason = f"⚠️ Zbyt długi interwał ({timeframe}) - para może nie mieć wystarczającej historii."
+                    else:
+                        reason = f"⚠️ Brak danych dla interwału {timeframe} - para może być nowa lub nieaktywna."
+                    # Dodaj info na początku analizy
+                    analysis['fallback_info'] = {
+                        'original_tf': timeframe,
+                        'used_tf': alt_tf,
+                        'reason': reason
+                    }
+                    timeframe = alt_tf  # Update dla dalszej części
+                    break
+            if not analysis:
+                await query.edit_message_text(
+                    f"❌ Nie udało się przeanalizować {symbol}\n\n"
+                    f"Próbowano interwałów: {timeframe}, {', '.join(fallback_timeframes)}\n\n"
+                    f"Możliwe przyczyny:\n"
+                    f"• Para zbyt nowa (brak historii)\n"
+                    f"• Nieaktywna para (brak wolumenu)\n"
+                    f"• Problem z giełdą\n\n"
+                    f"Spróbuj innej pary lub giełdy.",
+                reply_markup=InlineKeyboardMarkup([[
+                    InlineKeyboardButton('⬅️ Powrót', callback_data='alerts_history')
+                ]])
+            )
+            return
+        # Format using THE SAME function as AI Signals!
+        from languages import get_user_language
+        lang = get_user_language(user)
+        text = format_analysis_report(analysis, lang)
+        # Quick intervals at bottom
+        intervals = ['1m', '3m', '5m', '15m', '30m', '1h', '4h', '12h', '1d', '3d', '5d', '1w', '1M', '6M', '1Y']
+        keyboard = []
+        symbol_encoded = symbol.replace('/', '_').replace(':', '_')
+        row = []
+        for i, tf in enumerate(intervals):
+            emoji_btn = '✅' if tf == timeframe else '⏱'
+            row.append(InlineKeyboardButton(
+                f'{emoji_btn} {tf}',
+                callback_data=f'analyze_{symbol_encoded}_{tf}'
+            ))
+            if len(row) == 3:
+                keyboard.append(row)
+                row = []
+        if row:
+            keyboard.append(row)
+        keyboard.append([
+            InlineKeyboardButton('📜 Historia', callback_data='alerts_history'),
+            InlineKeyboardButton('🏠 Menu', callback_data='back_main')
+        ])
+        await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+    except Exception as e:
+        logger.error(f"Error in analyze_from_alert: {e}")
+        import traceback
+        traceback.print_exc()
+        await query.edit_message_text(
+            f"❌ Błąd: {e}",
+            reply_markup=InlineKeyboardMarkup([[
+                InlineKeyboardButton('⬅️ Powrót', callback_data='alerts_history')
+            ]])
+        )
+async def show_alert_detail(query, user_id, user, index):
+    """Show full alert details with DIRECT analysis"""
+    history = db.get_alert_history(user_id, limit=50)
+    if index >= len(history):
+        await query.answer('❌ Nie znaleziono')
+        return
+    alert = history[index]
+    symbol = alert['symbol']
+    # Get user settings
+    settings = db.get_alert_settings(user_id)
+    timeframe = settings.get('alert_timeframe', '1h')
+    exchange = user.get('selected_exchange', 'mexc')
+    # Show loading
+    await query.edit_message_text('⏳ Ładuję analizę...')
+    try:
+        # Run analysis DIRECTLY
+        from analyzer_wrapper import analyzer_with_learning as central_analyzer
+        analysis = await central_analyzer.analyze_pair_full(symbol, exchange, timeframe)
+        if not analysis:
+            raise Exception("Brak analizy")
+        # Format result
+        signal = analysis.get('signal', 'NEUTRAL')
+        confidence = analysis.get('confidence', 0)
+        rsi = analysis.get('rsi', 0)
+        signal_emoji = {'LONG': '🟢', 'SHORT': '🔴', 'NEUTRAL': '⚪'}.get(signal, '⚪')
+        text = f"""📊 ANALIZA: {symbol.split('/')[0]}
+🔔 Alert: {alert['alert_type'].upper()}
+⏰ {alert.get('triggered_at', '')[:16]}
+{signal_emoji} Sygnał: {signal}
+🎯 Pewność: {confidence}%
+📈 RSI: {rsi:.1f}
+⏱ Interwał: {timeframe}
+━━━━━━━━━━━━━━━━
+⚡ Szybka zmiana interwału:"""
+        # Quick interval buttons
+        intervals = ['1m', '3m', '5m', '15m', '30m', '1h', '4h', '12h', '1d', '3d', '5d', '1w', '1M', '6M', '1Y']
+        keyboard = []
+        symbol_encoded = symbol.replace('/', '_').replace(':', '_')
+        row = []
+        for i, tf in enumerate(intervals):
+            emoji = '✅' if tf == timeframe else '⏱'
+            row.append(InlineKeyboardButton(f'{emoji} {tf}', callback_data=f'analyze_{symbol_encoded}_{tf}'))
+            if len(row) == 3:
+                keyboard.append(row)
+                row = []
+        if row:
+            keyboard.append(row)
+        keyboard.append([
+            InlineKeyboardButton('📜 Historia', callback_data='alerts_history'),
+            InlineKeyboardButton('🏠 Menu', callback_data='back_main')
+        ])
+        await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+    except Exception as e:
+        text = f"""❌ Błąd analizy
+{alert['message']}
+⏰ {alert.get('triggered_at', alert.get('timestamp', 'N/A'))}
+Błąd: {str(e)}"""
+        keyboard = [[InlineKeyboardButton('📜 Powrót', callback_data='alerts_history')]]
+        await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+async def set_alert_timeframe(query, user_id, user, tf=None):
+    """Set alert timeframe"""
+    if tf:
+        db.update_alert_settings(user_id, {'alert_timeframe': tf})
+        await query.answer(f'✅ Timeframe alertów: {tf}')
+        await alerts_settings_menu(query, user_id, user)
+        return
+    text = """📈 TIMEFRAME ALERTÓW
+Na jakim interwale sprawdzać wskaźniki?
+• 1m, 5m - bardzo krótki (scalping)
+• 15m, 30m - krótki (day trading)
+• 1h, 4h - średni (swing) ⭐
+• 1d, 1w - długi (pozycje)
+• 1M - bardzo długi
+Wpływa na RSI, MACD, EMA, Volume.
+Zmiana 24h zawsze na 1d."""
+    keyboard = [
+        [InlineKeyboardButton('1m', callback_data='set_alert_tf_1m'), 
+         InlineKeyboardButton('5m', callback_data='set_alert_tf_5m'), 
+         InlineKeyboardButton('15m', callback_data='set_alert_tf_15m')],
+        [InlineKeyboardButton('30m', callback_data='set_alert_tf_30m'), 
+         InlineKeyboardButton('1h', callback_data='set_alert_tf_1h'), 
+         InlineKeyboardButton('4h', callback_data='set_alert_tf_4h')],
+        [InlineKeyboardButton('8h', callback_data='set_alert_tf_8h'), 
+         InlineKeyboardButton('1d', callback_data='set_alert_tf_1d'), 
+         InlineKeyboardButton('1w', callback_data='set_alert_tf_1w')],
+        [InlineKeyboardButton('1M', callback_data='set_alert_tf_1M')],
+        [InlineKeyboardButton('⬅️ Powrót', callback_data='alerts_settings')]
+    ]
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+async def set_sudden_timeframe_menu(query, user_id, user):
+    """Menu timeframe dla nagłych zmian"""
+    settings = db.get_alert_settings(user_id)
+    current = settings.get('sudden_timeframe', '15m')
+    text = f"""⚡ NAGŁE ZMIANY - TIMEFRAME
+Obecny: {current}
+Na jakim interwale sprawdzać nagłe zmiany ceny?
+• 5m - bardzo czułe (dużo alertów)
+• 15m - czułe ⭐
+• 30m - umiarkowane
+• 1h - spokojne
+• 4h - bardzo spokojne
+Przykład: wzrost o 5% w ciągu 15 minut"""
+    keyboard = [
+        [InlineKeyboardButton('5m', callback_data='set_sudden_tf_5m'),
+         InlineKeyboardButton('15m', callback_data='set_sudden_tf_15m'),
+         InlineKeyboardButton('30m', callback_data='set_sudden_tf_30m')],
+        [InlineKeyboardButton('1h', callback_data='set_sudden_tf_1h'),
+         InlineKeyboardButton('4h', callback_data='set_sudden_tf_4h')],
+        [InlineKeyboardButton('⬅️ Powrót', callback_data='alerts_settings')]
+    ]
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+async def set_sudden_timeframe(query, user_id, user, tf):
+    """Ustaw timeframe dla nagłych zmian"""
+    db.update_alert_settings(user_id, {'sudden_timeframe': tf})
+    await query.answer(f'✅ Timeframe nagłych zmian: {tf}')
+    await alerts_settings_menu(query, user_id, user)
+
+async def alerts_sudden_settings(query, user_id, user):
+    """Sudden change alert settings submenu"""
+    settings = user.get('alert_settings', {})
+    enabled = settings.get('sudden_change_enabled', 0)
+    threshold = settings.get('sudden_threshold', 5)
+    timeframe = settings.get('sudden_timeframe', '15m')
+    
+    status = lambda x: "✅" if x == 1 else "⚪"
+    
+    text = f"""🔔 NAGŁE ZMIANY
+
+{status(enabled)} Alert włączony
+
+⚙️ USTAWIENIA:
+• Próg: ±{threshold}%
+• Interwał: {timeframe}
+
+Alert gdy cena zmieni się o ±{threshold}% 
+w ciągu {timeframe}."""
+
+    keyboard = [
+        [InlineKeyboardButton(
+            f"{'✅' if enabled else '⚪'} Włącz/Wyłącz",
+            callback_data='toggle_sudden_alert'
+        )],
+        [InlineKeyboardButton(f"📊 Próg (±{threshold}%)", callback_data='set_sudden_threshold_menu')],
+        [InlineKeyboardButton(f"⏱️ Interwał ({timeframe})", callback_data='set_sudden_timeframe_menu')],
+        [InlineKeyboardButton('⬅️ Ustawienia Alertów', callback_data='alerts_settings')]
+    ]
+    
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+
+async def set_sudden_threshold_menu(query, user_id, user):
+    """Menu for sudden change threshold - multiple options"""
+    settings = user.get('alert_settings', {})
+    current = settings.get('sudden_threshold', 5)
+    
+    text = f"""🔔 PRÓG NAGŁYCH ZMIAN
+
+Obecny próg: ±{current}%
+
+Wybierz czułość alertów:
+
+📊 PROFILE TRADINGOWE:
+
+• 25% (±5%) - Day Trading ⚡
+  Bardzo czułe, dużo alertów
+  
+• 50% (±10%) - Swing Trading 📈
+  Balans - rekomendowane ⭐
+  
+• 75% (±15%) - Position Trading 📊
+  Większe ruchy
+  
+• 90% (±20%) - Long-term 🎯
+  Tylko znaczące zmiany
+  
+• 100%+ (±25%+) - Extreme Only 💥
+  Tylko epicki ruchy
+
+💡 Im niższy próg, tym więcej alertów!"""
+
+    keyboard = [
+        [InlineKeyboardButton('25% (±5%) ⚡', callback_data='set_sudden_thresh_5'),
+         InlineKeyboardButton('50% (±10%) ⭐', callback_data='set_sudden_thresh_10')],
+        [InlineKeyboardButton('75% (±15%) 📊', callback_data='set_sudden_thresh_15'),
+         InlineKeyboardButton('90% (±20%) 🎯', callback_data='set_sudden_thresh_20')],
+        [InlineKeyboardButton('100%+ (±25%+) 💥', callback_data='set_sudden_thresh_25')],
+        [InlineKeyboardButton('⬅️ Powrót', callback_data='alerts_sudden_settings')]
+    ]
+    
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+async def set_sudden_threshold(query, user_id, user, threshold):
+    """Ustaw próg % dla nagłych zmian"""
+    db.update_alert_settings(user_id, {'sudden_threshold': threshold})
+    await query.answer(f'✅ Próg nagłych zmian: ±{threshold}%')
+    await alerts_settings_menu(query, user_id, user)
+async def show_alert_detail(query, user_id, user, index):
+    """Show full alert details with analysis button"""
+    history = db.get_alert_history(user_id, limit=20)
+    if index >= len(history):
+        await query.answer('❌ Alert nie znaleziony')
+        return
+    alert = history[index]
+    alert_type = alert['alert_type'].upper()
+    symbol = alert['symbol']
+    timestamp = alert.get('triggered_at', alert.get('timestamp', 'N/A'))
+    message = alert['message']
+    # Get user's timeframe setting
+    settings = db.get_alert_settings(user_id)
+    timeframe = settings.get('alert_timeframe', '1h')
+    text = f"""📜 SZCZEGÓŁY ALERTU
+{message}
+⏰ Czas: {timestamp}
+🔔 Typ: {alert_type}
+"""
+    # Buttons
+    symbol_encoded = symbol.replace('/', '_').replace(':', '_')
+    keyboard = [
+        [InlineKeyboardButton(
+            f'📊 Analiza {symbol.split("/")[0]} ({timeframe})',
+            callback_data=f'analyze_{symbol_encoded}_{timeframe}'
+        )],
+        [InlineKeyboardButton('📜 Powrót do historii', callback_data='alerts_history')]
+    ]
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+# ==========================================
+async def explanations_menu(query, user_id, user):
+    """Explanations of trading terms"""
+    lang = get_user_language(user)
+    text = f"""📚 WYJAŚNIENIA TERMINÓW
+{t('explain_rsi', lang)}
+{t('explain_ema', lang)}
+{t('explain_volume', lang)}
+💡 **TP1/TP2/TP3** = Cele zysku (Take Profit) - poziomy gdzie zalecamy zamknięcie części lub całości pozycji z zyskiem
+💡 **Stop Loss (SL)** = Poziom zamknięcia straty - punkt gdzie pozycja zostanie automatycznie zamknięta aby ograniczyć stratę
+💡 **R/R Ratio** = Stosunek zysku do ryzyka - ile możesz zarobić w stosunku do tego ile ryzykujesz
+💡 **Entry** = Punkt wejścia - zalecana cena otwarcia pozycji
+💡 **Confidence %** = Pewność sygnału - im wyższy % tym mocniejszy sygnał (70%+ = dobry, 80%+ = bardzo dobry)
+💡 **LONG** = Pozycja długa - kupujesz oczekując wzrostu ceny
+💡 **SHORT** = Pozycja krótka - sprzedajesz oczekując spadku ceny"""
+    keyboard = [[InlineKeyboardButton('⬅️ Powrót', callback_data='back_main')]]
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+logger.info("✅ Explanations menu added")
+# ==========================================
+# ADMIN PANEL - NEW VERSION
+# ==========================================
+async def admin_panel(query, user_id, user):
+    """Main admin panel with statistics"""
+    if user_id not in ADMIN_IDS:
+        await query.answer("❌ Brak uprawnień", show_alert=True)
+        return
+    all_users_dict = db.get_all_users()
+    all_users = list(all_users_dict.values()) if isinstance(all_users_dict, dict) else all_users_dict
+    total_users = len(all_users)
+    active_users = len(db.get_active_users(7))
+    premium_users = sum(1 for u in all_users if u.get('is_premium', False))
+    total_signals = sum(u.get('signals_count', 0) for u in all_users)
+    text = f"""👨‍💼 PANEL ADMINA
+📊 STATYSTYKI:
+• Użytkownicy: {total_users}
+• Aktywni (7 dni): {active_users}
+• Premium: {premium_users}
+• Wysłane sygnały: {total_signals}
+⚙️ ZARZĄDZANIE:"""
+    keyboard = [
+        [InlineKeyboardButton('📊 Statystyki AI', callback_data='admin_signals_stats')],
+        [InlineKeyboardButton('🎛️ Kontrolki funkcji', callback_data='admin_features_menu')],
+        [InlineKeyboardButton("👥 Użytkownicy", callback_data='admin_users_list')],
+        [InlineKeyboardButton("📢 Broadcast", callback_data='admin_broadcast')],
+        [InlineKeyboardButton("📊 Statystyki", callback_data='admin_stats_detailed')],
+        [InlineKeyboardButton('⬅️ Powrót', callback_data='back_main')]
+    ]
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+async def admin_users_list(query, user_id, user, page=0):
+    """Show paginated list of users"""
+    if user_id not in ADMIN_IDS:
+        return
+    all_users_dict = db.get_all_users()
+    all_users = list(all_users_dict.values()) if isinstance(all_users_dict, dict) else all_users_dict
+    # Sort by last_active (newest first)
+    all_users.sort(key=lambda u: u.get('last_active', ''), reverse=True)
+    # Pagination
+    per_page = 10
+    total_pages = (len(all_users) + per_page - 1) // per_page
+    start_idx = page * per_page
+    end_idx = start_idx + per_page
+    page_users = all_users[start_idx:end_idx]
+    text = f"""👥 UŻYTKOWNICY ({len(all_users)})
+📄 Strona {page + 1}/{total_pages}
+Kliknij aby zarządzać:"""
+    keyboard = []
+    for u in page_users:
+        uid = u['user_id']
+        username = u.get('username', 'Unknown')
+        is_premium = u.get('is_premium', False)
+        # Premium status
+        if is_premium:
+            expires = u.get('subscription_expires')
+            if expires:
+                try:
+                    from datetime import datetime
+                    expires_date = datetime.fromisoformat(expires)
+                    days_left = (expires_date - datetime.now()).days
+                    status = f"💎 {days_left}d"
+                except:
+                    status = "💎"
+            else:
+                status = "💎"
+        else:
+            status = "⚪"
+        # Last active
+        last = u.get('last_active', '')
+        if last:
+            try:
+                from datetime import datetime
+                last_date = datetime.fromisoformat(last)
+                last_str = last_date.strftime('%d.%m')
+            except:
+                last_str = '?'
+        else:
+            last_str = '?'
+        button_text = f"{status} {uid[:8]}... @{username} ({last_str})"
+        keyboard.append([InlineKeyboardButton(button_text, callback_data=f"admin_user_{uid}")])
+    # Navigation
+    nav_buttons = []
+    if page > 0:
+        nav_buttons.append(InlineKeyboardButton("⬅️ Poprzednia", callback_data=f"admin_users_page_{page-1}"))
+    if page < total_pages - 1:
+        nav_buttons.append(InlineKeyboardButton("Następna ➡️", callback_data=f"admin_users_page_{page+1}"))
+    if nav_buttons:
+        keyboard.append(nav_buttons)
+    keyboard.append([InlineKeyboardButton('⬅️ Panel Admina', callback_data='admin_panel')])
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+async def admin_user_manage(query, user_id, target_user_id):
+    """Manage specific user"""
+    if user_id not in ADMIN_IDS:
+        return
+    target_user = db.get_user(target_user_id)
+    if not target_user:
+        await query.answer("❌ Użytkownik nie znaleziony", show_alert=True)
+        return
+    username = target_user.get('username', 'Unknown')
+    is_premium = target_user.get('is_premium', False)
+    expires = target_user.get('subscription_expires')
+    signals = target_user.get('signals_count', 0)
+    last_active = target_user.get('last_active', 'Nigdy')
+    # Format expiry
+    if is_premium and expires:
+        try:
+            from datetime import datetime
+            exp_date = datetime.fromisoformat(expires)
+            days_left = (exp_date - datetime.now()).days
+            exp_str = f"{exp_date.strftime('%Y-%m-%d')} ({days_left} dni)"
+        except:
+            exp_str = expires
+    else:
+        exp_str = "Brak"
+    # Format last active
+    if last_active and last_active != 'Nigdy':
+        try:
+            from datetime import datetime
+            last_date = datetime.fromisoformat(last_active)
+            last_str = last_date.strftime('%Y-%m-%d %H:%M')
+        except:
+            last_str = last_active[:16]
+    else:
+        last_str = "Nigdy"
+    text = f"""👤 ZARZĄDZANIE UŻYTKOWNIKIEM
+🆔 ID: {target_user_id}
+👤 Username: @{username}
+💎 Premium: {'Tak' if is_premium else 'Nie'}
+📅 Wygasa: {exp_str}
+📊 Sygnały: {signals}
+🕐 Ostatnia aktywność: {last_str}
+Wybierz akcję:"""
+    keyboard = [
+        [InlineKeyboardButton("💬 Chat z userem", callback_data=f"admin_chat_{target_user_id}")],
+        [InlineKeyboardButton("➕ Dodaj dni", callback_data=f"admin_add_days_{target_user_id}"),
+         InlineKeyboardButton("➖ Odejmij dni", callback_data=f"admin_remove_days_{target_user_id}")],
+        [InlineKeyboardButton("🔒 Blokuj Premium" if is_premium else "🔓 Odblokuj Premium", 
+                            callback_data=f"admin_toggle_premium_{target_user_id}")],
+        [InlineKeyboardButton("🗑️ Usuń usera", callback_data=f"admin_delete_confirm_{target_user_id}")],
+        [InlineKeyboardButton('⬅️ Lista użytkowników', callback_data='admin_users_list')]
+    ]
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+# ==========================================
+# ADMIN HELPER FUNCTIONS
+# ==========================================
+async def admin_add_days_menu(query, user_id, target_uid):
+    """Show menu to add days"""
+    if user_id not in ADMIN_IDS:
+        return
+    target_user = db.get_user(target_uid)
+    username = target_user.get('username', 'Unknown')
+    text = f"""➕ DODAJ DNI PREMIUM
+👤 User: @{username}
+🆔 ID: {target_uid}
+Wybierz ile dni dodać:"""
+    keyboard = [
+        [InlineKeyboardButton("+ 3 dni", callback_data=f"admin_give_days_{target_uid}_3"),
+         InlineKeyboardButton("+ 7 dni", callback_data=f"admin_give_days_{target_uid}_7")],
+        [InlineKeyboardButton("+ 14 dni", callback_data=f"admin_give_days_{target_uid}_14"),
+         InlineKeyboardButton("+ 30 dni", callback_data=f"admin_give_days_{target_uid}_30")],
+        [InlineKeyboardButton("+ 90 dni", callback_data=f"admin_give_days_{target_uid}_90"),
+         InlineKeyboardButton("+ 365 dni", callback_data=f"admin_give_days_{target_uid}_365")],
+        [InlineKeyboardButton('⬅️ Powrót', callback_data=f'admin_user_{target_uid}')]
+    ]
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+async def admin_remove_days_menu(query, user_id, target_uid):
+    """Show menu to remove days"""
+    if user_id not in ADMIN_IDS:
+        return
+    target_user = db.get_user(target_uid)
+    username = target_user.get('username', 'Unknown')
+    text = f"""➖ ODEJMIJ DNI PREMIUM
+👤 User: @{username}
+🆔 ID: {target_uid}
+Wybierz ile dni odjąć:"""
+    keyboard = [
+        [InlineKeyboardButton("- 3 dni", callback_data=f"admin_take_days_{target_uid}_3"),
+         InlineKeyboardButton("- 7 dni", callback_data=f"admin_take_days_{target_uid}_7")],
+        [InlineKeyboardButton("- 14 dni", callback_data=f"admin_take_days_{target_uid}_14"),
+         InlineKeyboardButton("- 30 dni", callback_data=f"admin_take_days_{target_uid}_30")],
+        [InlineKeyboardButton('⬅️ Powrót', callback_data=f'admin_user_{target_uid}')]
+    ]
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+async def admin_give_days(query, user_id, target_uid, days):
+    """Add days to user subscription"""
+    if user_id not in ADMIN_IDS:
+        return
+    from datetime import datetime, timedelta
+    target_user = db.get_user(target_uid)
+    username = target_user.get('username', 'Unknown')
+    # Calculate new expiry
+    current_expires = target_user.get('subscription_expires')
+    if current_expires:
+        try:
+            current_date = datetime.fromisoformat(current_expires)
+            # If expired, start from now
+            if current_date < datetime.now():
+                new_date = datetime.now() + timedelta(days=days)
+            else:
+                new_date = current_date + timedelta(days=days)
+        except:
+            new_date = datetime.now() + timedelta(days=days)
+    else:
+        new_date = datetime.now() + timedelta(days=days)
+    target_user['subscription_expires'] = new_date.isoformat()
+    target_user['is_premium'] = True
+    db.update_user(target_uid, target_user)
+    await query.answer(f"✅ Dodano {days} dni dla @{username}", show_alert=True)
+    # Show updated user info
+    await admin_user_manage(query, user_id, target_uid)
+    logger.info(f"Admin {user_id} added {days} days to user {target_uid}")
+async def admin_take_days(query, user_id, target_uid, days):
+    """Remove days from user subscription"""
+    if user_id not in ADMIN_IDS:
+        return
+    from datetime import datetime, timedelta
+    target_user = db.get_user(target_uid)
+    username = target_user.get('username', 'Unknown')
+    current_expires = target_user.get('subscription_expires')
+    if current_expires:
+        try:
+            current_date = datetime.fromisoformat(current_expires)
+            new_date = current_date - timedelta(days=days)
+            # Check if expired
+            if new_date < datetime.now():
+                target_user['is_premium'] = False
+                target_user['subscription_expires'] = None
+            else:
+                target_user['subscription_expires'] = new_date.isoformat()
+        except:
+            target_user['is_premium'] = False
+            target_user['subscription_expires'] = None
+    db.update_user(target_uid, target_user)
+    await query.answer(f"✅ Odjęto {days} dni dla @{username}", show_alert=True)
+    await admin_user_manage(query, user_id, target_uid)
+    logger.info(f"Admin {user_id} removed {days} days from user {target_uid}")
+async def admin_toggle_premium(query, user_id, target_uid):
+    """Toggle premium status"""
+    if user_id not in ADMIN_IDS:
+        return
+    from datetime import datetime, timedelta
+    target_user = db.get_user(target_uid)
+    username = target_user.get('username', 'Unknown')
+    is_premium = target_user.get('is_premium', False)
+    if is_premium:
+        # Block premium
+        target_user['is_premium'] = False
+        target_user['subscription_expires'] = None
+        msg = f"🔒 Zablokowano Premium dla @{username}"
+    else:
+        # Unblock - give 30 days
+        target_user['is_premium'] = True
+        target_user['subscription_expires'] = (datetime.now() + timedelta(days=30)).isoformat()
+        msg = f"🔓 Odblokowano Premium (30 dni) dla @{username}"
+    db.update_user(target_uid, target_user)
+    await query.answer(msg, show_alert=True)
+    await admin_user_manage(query, user_id, target_uid)
+    logger.info(f"Admin {user_id} toggled premium for user {target_uid}")
+async def admin_delete_user_confirm(query, user_id, target_uid):
+    """Confirm user deletion"""
+    if user_id not in ADMIN_IDS:
+        return
+    target_user = db.get_user(target_uid)
+    username = target_user.get('username', 'Unknown')
+    text = f"""⚠️ POTWIERDZENIE USUNIĘCIA
+Czy na pewno chcesz usunąć użytkownika?
+👤 @{username}
+🆔 {target_uid}
+❗ Ta akcja jest NIEODWRACALNA!"""
+    keyboard = [
+        [InlineKeyboardButton("🗑️ TAK, USUŃ", callback_data=f"admin_delete_yes_{target_uid}"),
+         InlineKeyboardButton("❌ NIE", callback_data=f"admin_user_{target_uid}")]
+    ]
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+async def admin_delete_user(query, user_id, target_uid):
+    """Delete user from database"""
+    if user_id not in ADMIN_IDS:
+        return
+    target_user = db.get_user(target_uid)
+    username = target_user.get('username', 'Unknown')
+    # Delete from database
+    db.users.pop(target_uid, None)
+    db.save_users()
+    await query.answer(f"✅ Usunięto @{username}", show_alert=True)
+    # Return to users list
+    await admin_users_list(query, user_id, user, page=0)
+    logger.warning(f"Admin {user_id} DELETED user {target_uid} (@{username})")
+async def admin_stats_detailed(query, user_id):
+    """Detailed statistics"""
+    if user_id not in ADMIN_IDS:
+        return
+    all_users_dict = db.get_all_users()
+    all_users = list(all_users_dict.values()) if isinstance(all_users_dict, dict) else all_users_dict
+    from datetime import datetime, timedelta
+    total = len(all_users)
+    active_24h = len([u for u in all_users if u.get('last_active', '') > (datetime.now() - timedelta(hours=24)).isoformat()])
+    active_7d = len(db.get_active_users(7))
+    premium = sum(1 for u in all_users if u.get('is_premium', False))
+    total_signals = sum(u.get('signals_count', 0) for u in all_users)
+    text = f"""📊 STATYSTYKI SZCZEGÓŁOWE
+👥 Użytkownicy:
+• Wszyscy: {total}
+• Aktywni 24h: {active_24h}
+• Aktywni 7d: {active_7d}
+• Premium: {premium}
+📈 Aktywność:
+• Sygnały wysłane: {total_signals}
+• Średnio/user: {total_signals / total if total > 0 else 0:.1f}
+🔔 Alerty:
+• Users z alertami: {len([u for u in all_users if any(v==1 for k,v in u.get('alert_settings',{}).items() if k.endswith('_enabled'))])}
+💎 Premium:
+• Aktywni: {premium}
+• % wszystkich: {premium/total*100 if total > 0 else 0:.1f}%"""
+    keyboard = [[InlineKeyboardButton('⬅️ Panel Admina', callback_data='admin_panel')]]
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+async def admin_broadcast_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Admin command to broadcast message to all users"""
+    user_id = update.effective_user.id
+    if user_id not in ADMIN_IDS:
+        await update.message.reply_text("❌ Brak uprawnień")
+        return
+    if not context.args:
+        await update.message.reply_text(
+            "Użycie: /broadcast wiadomość\n\n"
+            "Przykład: /broadcast Witam! Nowa funkcja w bocie!"
+        )
+        return
+    message = ' '.join(context.args)
+    # Get all users
+    all_users_dict = db.get_all_users()
+    all_users = list(all_users_dict.values()) if isinstance(all_users_dict, dict) else all_users_dict
+    await update.message.reply_text(f"📢 Wysyłam do {len(all_users)} użytkowników...")
+    success = 0
+    failed = 0
+    for user_data in all_users:
+        uid = user_data['user_id']
+        try:
+            await context.bot.send_message(
+                chat_id=uid,
+                text=f"📢 OGŁOSZENIE:\n\n{message}"
+            )
+            success += 1
+            # Small delay to avoid rate limits
+            await asyncio.sleep(0.05)
+        except Exception as e:
+            failed += 1
+            logger.error(f"Broadcast failed for user {uid}: {e}")
+    await update.message.reply_text(
+        f"✅ Broadcast zakończony!\n\n"
+        f"📤 Wysłano: {success}\n"
+        f"❌ Błędy: {failed}"
+    )
+    logger.info(f"Admin {user_id} broadcast: {success} success, {failed} failed")
+
+
+async def admin_broadcast_menu(query, user_id):
+    """Broadcast message menu - interactive"""
+    if user_id not in ADMIN_IDS:
+        return
+    
+    all_users_dict = db.get_all_users()
+    all_users = list(all_users_dict.values()) if isinstance(all_users_dict, dict) else all_users_dict
+    total = len(all_users)
+    
+    text = f"""📢 BROADCAST DO WSZYSTKICH
+
+👥 Otrzyma: {total} użytkowników
+
+💡 INSTRUKCJA:
+1. Kliknij "✍️ Napisz wiadomość"
+2. Wyślij tekst wiadomości w czacie
+3. Potwierdź wysyłkę
+
+⚠️ Każdy użytkownik otrzyma tę wiadomość!"""
+
+    keyboard = [
+        [InlineKeyboardButton('✍️ Napisz wiadomość', callback_data='admin_broadcast_write')],
+        [InlineKeyboardButton('⬅️ Panel Admina', callback_data='admin_panel')]
+    ]
+    
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+
+async def admin_broadcast_write(query, user_id):
+    """Set state to await broadcast message"""
+    if user_id not in ADMIN_IDS:
+        return
+    
+    # Set awaiting state
+    admin_user = db.get_user(user_id)
+    admin_user['awaiting_broadcast'] = True
+    db.update_user(user_id, admin_user)
+    
+    await query.edit_message_text(
+        "✍️ NAPISZ WIADOMOŚĆ BROADCAST\n\n"
+        "Wyślij teraz wiadomość którą chcesz wysłać do wszystkich użytkowników.\n\n"
+        "Aby anulować, wyślij /cancel"
+    )
+
+async def admin_broadcast_confirm(update: Update, context: ContextTypes.DEFAULT_TYPE, message_text):
+    """Confirm broadcast before sending"""
+    user_id = update.effective_user.id
+    
+    if user_id not in ADMIN_IDS:
+        return
+    
+    all_users_dict = db.get_all_users()
+    all_users = list(all_users_dict.values()) if isinstance(all_users_dict, dict) else all_users_dict
+    total = len(all_users)
+    
+    # Preview
+    preview = message_text[:200] + "..." if len(message_text) > 200 else message_text
+    
+    text = f"""📢 POTWIERDZENIE BROADCAST
+
+📤 Wysyłam do: {total} użytkowników
+
+📝 Wiadomość:
+{preview}
+
+✅ Wyślij teraz?"""
+
+    keyboard = [
+        [InlineKeyboardButton('✅ TAK, WYŚLIJ', callback_data=f'admin_broadcast_send')],
+        [InlineKeyboardButton('❌ Anuluj', callback_data='admin_broadcast')]
+    ]
+    
+    # Store message temporarily
+    admin_user = db.get_user(user_id)
+    admin_user['pending_broadcast'] = message_text
+    admin_user['awaiting_broadcast'] = False
+    db.update_user(user_id, admin_user)
+    
+    await update.message.reply_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+
+async def admin_broadcast_send(query, user_id, context):
+    """Send broadcast to all users"""
+    if user_id not in ADMIN_IDS:
+        return
+    
+    # Get stored message
+    admin_user = db.get_user(user_id)
+    message = admin_user.get('pending_broadcast')
+    
+    if not message:
+        await query.answer("❌ Brak wiadomości do wysłania", show_alert=True)
+        return
+    
+    # Clear pending
+    admin_user['pending_broadcast'] = None
+    db.update_user(user_id, admin_user)
+    
+    await query.edit_message_text("📢 Wysyłam broadcast...\n\nProszę czekać...")
+    
+    # Get all users
+    all_users_dict = db.get_all_users()
+    all_users = list(all_users_dict.values()) if isinstance(all_users_dict, dict) else all_users_dict
+    
+    success = 0
+    failed = 0
+    
+    for user_data in all_users:
+        uid = user_data['user_id']
+        
+        try:
+            await context.bot.send_message(
+                chat_id=uid,
+                text=f"📢 OGŁOSZENIE:\n\n{message}"
+            )
+            success += 1
+            
+            # Small delay to avoid rate limits
+            await asyncio.sleep(0.05)
+        except Exception as e:
+            failed += 1
+            logger.error(f"Broadcast failed for user {uid}: {e}")
+    
+    # Report
+    text = f"""✅ BROADCAST ZAKOŃCZONY!
+
+📤 Wysłano: {success}
+❌ Błędy: {failed}
+
+Wiadomość została dostarczona do {success} użytkowników."""
+
+    keyboard = [[InlineKeyboardButton('⬅️ Panel Admina', callback_data='admin_panel')]]
+    
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+    
+    logger.info(f"Admin {user_id} broadcast: {success} success, {failed} failed")
+
+
+async def admin_chat_view(query, user_id, target_uid):
+    """View and manage chat with user - INTERACTIVE"""
+    if user_id not in ADMIN_IDS:
+        return
+    
+    # Check if trying to chat with self
+    if target_uid == str(user_id):
+        await query.edit_message_text(
+            "⚠️ NIE MOŻESZ PISAĆ DO SIEBIE\n\n"
+            "To jest chat z użytkownikami.\n"
+            "Aby przetestować, użyj innego konta.",
+            reply_markup=InlineKeyboardMarkup([
+                [InlineKeyboardButton('⬅️ Powrót', callback_data='admin_users_list')]
+            ])
+        )
+        return
+    
+    target_user = db.get_user(target_uid)
+    username = target_user.get('username', 'Unknown')
+    
+    # Get chat history
+    chat_history = db.get_admin_chat(target_uid)
+    
+    if not chat_history:
+        history_text = "📭 Brak wiadomości"
+    else:
+        history_text = "💬 OSTATNIE WIADOMOŚCI:\n\n"
+        
+        # Show last 5 messages
+        for msg in chat_history[-5:]:
+            from_who = "👨‍💼 Admin" if msg['from_admin'] else f"👤 @{username}"
+            timestamp = msg['timestamp'][:16]  # YYYY-MM-DD HH:MM
+            text = msg['message'][:80] + "..." if len(msg['message']) > 80 else msg['message']
+            history_text += f"{from_who} ({timestamp}):\n{text}\n\n"
+    
+    text = f"""💬 CHAT Z UŻYTKOWNIKIEM
+
+👤 User: @{username}
+🆔 ID: {target_uid}
+
+{history_text}"""
+
+    keyboard = [
+        [InlineKeyboardButton("✍️ Napisz wiadomość", callback_data=f"admin_msg_write_{target_uid}")],
+        [InlineKeyboardButton("🗑️ Wyczyść historię", callback_data=f"admin_clear_chat_{target_uid}")],
+        [InlineKeyboardButton('⬅️ Powrót', callback_data=f'admin_user_{target_uid}')]
+    ]
+    
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+
+async def admin_msg_write(query, user_id, target_uid):
+    """Set state to await message to specific user"""
+    if user_id not in ADMIN_IDS:
+        return
+    
+    target_user = db.get_user(target_uid)
+    username = target_user.get('username', 'Unknown')
+    
+    # Set awaiting state
+    admin_user = db.get_user(user_id)
+    admin_user['awaiting_admin_message'] = target_uid
+    db.update_user(user_id, admin_user)
+    
+    await query.edit_message_text(
+        f"✍️ WIADOMOŚĆ DO @{username}\n\n"
+        f"Napisz teraz wiadomość którą chcesz wysłać.\n\n"
+        f"Aby anulować, wyślij /cancel"
+    )
+
+async def admin_msg_send(update: Update, context: ContextTypes.DEFAULT_TYPE, target_uid, message_text):
+    """Send message to specific user"""
+    user_id = update.effective_user.id
+    
+    if user_id not in ADMIN_IDS:
+        return
+    
+    # Prevent admin from messaging themselves
+    if target_uid == str(user_id):
+        await update.message.reply_text(
+            "⚠️ Nie możesz wysłać wiadomości do siebie!\n\n"
+            "Jeśli chcesz przetestować chat, użyj innego konta użytkownika."
+        )
+        return
+    
+    target_user = db.get_user(target_uid)
+    if not target_user:
+        await update.message.reply_text(f"❌ User {target_uid} nie istnieje")
+        return
+    
+    username = target_user.get('username', 'Unknown')
+    
+    from datetime import datetime
+    
+    # Save to chat history
+    db.add_admin_chat_message(target_uid, from_admin=True, message=message_text, 
+                               timestamp=datetime.now().isoformat())
+    
+    # Send to user
+    try:
+        await context.bot.send_message(
+            chat_id=target_uid,
+            text=f"💬 WIADOMOŚĆ OD ADMINA:\n\n{message_text}"
+        )
+        
+        await update.message.reply_text(
+            f"✅ Wysłano do @{username}",
+            reply_markup=InlineKeyboardMarkup([
+                [InlineKeyboardButton('💬 Powrót do chatu', callback_data=f'admin_chat_{target_uid}')],
+                [InlineKeyboardButton('👤 Powrót do usera', callback_data=f'admin_user_{target_uid}')]
+            ])
+        )
+        
+        logger.info(f"Admin {user_id} sent message to user {target_uid}")
+    except Exception as e:
+        await update.message.reply_text(f"❌ Błąd wysyłania: {e}")
+        logger.error(f"Failed to send admin message: {e}")
+
+async def admin_clear_chat(query, user_id, target_uid):
+    """Clear chat history"""
+    if user_id not in ADMIN_IDS:
+        return
+    
+    target_user = db.get_user(target_uid)
+    target_user['admin_chat_history'] = []
+    db.update_user(target_uid, target_user)
+    
+    await query.answer("✅ Historia czatu wyczyszczona", show_alert=True)
+    await admin_chat_view(query, user_id, target_uid)
+
+
+async def toggle_sudden_alert(query, user_id, user):
+    """Toggle sudden change alert on/off"""
+    settings = user.get('alert_settings', {})
+    current = settings.get('sudden_change_enabled', 0)
+    settings['sudden_change_enabled'] = 1 if current == 0 else 0
+    user['alert_settings'] = settings
+    
+    db.update_user(user_id, user)
+    
+    status = "włączony" if settings['sudden_change_enabled'] == 1 else "wyłączony"
+    await query.answer(f"Alert nagłych zmian {status}", show_alert=True)
+    
+    await alerts_sudden_settings(query, user_id, user)
+
+async def set_sudden_timeframe_menu(query, user_id, user):
+    """Menu for sudden change timeframe"""
+    settings = user.get('alert_settings', {})
+    current = settings.get('sudden_timeframe', '15m')
+    
+    text = f"""⏱️ INTERWAŁ NAGŁYCH ZMIAN
+
+Obecny: {current}
+
+Wybierz w jakim czasie sprawdzać zmiany:
+
+• 5m - bardzo czułe
+• 15m - balans ⭐
+• 30m - średnie
+• 1h - długoterminowe"""
+
+    keyboard = [
+        [InlineKeyboardButton('5 min', callback_data='set_sudden_tf_5m'),
+         InlineKeyboardButton('15 min ⭐', callback_data='set_sudden_tf_15m')],
+        [InlineKeyboardButton('30 min', callback_data='set_sudden_tf_30m'),
+         InlineKeyboardButton('1 godz', callback_data='set_sudden_tf_1h')],
+        [InlineKeyboardButton('⬅️ Powrót', callback_data='alerts_sudden_settings')]
+    ]
+    
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+
+
+async def explanations_menu(query, user_id, user):
+    """Main explanations menu"""
+    text = """ℹ️ WYJAŚNIENIA
+
+Dowiedz się jak działa BOTrader:
+
+📊 Sygnały i Analiza
+📈 Wskaźniki Techniczne
+🎯 Alerty i Powiadomienia
+⚙️ Ustawienia"""
+
+    keyboard = [
+        [InlineKeyboardButton("📊 Sygnały i Analiza", callback_data='explain_signals')],
+        [InlineKeyboardButton("📈 Wskaźniki Techniczne", callback_data='explain_indicators')],
+        [InlineKeyboardButton("🎯 Alerty", callback_data='explain_alerts')],
+        [InlineKeyboardButton("⚙️ Ustawienia", callback_data='explain_settings')],
+        [InlineKeyboardButton('⬅️ Menu Główne', callback_data='back_main')]
+    ]
+    
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+
+async def explain_signals(query, user_id, user):
+    """Explain signal confidence"""
+    text = """📊 SYGNAŁY I PEWNOŚĆ
+
+🎯 JAK LICZONA JEST PEWNOŚĆ?
+
+Pewność sygnału (0-100%) bazuje na:
+
+1️⃣ RSI (30%):
+   • Oversold (<30) → BUY
+   • Overbought (>70) → SELL
+   • Im bardziej ekstremalne, tym wyższa pewność
+
+2️⃣ EMA Cross (25%):
+   • Szybka EMA > Wolna → BUY
+   • Szybka EMA < Wolna → SELL
+   • Świeży cross = wyższa pewność
+
+3️⃣ MACD (25%):
+   • MACD > Signal → BUY
+   • MACD < Signal → SELL
+   • Silny cross = wyższa pewność
+
+4️⃣ Volume (20%):
+   • Wysoki wolumen potwierdza sygnał
+   • Volume > średnia = bonus
+
+📈 POZIOMY CONFIDENCE:
+
+• 90-100% = Bardzo silny sygnał 💎
+• 80-89% = Silny sygnał ⭐
+• 70-79% = Dobry sygnał ✅
+• 60-69% = Średni sygnał ⚠️
+• <60% = Słaby sygnał ❌
+
+💡 WSKAZÓWKA:
+Najlepsze sygnały to 80%+ z potwierdzeniem
+na kilku interwałach (15m, 1h, 4h)."""
+
+    keyboard = [
+        [InlineKeyboardButton('📈 Wskaźniki szczegółowo', callback_data='explain_indicators')],
+    ]
+    
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+
+async def explain_indicators(query, user_id, user):
+    """Explain technical indicators"""
+    text = """📈 WSKAŹNIKI TECHNICZNE
+
+🔍 CO ANALIZUJEMY?
+
+📊 RSI (Relative Strength Index):
+• Zakres: 0-100
+• <30 = Oversold (wyprzedanie)
+• >70 = Overbought (wykupienie)
+• Najlepsze sygnały przy ekstremach
+
+📉 EMA (Exponential Moving Average):
+• Krótka (9) i długa (21)
+• Cross = zmiana trendu
+• Golden Cross = silny BUY
+• Death Cross = silny SELL
+
+🌊 MACD (Moving Average Convergence):
+• Momentum indicator
+• Cross linii = zmiana kierunku
+• Histogram = siła trendu
+
+📊 Volume (Wolumen):
+• Potwierdza ruchy cenowe
+• Wysoki volume = silny sygnał
+• Niski volume = słaby ruch
+
+💰 Bollinger Bands:
+• Zmienność ceny
+• Dotknięcie dolnej = oversold
+• Dotknięcie górnej = overbought
+
+🎯 AI Deep Analysis:
+• DeepSeek AI analizuje wszystkie dane
+• Wykrywa wzorce i struktury
+• Dodaje kontekst rynkowy"""
+
+    keyboard = [
+        [InlineKeyboardButton('🎯 Jak używać alertów?', callback_data='explain_alerts')],
+    ]
+    
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+
+async def explain_alerts(query, user_id, user):
+    """Explain alerts system"""
+    text = """🎯 SYSTEM ALERTÓW
+
+🔔 RODZAJE ALERTÓW:
+
+1️⃣ RSI Extremes:
+   • Oversold (<30) - potencjalny BUY
+   • Overbought (>70) - potencjalny SELL
+
+2️⃣ Duże Wzrosty/Spadki:
+   • Próg domyślny: ±15%
+   • Dostosuj w ustawieniach
+
+3️⃣ Nagłe Zmiany:
+   • Profile: 5%, 10%, 15%, 20%, 25%
+   • Im niższy, tym więcej alertów
+
+4️⃣ Sygnały AI:
+   • Min. confidence: 70%
+   • Najlepsze okazje
+
+⚙️ USTAWIENIA:
+
+📊 Częstotliwość skanowania:
+   • 5 min - bardzo czułe
+   • 15 min - balans ⭐
+   • 30 min - spokojniejsze
+
+🎯 Zakres skanowania:
+   • Top 50 - szybkie
+   • Top 100 - balans ⭐
+   • Top 200 - pełne
+
+💡 WSKAZÓWKI:
+
+✅ Włącz 2-3 typy alertów
+✅ Dostosuj progi do stylu tradingu
+✅ Sprawdzaj alerty na telefonie
+❌ Nie włączaj wszystkiego naraz"""
+
+    keyboard = [
+        [InlineKeyboardButton('⚙️ Idź do ustawień', callback_data='alerts_settings')],
+    ]
+    
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+
+async def explain_settings(query, user_id, user):
+    """Explain settings"""
+    text = """⚙️ USTAWIENIA BOTA
+
+🌍 JĘZYK:
+• Polski, English, Español i więcej
+• Zmień w: Ustawienia → Język
+
+⏱️ INTERWAŁ DOMYŚLNY:
+• Preferowany timeframe dla analiz
+• Np. 15m dla day trading
+• 4h dla swing trading
+
+📊 GIEŁDA:
+• MEXC Futures (domyślnie)
+• Najwięcej par do wyboru
+
+🔔 ALERTY:
+• Włącz/wyłącz każdy typ osobno
+• Dostosuj progi i częstotliwość
+• Historia ostatnich alertów
+
+💎 PREMIUM:
+• Bez limitów skanowania
+• Wszystkie funkcje AI
+• Priorytetowe alerty"""
+
+    keyboard = [
+        [InlineKeyboardButton('⚙️ Otwórz ustawienia', callback_data='settings')],
+    ]
+    
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+
+
+
+async def admin_features_menu(query, user_id, user):
+    """Admin menu - kontrolki funkcji"""
+    from admin_features_config import get_all_features
+    
+    features = get_all_features()
+    
+    sub_status = "🟢 ON" if features.get('subscription_enabled', False) else "🔴 OFF"
+    ref_status = "🟢 ON" if features.get('referral_enabled', True) else "🔴 OFF"
+    
+    text = f"""🎛️ KONTROLKI FUNKCJI
+
+Zarządzaj widocznością funkcji dla użytkowników:
+
+💳 SUBSKRYPCJA: {sub_status}
+🎁 POLECENIA: {ref_status}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+💡 Gdy funkcja jest OFF:
+• Przycisk znika z menu użytkowników
+• Funkcja niedostępna
+
+✅ Gdy funkcja jest ON:
+• Przycisk widoczny w menu
+• Funkcja dostępna dla wszystkich"""
+
+    keyboard = [
+        [InlineKeyboardButton(
+            f"💳 Subskrypcja: {'✅' if features.get('subscription_enabled', False) else '❌'}", 
+            callback_data='admin_toggle_subscription'
+        )],
+        [InlineKeyboardButton(
+            f"🎁 Polecenia: {'✅' if features.get('referral_enabled', True) else '❌'}", 
+            callback_data='admin_toggle_referral'
+        )],
+        [InlineKeyboardButton('⬅️ Admin Panel', callback_data='admin_panel')]
+    ]
+    
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+
+
+async def admin_toggle_feature(query, user_id, feature_name):
+    """Toggle feature on/off"""
+    from admin_features_config import toggle_feature
+    
+    new_status = toggle_feature(feature_name)
+    
+    feature_names = {
+        'subscription_enabled': '💳 Subskrypcja',
+        'referral_enabled': '🎁 Polecenia'
+    }
+    
+    status = "✅ WŁĄCZONA" if new_status else "❌ WYŁĄCZONA"
+    
+    await query.answer(
+        f"{feature_names.get(feature_name)}: {status}", 
+        show_alert=True
+    )
+    
+    user = db.get_user(user_id)
+    await admin_features_menu(query, user_id, user)
+
+
+
+async def admin_signals_stats(query, user_id, user):
+    """Admin panel - statystyki sygnałów AI"""
+    if user_id not in ADMIN_IDS:
+        await query.answer("❌ Brak uprawnień", show_alert=True)
+        return
+    
+    from ai_signals_tracker import tracker
+    
+    # Pobierz statystyki
+    stats_24h = tracker.get_accuracy_stats('24h')
+    stats_48h = tracker.get_accuracy_stats('48h')
+    stats_7d = tracker.get_accuracy_stats('7d')
+    
+    total_signals = len(tracker.signals_db)
+    
+    text = f"""📊 STATYSTYKI SYGNAŁÓW AI
+
+📈 OGÓLNE:
+• Wszystkie sygnały: {total_signals}
+
+⏰ TRAFNOŚĆ:
+• 24h: {stats_24h.get('accuracy_pct', 0)}% ({stats_24h.get('correct_signals', 0)}/{stats_24h.get('total_signals', 0)})
+• 48h: {stats_48h.get('accuracy_pct', 0)}% ({stats_48h.get('correct_signals', 0)}/{stats_48h.get('total_signals', 0)})
+• 7d:  {stats_7d.get('accuracy_pct', 0)}% ({stats_7d.get('correct_signals', 0)}/{stats_7d.get('total_signals', 0)})
+"""
+    
+    # Dodaj breakdown po typach sygnałów
+    if stats_24h.get('by_signal_type'):
+        text += "\n📊 TRAFNOŚĆ WG TYPU (24h):\n"
+        for sig_type, data in stats_24h['by_signal_type'].items():
+            text += f"• {sig_type}: {data['accuracy_pct']}% ({data['correct']}/{data['total']})\n"
+    
+    text += "\n💡 Dane aktualizowane co godzinę przez SignalChecker"
+    
+    keyboard = [
+        [InlineKeyboardButton('🔄 Odśwież', callback_data='admin_signals_stats')],
+        [InlineKeyboardButton('📥 Export JSON', callback_data='admin_export_signals')],
+        [InlineKeyboardButton('⬅️ Admin Panel', callback_data='admin_panel')]
+    ]
+    
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+
+
+async def admin_export_signals(query, user_id, user):
+    """Export signal data to JSON"""
+    if user_id not in ADMIN_IDS:
+        await query.answer("❌ Brak uprawnień", show_alert=True)
+        return
+    
+    from ai_signals_tracker import tracker
+    import os
+    
+    # Export
+    filename = tracker.export_for_analysis(f'signals_export_{int(time.time())}.json')
+    
+    # Sprawdź rozmiar
+    size_mb = os.path.getsize(filename) / (1024 * 1024)
+    
+    text = f"""✅ EXPORT GOTOWY!
+
+📁 Plik: {filename}
+💾 Rozmiar: {size_mb:.2f} MB
+
+Plik zawiera:
+• Wszystkie sygnały
+• Wyniki weryfikacji
+• Statystyki trafności
+• Dane techniczne
+
+Możesz pobrać plik z serwera VPS."""
+    
+    keyboard = [
+        [InlineKeyboardButton('⬅️ Powrót', callback_data='admin_signals_stats')]
+    ]
+    
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+

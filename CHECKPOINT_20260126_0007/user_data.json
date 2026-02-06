@@ -1,0 +1,6 @@
+{
+  "config": {
+    "max_ai_workers": 3
+  },
+  "users": {}
+}

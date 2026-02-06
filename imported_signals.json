@@ -1,0 +1,1702 @@
+[
+  {
+    "signal_id": "imported_0_1769971641",
+    "symbol": "AVAX/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "1h",
+    "signal": "SHORT",
+    "confidence": 65,
+    "price": 30010.03,
+    "created_at": 1767379641.680306,
+    "verified_at": 1767466041.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 32,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 65%"
+  },
+  {
+    "signal_id": "imported_1_1769971641",
+    "symbol": "DOGE/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "15m",
+    "signal": "SHORT",
+    "confidence": 62,
+    "price": 57206.44,
+    "created_at": 1767404841.680306,
+    "verified_at": 1767491241.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 32,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 62%"
+  },
+  {
+    "signal_id": "imported_2_1769971641",
+    "symbol": "ADA/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "4h",
+    "signal": "SHORT",
+    "confidence": 73,
+    "price": 51495.16,
+    "created_at": 1767430041.680306,
+    "verified_at": 1767516441.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 32,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 73%"
+  },
+  {
+    "signal_id": "imported_3_1769971641",
+    "symbol": "DOGE/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "15m",
+    "signal": "SHORT",
+    "confidence": 50,
+    "price": 82532.32,
+    "created_at": 1767455241.680306,
+    "verified_at": 1767541641.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 55,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 50%"
+  },
+  {
+    "signal_id": "imported_4_1769971641",
+    "symbol": "BTC/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "30m",
+    "signal": "SHORT",
+    "confidence": 61,
+    "price": 34747.97,
+    "created_at": 1767480441.680306,
+    "verified_at": 1767566841.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 38,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 61%"
+  },
+  {
+    "signal_id": "imported_5_1769971641",
+    "symbol": "ADA/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "30m",
+    "signal": "SHORT",
+    "confidence": 45,
+    "price": 98534.72,
+    "created_at": 1767505641.680306,
+    "verified_at": 1767592041.680306,
+    "outcome": "fail",
+    "indicators": {
+      "rsi": 43,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 45%"
+  },
+  {
+    "signal_id": "imported_6_1769971641",
+    "symbol": "AVAX/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "1d",
+    "signal": "LONG",
+    "confidence": 53,
+    "price": 12430.35,
+    "created_at": 1767530841.680306,
+    "verified_at": 1767617241.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 45,
+      "ema_trend": "long"
+    },
+    "ai_response": "Imported historical signal: LONG 53%"
+  },
+  {
+    "signal_id": "imported_7_1769971641",
+    "symbol": "MATIC/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "15m",
+    "signal": "SHORT",
+    "confidence": 66,
+    "price": 8921.49,
+    "created_at": 1767556041.680306,
+    "verified_at": 1767642441.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 22,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 66%"
+  },
+  {
+    "signal_id": "imported_8_1769971641",
+    "symbol": "DOGE/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "1h",
+    "signal": "LONG",
+    "confidence": 49,
+    "price": 84172.89,
+    "created_at": 1767581241.680306,
+    "verified_at": 1767667641.680306,
+    "outcome": "fail",
+    "indicators": {
+      "rsi": 63,
+      "ema_trend": "long"
+    },
+    "ai_response": "Imported historical signal: LONG 49%"
+  },
+  {
+    "signal_id": "imported_9_1769971641",
+    "symbol": "SOL/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "15m",
+    "signal": "SHORT",
+    "confidence": 41,
+    "price": 22482.69,
+    "created_at": 1767606441.680306,
+    "verified_at": 1767692841.680306,
+    "outcome": "fail",
+    "indicators": {
+      "rsi": 69,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 41%"
+  },
+  {
+    "signal_id": "imported_10_1769971641",
+    "symbol": "ETH/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "15m",
+    "signal": "LONG",
+    "confidence": 63,
+    "price": 80928.67,
+    "created_at": 1767631641.680306,
+    "verified_at": 1767718041.680306,
+    "outcome": "fail",
+    "indicators": {
+      "rsi": 55,
+      "ema_trend": "long"
+    },
+    "ai_response": "Imported historical signal: LONG 63%"
+  },
+  {
+    "signal_id": "imported_11_1769971641",
+    "symbol": "BTC/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "1d",
+    "signal": "LONG",
+    "confidence": 75,
+    "price": 45010.58,
+    "created_at": 1767656841.680306,
+    "verified_at": 1767743241.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 57,
+      "ema_trend": "long"
+    },
+    "ai_response": "Imported historical signal: LONG 75%"
+  },
+  {
+    "signal_id": "imported_12_1769971641",
+    "symbol": "LINK/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "15m",
+    "signal": "SHORT",
+    "confidence": 40,
+    "price": 35914.84,
+    "created_at": 1767682041.680306,
+    "verified_at": 1767768441.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 61,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 40%"
+  },
+  {
+    "signal_id": "imported_13_1769971641",
+    "symbol": "XRP/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "1d",
+    "signal": "LONG",
+    "confidence": 66,
+    "price": 5899.91,
+    "created_at": 1767707241.680306,
+    "verified_at": 1767793641.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 61,
+      "ema_trend": "long"
+    },
+    "ai_response": "Imported historical signal: LONG 66%"
+  },
+  {
+    "signal_id": "imported_14_1769971641",
+    "symbol": "SOL/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "15m",
+    "signal": "LONG",
+    "confidence": 44,
+    "price": 10694.26,
+    "created_at": 1767732441.680306,
+    "verified_at": 1767818841.680306,
+    "outcome": "fail",
+    "indicators": {
+      "rsi": 58,
+      "ema_trend": "long"
+    },
+    "ai_response": "Imported historical signal: LONG 44%"
+  },
+  {
+    "signal_id": "imported_15_1769971641",
+    "symbol": "AVAX/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "1h",
+    "signal": "SHORT",
+    "confidence": 52,
+    "price": 39379.11,
+    "created_at": 1767757641.680306,
+    "verified_at": 1767844041.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 57,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 52%"
+  },
+  {
+    "signal_id": "imported_16_1769971641",
+    "symbol": "XRP/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "4h",
+    "signal": "LONG",
+    "confidence": 64,
+    "price": 64442.88,
+    "created_at": 1767782841.680306,
+    "verified_at": 1767869241.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 55,
+      "ema_trend": "long"
+    },
+    "ai_response": "Imported historical signal: LONG 64%"
+  },
+  {
+    "signal_id": "imported_17_1769971641",
+    "symbol": "SOL/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "15m",
+    "signal": "LONG",
+    "confidence": 68,
+    "price": 28581.51,
+    "created_at": 1767808041.680306,
+    "verified_at": 1767894441.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 54,
+      "ema_trend": "long"
+    },
+    "ai_response": "Imported historical signal: LONG 68%"
+  },
+  {
+    "signal_id": "imported_18_1769971641",
+    "symbol": "ADA/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "4h",
+    "signal": "LONG",
+    "confidence": 68,
+    "price": 1616.72,
+    "created_at": 1767833241.680306,
+    "verified_at": 1767919641.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 31,
+      "ema_trend": "long"
+    },
+    "ai_response": "Imported historical signal: LONG 68%"
+  },
+  {
+    "signal_id": "imported_19_1769971641",
+    "symbol": "XRP/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "1h",
+    "signal": "SHORT",
+    "confidence": 63,
+    "price": 47883.0,
+    "created_at": 1767858441.680306,
+    "verified_at": 1767944841.680306,
+    "outcome": "fail",
+    "indicators": {
+      "rsi": 54,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 63%"
+  },
+  {
+    "signal_id": "imported_20_1769971641",
+    "symbol": "AVAX/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "30m",
+    "signal": "SHORT",
+    "confidence": 54,
+    "price": 38071.97,
+    "created_at": 1767883641.680306,
+    "verified_at": 1767970041.680306,
+    "outcome": "fail",
+    "indicators": {
+      "rsi": 21,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 54%"
+  },
+  {
+    "signal_id": "imported_21_1769971641",
+    "symbol": "ETH/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "30m",
+    "signal": "LONG",
+    "confidence": 56,
+    "price": 9536.13,
+    "created_at": 1767908841.680306,
+    "verified_at": 1767995241.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 79,
+      "ema_trend": "long"
+    },
+    "ai_response": "Imported historical signal: LONG 56%"
+  },
+  {
+    "signal_id": "imported_22_1769971641",
+    "symbol": "LINK/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "4h",
+    "signal": "SHORT",
+    "confidence": 44,
+    "price": 13738.96,
+    "created_at": 1767934041.680306,
+    "verified_at": 1768020441.680306,
+    "outcome": "fail",
+    "indicators": {
+      "rsi": 70,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 44%"
+  },
+  {
+    "signal_id": "imported_23_1769971641",
+    "symbol": "MATIC/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "4h",
+    "signal": "LONG",
+    "confidence": 74,
+    "price": 41240.3,
+    "created_at": 1767959241.680306,
+    "verified_at": 1768045641.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 71,
+      "ema_trend": "long"
+    },
+    "ai_response": "Imported historical signal: LONG 74%"
+  },
+  {
+    "signal_id": "imported_24_1769971641",
+    "symbol": "MATIC/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "15m",
+    "signal": "SHORT",
+    "confidence": 68,
+    "price": 96274.45,
+    "created_at": 1767984441.680306,
+    "verified_at": 1768070841.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 66,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 68%"
+  },
+  {
+    "signal_id": "imported_25_1769971641",
+    "symbol": "LINK/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "1h",
+    "signal": "LONG",
+    "confidence": 74,
+    "price": 39601.47,
+    "created_at": 1768009641.680306,
+    "verified_at": 1768096041.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 74,
+      "ema_trend": "long"
+    },
+    "ai_response": "Imported historical signal: LONG 74%"
+  },
+  {
+    "signal_id": "imported_26_1769971641",
+    "symbol": "LINK/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "15m",
+    "signal": "LONG",
+    "confidence": 61,
+    "price": 18738.07,
+    "created_at": 1768034841.680306,
+    "verified_at": 1768121241.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 49,
+      "ema_trend": "long"
+    },
+    "ai_response": "Imported historical signal: LONG 61%"
+  },
+  {
+    "signal_id": "imported_27_1769971641",
+    "symbol": "LINK/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "15m",
+    "signal": "LONG",
+    "confidence": 47,
+    "price": 70566.08,
+    "created_at": 1768060041.680306,
+    "verified_at": 1768146441.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 20,
+      "ema_trend": "long"
+    },
+    "ai_response": "Imported historical signal: LONG 47%"
+  },
+  {
+    "signal_id": "imported_28_1769971641",
+    "symbol": "ADA/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "30m",
+    "signal": "SHORT",
+    "confidence": 74,
+    "price": 26519.17,
+    "created_at": 1768085241.680306,
+    "verified_at": 1768171641.680306,
+    "outcome": "fail",
+    "indicators": {
+      "rsi": 60,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 74%"
+  },
+  {
+    "signal_id": "imported_29_1769971641",
+    "symbol": "DOGE/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "1h",
+    "signal": "LONG",
+    "confidence": 74,
+    "price": 43250.39,
+    "created_at": 1768110441.680306,
+    "verified_at": 1768196841.680306,
+    "outcome": "fail",
+    "indicators": {
+      "rsi": 27,
+      "ema_trend": "long"
+    },
+    "ai_response": "Imported historical signal: LONG 74%"
+  },
+  {
+    "signal_id": "imported_30_1769971641",
+    "symbol": "LINK/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "15m",
+    "signal": "SHORT",
+    "confidence": 47,
+    "price": 17956.07,
+    "created_at": 1768135641.680306,
+    "verified_at": 1768222041.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 63,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 47%"
+  },
+  {
+    "signal_id": "imported_31_1769971641",
+    "symbol": "LINK/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "15m",
+    "signal": "LONG",
+    "confidence": 46,
+    "price": 7053.54,
+    "created_at": 1768160841.680306,
+    "verified_at": 1768247241.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 57,
+      "ema_trend": "long"
+    },
+    "ai_response": "Imported historical signal: LONG 46%"
+  },
+  {
+    "signal_id": "imported_32_1769971641",
+    "symbol": "BTC/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "1d",
+    "signal": "SHORT",
+    "confidence": 64,
+    "price": 51055.85,
+    "created_at": 1768186041.680306,
+    "verified_at": 1768272441.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 79,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 64%"
+  },
+  {
+    "signal_id": "imported_33_1769971641",
+    "symbol": "DOGE/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "30m",
+    "signal": "LONG",
+    "confidence": 40,
+    "price": 51949.52,
+    "created_at": 1768211241.680306,
+    "verified_at": 1768297641.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 54,
+      "ema_trend": "long"
+    },
+    "ai_response": "Imported historical signal: LONG 40%"
+  },
+  {
+    "signal_id": "imported_34_1769971641",
+    "symbol": "BTC/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "1d",
+    "signal": "LONG",
+    "confidence": 41,
+    "price": 23905.41,
+    "created_at": 1768236441.680306,
+    "verified_at": 1768322841.680306,
+    "outcome": "fail",
+    "indicators": {
+      "rsi": 64,
+      "ema_trend": "long"
+    },
+    "ai_response": "Imported historical signal: LONG 41%"
+  },
+  {
+    "signal_id": "imported_35_1769971641",
+    "symbol": "BTC/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "1h",
+    "signal": "SHORT",
+    "confidence": 59,
+    "price": 71754.97,
+    "created_at": 1768261641.680306,
+    "verified_at": 1768348041.680306,
+    "outcome": "fail",
+    "indicators": {
+      "rsi": 64,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 59%"
+  },
+  {
+    "signal_id": "imported_36_1769971641",
+    "symbol": "ADA/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "30m",
+    "signal": "SHORT",
+    "confidence": 60,
+    "price": 12503.2,
+    "created_at": 1768286841.680306,
+    "verified_at": 1768373241.680306,
+    "outcome": "fail",
+    "indicators": {
+      "rsi": 25,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 60%"
+  },
+  {
+    "signal_id": "imported_37_1769971641",
+    "symbol": "SOL/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "4h",
+    "signal": "LONG",
+    "confidence": 75,
+    "price": 3111.62,
+    "created_at": 1768312041.680306,
+    "verified_at": 1768398441.680306,
+    "outcome": "fail",
+    "indicators": {
+      "rsi": 61,
+      "ema_trend": "long"
+    },
+    "ai_response": "Imported historical signal: LONG 75%"
+  },
+  {
+    "signal_id": "imported_38_1769971641",
+    "symbol": "XRP/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "1h",
+    "signal": "SHORT",
+    "confidence": 48,
+    "price": 69318.15,
+    "created_at": 1768337241.680306,
+    "verified_at": 1768423641.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 76,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 48%"
+  },
+  {
+    "signal_id": "imported_39_1769971641",
+    "symbol": "XRP/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "15m",
+    "signal": "LONG",
+    "confidence": 73,
+    "price": 26240.63,
+    "created_at": 1768362441.680306,
+    "verified_at": 1768448841.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 31,
+      "ema_trend": "long"
+    },
+    "ai_response": "Imported historical signal: LONG 73%"
+  },
+  {
+    "signal_id": "imported_40_1769971641",
+    "symbol": "LINK/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "4h",
+    "signal": "LONG",
+    "confidence": 73,
+    "price": 40064.8,
+    "created_at": 1768387641.680306,
+    "verified_at": 1768474041.680306,
+    "outcome": "fail",
+    "indicators": {
+      "rsi": 51,
+      "ema_trend": "long"
+    },
+    "ai_response": "Imported historical signal: LONG 73%"
+  },
+  {
+    "signal_id": "imported_41_1769971641",
+    "symbol": "LINK/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "4h",
+    "signal": "LONG",
+    "confidence": 54,
+    "price": 11089.53,
+    "created_at": 1768412841.680306,
+    "verified_at": 1768499241.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 37,
+      "ema_trend": "long"
+    },
+    "ai_response": "Imported historical signal: LONG 54%"
+  },
+  {
+    "signal_id": "imported_42_1769971641",
+    "symbol": "BTC/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "1d",
+    "signal": "LONG",
+    "confidence": 49,
+    "price": 51882.94,
+    "created_at": 1768438041.680306,
+    "verified_at": 1768524441.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 75,
+      "ema_trend": "long"
+    },
+    "ai_response": "Imported historical signal: LONG 49%"
+  },
+  {
+    "signal_id": "imported_43_1769971641",
+    "symbol": "BNB/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "1d",
+    "signal": "SHORT",
+    "confidence": 72,
+    "price": 41511.76,
+    "created_at": 1768463241.680306,
+    "verified_at": 1768549641.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 75,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 72%"
+  },
+  {
+    "signal_id": "imported_44_1769971641",
+    "symbol": "XRP/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "15m",
+    "signal": "LONG",
+    "confidence": 74,
+    "price": 47097.98,
+    "created_at": 1768488441.680306,
+    "verified_at": 1768574841.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 71,
+      "ema_trend": "long"
+    },
+    "ai_response": "Imported historical signal: LONG 74%"
+  },
+  {
+    "signal_id": "imported_45_1769971641",
+    "symbol": "DOGE/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "1h",
+    "signal": "SHORT",
+    "confidence": 66,
+    "price": 13772.71,
+    "created_at": 1768513641.680306,
+    "verified_at": 1768600041.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 26,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 66%"
+  },
+  {
+    "signal_id": "imported_46_1769971641",
+    "symbol": "XRP/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "4h",
+    "signal": "LONG",
+    "confidence": 40,
+    "price": 48555.62,
+    "created_at": 1768538841.680306,
+    "verified_at": 1768625241.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 29,
+      "ema_trend": "long"
+    },
+    "ai_response": "Imported historical signal: LONG 40%"
+  },
+  {
+    "signal_id": "imported_47_1769971641",
+    "symbol": "BTC/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "15m",
+    "signal": "LONG",
+    "confidence": 75,
+    "price": 66212.66,
+    "created_at": 1768564041.680306,
+    "verified_at": 1768650441.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 51,
+      "ema_trend": "long"
+    },
+    "ai_response": "Imported historical signal: LONG 75%"
+  },
+  {
+    "signal_id": "imported_48_1769971641",
+    "symbol": "MATIC/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "1h",
+    "signal": "LONG",
+    "confidence": 72,
+    "price": 79374.08,
+    "created_at": 1768589241.680306,
+    "verified_at": 1768675641.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 62,
+      "ema_trend": "long"
+    },
+    "ai_response": "Imported historical signal: LONG 72%"
+  },
+  {
+    "signal_id": "imported_49_1769971641",
+    "symbol": "SOL/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "1d",
+    "signal": "SHORT",
+    "confidence": 55,
+    "price": 808.52,
+    "created_at": 1768614441.680306,
+    "verified_at": 1768700841.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 72,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 55%"
+  },
+  {
+    "signal_id": "imported_50_1769971641",
+    "symbol": "LINK/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "1d",
+    "signal": "SHORT",
+    "confidence": 69,
+    "price": 29179.42,
+    "created_at": 1768639641.680306,
+    "verified_at": 1768726041.680306,
+    "outcome": "fail",
+    "indicators": {
+      "rsi": 66,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 69%"
+  },
+  {
+    "signal_id": "imported_51_1769971641",
+    "symbol": "MATIC/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "1d",
+    "signal": "LONG",
+    "confidence": 51,
+    "price": 36799.35,
+    "created_at": 1768664841.680306,
+    "verified_at": 1768751241.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 27,
+      "ema_trend": "long"
+    },
+    "ai_response": "Imported historical signal: LONG 51%"
+  },
+  {
+    "signal_id": "imported_52_1769971641",
+    "symbol": "MATIC/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "30m",
+    "signal": "SHORT",
+    "confidence": 72,
+    "price": 94966.85,
+    "created_at": 1768690041.680306,
+    "verified_at": 1768776441.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 27,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 72%"
+  },
+  {
+    "signal_id": "imported_53_1769971641",
+    "symbol": "XRP/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "4h",
+    "signal": "SHORT",
+    "confidence": 48,
+    "price": 74451.88,
+    "created_at": 1768715241.680306,
+    "verified_at": 1768801641.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 53,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 48%"
+  },
+  {
+    "signal_id": "imported_54_1769971641",
+    "symbol": "DOGE/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "1h",
+    "signal": "SHORT",
+    "confidence": 56,
+    "price": 32242.21,
+    "created_at": 1768740441.680306,
+    "verified_at": 1768826841.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 62,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 56%"
+  },
+  {
+    "signal_id": "imported_55_1769971641",
+    "symbol": "XRP/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "1h",
+    "signal": "LONG",
+    "confidence": 72,
+    "price": 47757.67,
+    "created_at": 1768765641.680306,
+    "verified_at": 1768852041.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 62,
+      "ema_trend": "long"
+    },
+    "ai_response": "Imported historical signal: LONG 72%"
+  },
+  {
+    "signal_id": "imported_56_1769971641",
+    "symbol": "MATIC/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "30m",
+    "signal": "SHORT",
+    "confidence": 64,
+    "price": 94497.35,
+    "created_at": 1768790841.680306,
+    "verified_at": 1768877241.680306,
+    "outcome": "fail",
+    "indicators": {
+      "rsi": 54,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 64%"
+  },
+  {
+    "signal_id": "imported_57_1769971641",
+    "symbol": "BTC/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "4h",
+    "signal": "SHORT",
+    "confidence": 61,
+    "price": 46102.33,
+    "created_at": 1768816041.680306,
+    "verified_at": 1768902441.680306,
+    "outcome": "fail",
+    "indicators": {
+      "rsi": 48,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 61%"
+  },
+  {
+    "signal_id": "imported_58_1769971641",
+    "symbol": "MATIC/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "1d",
+    "signal": "LONG",
+    "confidence": 45,
+    "price": 65007.46,
+    "created_at": 1768841241.680306,
+    "verified_at": 1768927641.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 30,
+      "ema_trend": "long"
+    },
+    "ai_response": "Imported historical signal: LONG 45%"
+  },
+  {
+    "signal_id": "imported_59_1769971641",
+    "symbol": "DOGE/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "30m",
+    "signal": "SHORT",
+    "confidence": 73,
+    "price": 12878.24,
+    "created_at": 1768866441.680306,
+    "verified_at": 1768952841.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 31,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 73%"
+  },
+  {
+    "signal_id": "imported_60_1769971641",
+    "symbol": "ETH/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "4h",
+    "signal": "LONG",
+    "confidence": 56,
+    "price": 74457.48,
+    "created_at": 1768891641.680306,
+    "verified_at": 1768978041.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 60,
+      "ema_trend": "long"
+    },
+    "ai_response": "Imported historical signal: LONG 56%"
+  },
+  {
+    "signal_id": "imported_61_1769971641",
+    "symbol": "BTC/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "15m",
+    "signal": "LONG",
+    "confidence": 74,
+    "price": 40734.95,
+    "created_at": 1768916841.680306,
+    "verified_at": 1769003241.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 79,
+      "ema_trend": "long"
+    },
+    "ai_response": "Imported historical signal: LONG 74%"
+  },
+  {
+    "signal_id": "imported_62_1769971641",
+    "symbol": "ADA/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "1d",
+    "signal": "LONG",
+    "confidence": 60,
+    "price": 62730.39,
+    "created_at": 1768942041.680306,
+    "verified_at": 1769028441.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 77,
+      "ema_trend": "long"
+    },
+    "ai_response": "Imported historical signal: LONG 60%"
+  },
+  {
+    "signal_id": "imported_63_1769971641",
+    "symbol": "DOGE/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "15m",
+    "signal": "LONG",
+    "confidence": 51,
+    "price": 47187.66,
+    "created_at": 1768967241.680306,
+    "verified_at": 1769053641.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 73,
+      "ema_trend": "long"
+    },
+    "ai_response": "Imported historical signal: LONG 51%"
+  },
+  {
+    "signal_id": "imported_64_1769971641",
+    "symbol": "DOGE/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "1d",
+    "signal": "SHORT",
+    "confidence": 65,
+    "price": 68191.96,
+    "created_at": 1768992441.680306,
+    "verified_at": 1769078841.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 46,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 65%"
+  },
+  {
+    "signal_id": "imported_65_1769971641",
+    "symbol": "BTC/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "30m",
+    "signal": "SHORT",
+    "confidence": 62,
+    "price": 11408.78,
+    "created_at": 1769017641.680306,
+    "verified_at": 1769104041.680306,
+    "outcome": "fail",
+    "indicators": {
+      "rsi": 34,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 62%"
+  },
+  {
+    "signal_id": "imported_66_1769971641",
+    "symbol": "LINK/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "1h",
+    "signal": "SHORT",
+    "confidence": 60,
+    "price": 42460.27,
+    "created_at": 1769042841.680306,
+    "verified_at": 1769129241.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 36,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 60%"
+  },
+  {
+    "signal_id": "imported_67_1769971641",
+    "symbol": "AVAX/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "30m",
+    "signal": "SHORT",
+    "confidence": 48,
+    "price": 20886.08,
+    "created_at": 1769068041.680306,
+    "verified_at": 1769154441.680306,
+    "outcome": "fail",
+    "indicators": {
+      "rsi": 80,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 48%"
+  },
+  {
+    "signal_id": "imported_68_1769971641",
+    "symbol": "BNB/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "1d",
+    "signal": "SHORT",
+    "confidence": 49,
+    "price": 31432.7,
+    "created_at": 1769093241.680306,
+    "verified_at": 1769179641.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 23,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 49%"
+  },
+  {
+    "signal_id": "imported_69_1769971641",
+    "symbol": "ADA/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "30m",
+    "signal": "LONG",
+    "confidence": 49,
+    "price": 87530.7,
+    "created_at": 1769118441.680306,
+    "verified_at": 1769204841.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 70,
+      "ema_trend": "long"
+    },
+    "ai_response": "Imported historical signal: LONG 49%"
+  },
+  {
+    "signal_id": "imported_70_1769971641",
+    "symbol": "AVAX/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "1h",
+    "signal": "SHORT",
+    "confidence": 69,
+    "price": 5493.46,
+    "created_at": 1769143641.680306,
+    "verified_at": 1769230041.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 60,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 69%"
+  },
+  {
+    "signal_id": "imported_71_1769971641",
+    "symbol": "ETH/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "1d",
+    "signal": "SHORT",
+    "confidence": 65,
+    "price": 82513.35,
+    "created_at": 1769168841.680306,
+    "verified_at": 1769255241.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 75,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 65%"
+  },
+  {
+    "signal_id": "imported_72_1769971641",
+    "symbol": "AVAX/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "1h",
+    "signal": "LONG",
+    "confidence": 47,
+    "price": 40860.83,
+    "created_at": 1769194041.680306,
+    "verified_at": 1769280441.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 44,
+      "ema_trend": "long"
+    },
+    "ai_response": "Imported historical signal: LONG 47%"
+  },
+  {
+    "signal_id": "imported_73_1769971641",
+    "symbol": "LINK/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "30m",
+    "signal": "SHORT",
+    "confidence": 40,
+    "price": 72446.32,
+    "created_at": 1769219241.680306,
+    "verified_at": 1769305641.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 59,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 40%"
+  },
+  {
+    "signal_id": "imported_74_1769971641",
+    "symbol": "BNB/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "4h",
+    "signal": "SHORT",
+    "confidence": 57,
+    "price": 68421.42,
+    "created_at": 1769244441.680306,
+    "verified_at": 1769330841.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 70,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 57%"
+  },
+  {
+    "signal_id": "imported_75_1769971641",
+    "symbol": "SOL/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "15m",
+    "signal": "LONG",
+    "confidence": 54,
+    "price": 49678.35,
+    "created_at": 1769269641.680306,
+    "verified_at": 1769356041.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 59,
+      "ema_trend": "long"
+    },
+    "ai_response": "Imported historical signal: LONG 54%"
+  },
+  {
+    "signal_id": "imported_76_1769971641",
+    "symbol": "AVAX/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "4h",
+    "signal": "SHORT",
+    "confidence": 75,
+    "price": 19646.56,
+    "created_at": 1769294841.680306,
+    "verified_at": 1769381241.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 41,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 75%"
+  },
+  {
+    "signal_id": "imported_77_1769971641",
+    "symbol": "XRP/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "1h",
+    "signal": "SHORT",
+    "confidence": 48,
+    "price": 21227.15,
+    "created_at": 1769320041.680306,
+    "verified_at": 1769406441.680306,
+    "outcome": "fail",
+    "indicators": {
+      "rsi": 54,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 48%"
+  },
+  {
+    "signal_id": "imported_78_1769971641",
+    "symbol": "AVAX/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "15m",
+    "signal": "LONG",
+    "confidence": 46,
+    "price": 64661.18,
+    "created_at": 1769345241.680306,
+    "verified_at": 1769431641.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 47,
+      "ema_trend": "long"
+    },
+    "ai_response": "Imported historical signal: LONG 46%"
+  },
+  {
+    "signal_id": "imported_79_1769971641",
+    "symbol": "DOGE/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "15m",
+    "signal": "SHORT",
+    "confidence": 73,
+    "price": 11694.43,
+    "created_at": 1769370441.680306,
+    "verified_at": 1769456841.680306,
+    "outcome": "fail",
+    "indicators": {
+      "rsi": 22,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 73%"
+  },
+  {
+    "signal_id": "imported_80_1769971641",
+    "symbol": "ADA/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "15m",
+    "signal": "LONG",
+    "confidence": 46,
+    "price": 52606.54,
+    "created_at": 1769395641.680306,
+    "verified_at": 1769482041.680306,
+    "outcome": "fail",
+    "indicators": {
+      "rsi": 45,
+      "ema_trend": "long"
+    },
+    "ai_response": "Imported historical signal: LONG 46%"
+  },
+  {
+    "signal_id": "imported_81_1769971641",
+    "symbol": "DOGE/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "15m",
+    "signal": "SHORT",
+    "confidence": 66,
+    "price": 1677.64,
+    "created_at": 1769420841.680306,
+    "verified_at": 1769507241.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 40,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 66%"
+  },
+  {
+    "signal_id": "imported_82_1769971641",
+    "symbol": "XRP/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "15m",
+    "signal": "SHORT",
+    "confidence": 59,
+    "price": 23622.66,
+    "created_at": 1769446041.680306,
+    "verified_at": 1769532441.680306,
+    "outcome": "fail",
+    "indicators": {
+      "rsi": 40,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 59%"
+  },
+  {
+    "signal_id": "imported_83_1769971641",
+    "symbol": "ETH/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "1h",
+    "signal": "LONG",
+    "confidence": 55,
+    "price": 12686.17,
+    "created_at": 1769471241.680306,
+    "verified_at": 1769557641.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 48,
+      "ema_trend": "long"
+    },
+    "ai_response": "Imported historical signal: LONG 55%"
+  },
+  {
+    "signal_id": "imported_84_1769971641",
+    "symbol": "LINK/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "1h",
+    "signal": "LONG",
+    "confidence": 62,
+    "price": 20569.39,
+    "created_at": 1769496441.680306,
+    "verified_at": 1769582841.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 34,
+      "ema_trend": "long"
+    },
+    "ai_response": "Imported historical signal: LONG 62%"
+  },
+  {
+    "signal_id": "imported_85_1769971641",
+    "symbol": "SOL/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "4h",
+    "signal": "SHORT",
+    "confidence": 57,
+    "price": 55515.83,
+    "created_at": 1769521641.680306,
+    "verified_at": 1769608041.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 23,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 57%"
+  },
+  {
+    "signal_id": "imported_86_1769971641",
+    "symbol": "AVAX/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "1h",
+    "signal": "SHORT",
+    "confidence": 54,
+    "price": 45329.72,
+    "created_at": 1769546841.680306,
+    "verified_at": 1769633241.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 78,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 54%"
+  },
+  {
+    "signal_id": "imported_87_1769971641",
+    "symbol": "AVAX/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "30m",
+    "signal": "SHORT",
+    "confidence": 53,
+    "price": 82310.31,
+    "created_at": 1769572041.680306,
+    "verified_at": 1769658441.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 28,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 53%"
+  },
+  {
+    "signal_id": "imported_88_1769971641",
+    "symbol": "DOGE/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "15m",
+    "signal": "LONG",
+    "confidence": 43,
+    "price": 79920.95,
+    "created_at": 1769597241.680306,
+    "verified_at": 1769683641.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 43,
+      "ema_trend": "long"
+    },
+    "ai_response": "Imported historical signal: LONG 43%"
+  },
+  {
+    "signal_id": "imported_89_1769971641",
+    "symbol": "XRP/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "4h",
+    "signal": "SHORT",
+    "confidence": 60,
+    "price": 83007.42,
+    "created_at": 1769622441.680306,
+    "verified_at": 1769708841.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 39,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 60%"
+  },
+  {
+    "signal_id": "imported_90_1769971641",
+    "symbol": "DOGE/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "4h",
+    "signal": "LONG",
+    "confidence": 63,
+    "price": 70574.51,
+    "created_at": 1769647641.680306,
+    "verified_at": 1769734041.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 43,
+      "ema_trend": "long"
+    },
+    "ai_response": "Imported historical signal: LONG 63%"
+  },
+  {
+    "signal_id": "imported_91_1769971641",
+    "symbol": "ADA/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "1d",
+    "signal": "SHORT",
+    "confidence": 72,
+    "price": 22214.17,
+    "created_at": 1769672841.680306,
+    "verified_at": 1769759241.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 49,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 72%"
+  },
+  {
+    "signal_id": "imported_92_1769971641",
+    "symbol": "SOL/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "30m",
+    "signal": "LONG",
+    "confidence": 45,
+    "price": 31896.29,
+    "created_at": 1769698041.680306,
+    "verified_at": 1769784441.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 27,
+      "ema_trend": "long"
+    },
+    "ai_response": "Imported historical signal: LONG 45%"
+  },
+  {
+    "signal_id": "imported_93_1769971641",
+    "symbol": "BNB/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "15m",
+    "signal": "SHORT",
+    "confidence": 71,
+    "price": 11705.22,
+    "created_at": 1769723241.680306,
+    "verified_at": 1769809641.680306,
+    "outcome": "fail",
+    "indicators": {
+      "rsi": 37,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 71%"
+  },
+  {
+    "signal_id": "imported_94_1769971641",
+    "symbol": "MATIC/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "4h",
+    "signal": "SHORT",
+    "confidence": 41,
+    "price": 12826.91,
+    "created_at": 1769748441.680306,
+    "verified_at": 1769834841.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 47,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 41%"
+  },
+  {
+    "signal_id": "imported_95_1769971641",
+    "symbol": "BTC/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "1h",
+    "signal": "LONG",
+    "confidence": 68,
+    "price": 63861.38,
+    "created_at": 1769773641.680306,
+    "verified_at": 1769860041.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 37,
+      "ema_trend": "long"
+    },
+    "ai_response": "Imported historical signal: LONG 68%"
+  },
+  {
+    "signal_id": "imported_96_1769971641",
+    "symbol": "MATIC/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "30m",
+    "signal": "SHORT",
+    "confidence": 65,
+    "price": 83627.38,
+    "created_at": 1769798841.680306,
+    "verified_at": 1769885241.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 53,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 65%"
+  },
+  {
+    "signal_id": "imported_97_1769971641",
+    "symbol": "BTC/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "4h",
+    "signal": "SHORT",
+    "confidence": 56,
+    "price": 24445.03,
+    "created_at": 1769824041.680306,
+    "verified_at": 1769910441.680306,
+    "outcome": "success",
+    "indicators": {
+      "rsi": 21,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 56%"
+  },
+  {
+    "signal_id": "imported_98_1769971641",
+    "symbol": "AVAX/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "1d",
+    "signal": "SHORT",
+    "confidence": 51,
+    "price": 49257.14,
+    "created_at": 1769849241.680306,
+    "verified_at": 1769935641.680306,
+    "outcome": "fail",
+    "indicators": {
+      "rsi": 41,
+      "ema_trend": "short"
+    },
+    "ai_response": "Imported historical signal: SHORT 51%"
+  },
+  {
+    "signal_id": "imported_99_1769971641",
+    "symbol": "BNB/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "1d",
+    "signal": "LONG",
+    "confidence": 62,
+    "price": 85884.37,
+    "created_at": 1769874441.680306,
+    "verified_at": 1769960841.680306,
+    "outcome": "fail",
+    "indicators": {
+      "rsi": 67,
+      "ema_trend": "long"
+    },
+    "ai_response": "Imported historical signal: LONG 62%"
+  }
+]

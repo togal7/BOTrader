@@ -1,0 +1,11 @@
+{
+  "user_id": "5157140630",
+  "alert_data": {
+    "type": "big_gain",
+    "symbol": "CUDIS/USDT:USDT",
+    "message": "\ud83d\ude80 DU\u017bY WZROST: CUDIS/USDT:USDT\n\ud83d\udcb0 Cena: $0.01696\n\ud83d\udcc8 Zmiana 24h: +17.77%",
+    "timestamp": "2026-02-05T19:03:13.115942"
+  },
+  "created_at": "2026-02-05T19:03:13.116040",
+  "status": "pending"
+}

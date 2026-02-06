@@ -1,0 +1,90 @@
+from datetime import datetime
+from config import USDT_TRON_ADDRESS
+
+def format_price(price: float) -> str:
+    """Formatuje cenę"""
+    if price >= 1000:
+        return f"{price:,.2f}"
+    elif price >= 1:
+        return f"{price:.4f}"
+    else:
+        return f"{price:.8f}"
+
+def format_percent(value: float) -> str:
+    """Formatuje procent"""
+    emoji = "🟢" if value > 0 else "🔴" if value < 0 else "⚪"
+    return f"{emoji} {value:+.2f}%"
+
+def format_subscription_status(end_date: str, is_blocked: bool) -> str:
+    """Formatuje status subskrypcji"""
+    if is_blocked:
+        return "❌ ZABLOKOWANY"
+    
+    end = datetime.fromisoformat(end_date)
+    now = datetime.now()
+    
+    if end < now:
+        return "⏰ WYGASŁA"
+    
+    days_left = (end - now).days
+    
+    if days_left == 0:
+        return "⚠️ WYGASA DZIŚ"
+    elif days_left < 3:
+        return f"⚠️ Zostało {days_left} dni"
+    else:
+        return f"✅ Aktywna ({days_left} dni)"
+
+def build_payment_instructions() -> str:
+    """Instrukcja płatności"""
+    return f"""💳 INSTRUKCJA PŁATNOŚCI
+
+1️⃣ Wyślij 10 USDT (TRC20) na adres:
+{USDT_TRON_ADDRESS}
+
+2️⃣ Po wysłaniu, wyślij botowi:
+- Hash transakcji (TxID)
+- Screenshot z portfela
+
+3️⃣ Admin aktywuje subskrypcję w ciągu 24h
+
+⚠️ WAŻNE:
+- Tylko sieć TRON (TRC20)
+- Dokładnie 10 USDT
+- Nie wysyłaj innych tokenów"""
+
+def format_signal_message(symbol: str, ai_result: dict, price: float, change: float) -> str:
+    """Formatuje wiadomość z sygnałem"""
+    signal = ai_result.get('signal', 'WAIT')
+    confidence = ai_result.get('confidence', 0)
+    reason = ai_result.get('reason', 'Brak uzasadnienia')
+    analysis = ai_result.get('analysis', '')
+    
+    signal_emoji = {
+        'LONG': '🟢',
+        'SHORT': '🔴',
+        'WAIT': '⚪'
+    }
+    
+    # Usuń znaki specjalne które mogą powodować błędy parsowania Markdown
+    reason_clean = reason.replace('*', '').replace('_', '').replace('`', '').replace('[', '').replace(']', '')
+    analysis_clean = analysis.replace('*', '').replace('_', '').replace('`', '').replace('[', '').replace(']', '')
+    
+    message = f"""🤖 SYGNAŁ AI TRADER
+
+📊 Para: {symbol}
+💰 Cena: {format_price(price)}
+📈 Zmiana 24h: {format_percent(change)}
+
+{signal_emoji.get(signal, '⚪')} Sygnał: {signal}
+🎯 Pewność: {confidence}%
+
+📝 Uzasadnienie:
+{reason_clean[:200]}
+
+🔍 Analiza:
+{analysis_clean[:300]}
+
+⚠️ Disclaimer: To nie jest porada finansowa. Zawsze DYOR."""
+    
+    return message
