@@ -51,7 +51,9 @@ class AISignalsTracker:
         price: float,
         indicators: Dict,
         ai_response: str,
-        user_id: int = None
+        user_id: int = None,
+        source: str = 'unknown',
+        ai_mode: str = 'unknown'
     ) -> str:
         """
         Record a new AI signal
@@ -70,6 +72,8 @@ class AISignalsTracker:
             'signal': signal,  # BUY/SELL/HOLD/WAIT
             'confidence': confidence,
             'entry_price': price,
+            'source': source,  # manual, auto, extreme, search, callback
+            'ai_mode': ai_mode,  # fast, accurate, auto
             'indicators': {
                 'rsi': indicators.get('rsi', 0),
                 'ema_cross': indicators.get('ema_cross', False),
