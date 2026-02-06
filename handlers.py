@@ -1691,11 +1691,11 @@ def format_analysis_report(analysis, lang='pl'):
 💡 Rekomendacja: Poczekaj na wyraźniejszy sygnał!"""
     else:
         reco_text = f"""🎯 REKOMENDACJE:
-• Entry: ${entry:.6f}
-• TP1: ${signal['tp1']:.6f} ({tp1_pct:+.2f}%)
-• TP2: ${signal['tp2']:.6f} ({tp2_pct:+.2f}%)
-• TP3: ${signal['tp3']:.6f} ({tp3_pct:+.2f}%)
-• Stop Loss: ${signal['sl']:.6f}
+💵 Entry: ${entry:.6f}
+🎯 TP1: ${signal['tp1']:.6f} ({tp1_pct:+.2f}%)
+🎯 TP2: ${signal['tp2']:.6f} ({tp2_pct:+.2f}%)
+🎯 TP3: ${signal['tp3']:.6f} ({tp3_pct:+.2f}%)
+🛡️ Stop Loss: ${signal['sl']:.6f}
 • R/R Ratio: {signal['rr_ratio']:.2f}"""
     text = f"""{direction_emoji} {t('signal', lang)} AI - {symbol}
 {'='*30}
@@ -2277,7 +2277,7 @@ async def show_alert_detail(query, user_id, user, index):
         signal = analysis.get('signal', 'NEUTRAL')
         confidence = analysis.get('confidence', 0)
         rsi = analysis.get('rsi', 0)
-        signal_emoji = {'LONG': '🟢', 'SHORT': '🔴', 'NEUTRAL': '⚪'}.get(signal, '⚪')
+        signal_emoji = {'LONG': '🟢', 'SHORT': '📉', 'NEUTRAL': '⚪'}.get(signal, '⚪')
         text = f"""📊 ANALIZA: {symbol.split('/')[0]}
 🔔 Alert: {alert['alert_type'].upper()}
 ⏰ {alert.get('triggered_at', '')[:16]}
