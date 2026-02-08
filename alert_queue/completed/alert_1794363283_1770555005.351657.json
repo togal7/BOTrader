@@ -1,0 +1,11 @@
+{
+  "user_id": "1794363283",
+  "alert_data": {
+    "type": "big_gain",
+    "symbol": "MOLT/USDT:USDT",
+    "message": "\ud83d\ude80 DU\u017bY WZROST: MOLT/USDT:USDT\n\ud83d\udcb0 Cena: $0.000111\n\ud83d\udcc8 Zmiana 24h: +50.40%",
+    "timestamp": "2026-02-08T13:50:05.351614"
+  },
+  "created_at": "2026-02-08T13:50:05.351695",
+  "status": "pending"
+}

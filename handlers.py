@@ -93,6 +93,7 @@ Status: {sub_status}
         [InlineKeyboardButton("🔍 Wyszukaj parę", callback_data="search_pair")],
         [InlineKeyboardButton("📊 Skaner ekstremów", callback_data="scan_extremes")],
         [InlineKeyboardButton("🎯 Sygnały AI", callback_data='ai_signals')],
+        [InlineKeyboardButton("💼 Portfolio", callback_data="portfolio_main")],
         [InlineKeyboardButton("🔔 Alerty", callback_data="alerts_menu")],
         [InlineKeyboardButton("💬 Czat z adminem", callback_data='admin_chat')],
         [InlineKeyboardButton("⚙️ Ustawienia", callback_data="settings")],
@@ -112,6 +113,36 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not user:
         await query.edit_message_text("❌ Użytkownik nie znaleziony. Wyślij /start")
         return
+
+    # Portfolio callbacks
+    if query.data.startswith('portfolio_'):
+        if query.data == 'portfolio_main':
+            await portfolio_main(query, user_id, user)
+        elif query.data == 'portfolio_dashboard':
+            await portfolio_dashboard(query, user_id, user)
+        elif query.data == 'portfolio_open':
+            await portfolio_open(query, user_id, user)
+        elif query.data == 'portfolio_add_start':
+            await portfolio_add_start(query, user_id, user)
+        elif query.data.startswith('portfolio_view_'):
+            pos_id = query.data.replace('portfolio_view_', '')
+            await portfolio_view(query, user_id, user, pos_id)
+        elif query.data.startswith('portfolio_close_confirm_'):
+            pos_id = query.data.replace('portfolio_close_confirm_', '')
+            await portfolio_close_confirm(query, user_id, user, pos_id)
+        elif query.data.startswith('portfolio_close_yes_'):
+            pos_id = query.data.replace('portfolio_close_yes_', '')
+            await portfolio_close_execute(query, user_id, user, pos_id)
+        elif query.data.startswith('portfolio_type_'):
+            pos_type = query.data.replace('portfolio_type_', '')
+            await handle_portfolio_type(query, user_id, user, pos_type)
+        elif query.data.startswith('portfolio_lev_'):
+            leverage = int(query.data.replace('portfolio_lev_', ''))
+            await handle_portfolio_leverage(query, user_id, user, leverage)
+        elif query.data == 'portfolio_skip_targets':
+            await finish_portfolio_add(query, user_id, user, None, None, None, None)
+        return
+    
     data = query.data
     print(f"DEBUG: Callback data: {data}")
     user['last_active'] = datetime.now().isoformat()
@@ -1031,6 +1062,7 @@ Status: {sub_status}
         [InlineKeyboardButton("🔍 Wyszukaj parę", callback_data="search_pair")],
         [InlineKeyboardButton("📊 Skaner ekstremów", callback_data="scan_extremes")],
         [InlineKeyboardButton("🎯 Sygnały AI", callback_data='ai_signals')],
+        [InlineKeyboardButton("💼 Portfolio", callback_data="portfolio_main")],
         [InlineKeyboardButton("🔔 Alerty", callback_data="alerts_menu")],
         [InlineKeyboardButton("💬 Czat z adminem", callback_data='admin_chat')],
         [InlineKeyboardButton("⚙️ Ustawienia", callback_data="settings")],
@@ -3580,4 +3612,492 @@ Możesz pobrać plik z serwera VPS."""
     ]
     
     await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+
+
+# ============================================================================
+# PORTFOLIO TRACKER - Complete Implementation
+# ============================================================================
+
+from portfolio_manager import portfolio
+
+async def portfolio_main(query, user_id, user):
+    """Portfolio main menu"""
+    stats = portfolio.get_stats(user_id)
+    open_positions = portfolio.get_open_positions(user_id)
+    
+    text = f"""💼 PORTFOLIO TRACKER
+
+📊 STATYSTYKI:
+• Open positions: {len(open_positions)}
+• Total trades: {stats['total_trades']}
+• Win rate: {stats['win_rate']:.1f}%
+• Total PnL: ${stats['total_realized_pnl']:.2f}
+
+🏆 BEST/WORST:
+• Best trade: ${stats['best_trade']:.2f}
+• Worst trade: ${stats['worst_trade']:.2f}
+"""
+    
+    keyboard = [
+        [InlineKeyboardButton('📊 Dashboard', callback_data='portfolio_dashboard')],
+        [InlineKeyboardButton('➕ Add Position', callback_data='portfolio_add_start')],
+        [InlineKeyboardButton('📋 Open Positions', callback_data='portfolio_open')],
+        [InlineKeyboardButton('⬅️ Main Menu', callback_data='back_main')]
+    ]
+    
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+
+async def portfolio_dashboard(query, user_id, user):
+    """Portfolio dashboard with live PnL"""
+    from config import exchange_api
+    
+    open_positions = portfolio.get_open_positions(user_id)
+    
+    if not open_positions:
+        text = "📊 DASHBOARD\n\n❌ No open positions\n\nAdd your first position to start tracking!"
+        keyboard = [
+            [InlineKeyboardButton('➕ Add Position', callback_data='portfolio_add_start')],
+            [InlineKeyboardButton('⬅️ Back', callback_data='portfolio_main')]
+        ]
+        await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+        return
+    
+    total_pnl_usd = 0
+    total_size = 0
+    position_texts = []
+    
+    for pos in open_positions[:10]:
+        try:
+            ticker = await exchange_api.get_ticker(pos['symbol'], 'mexc')
+            if ticker and 'last' in ticker:
+                current_price = ticker['last']
+                pnl_data = portfolio.calculate_pnl(pos, current_price)
+                
+                total_pnl_usd += pnl_data['pnl_usd']
+                total_size += pos['size']
+                
+                emoji = '🚀' if pos['type'] == 'LONG' else '📉'
+                status_emoji = '🟢' if pnl_data['pnl_usd'] > 0 else '🔴' if pnl_data['pnl_usd'] < 0 else '⚪'
+                
+                pos_text = f"{emoji} {pos['symbol']}\n"
+                pos_text += f"  {status_emoji} PnL: ${pnl_data['pnl_usd']:.2f} ({pnl_data['pnl_pct']:.2f}%)\n"
+                pos_text += f"  Entry: ${pos['entry']:.4f} → Now: ${current_price:.4f}"
+                
+                position_texts.append(pos_text)
+        except Exception as e:
+            logger.error(f"Error calculating PnL for {pos['symbol']}: {e}")
+    
+    total_pnl_pct = (total_pnl_usd / total_size * 100) if total_size > 0 else 0
+    pnl_emoji = '🟢' if total_pnl_usd > 0 else '🔴' if total_pnl_usd < 0 else '⚪'
+    
+    text = f"""📊 PORTFOLIO DASHBOARD
+
+{pnl_emoji} TOTAL PnL: ${total_pnl_usd:.2f} ({total_pnl_pct:.2f}%)
+💰 Total Size: ${total_size:.2f}
+📈 Positions: {len(open_positions)}
+
+━━━━━━━━━━━━━━━━━━━━
+"""
+    
+    text += "\n\n".join(position_texts)
+    
+    if len(open_positions) > 10:
+        text += f"\n\n... and {len(open_positions) - 10} more positions"
+    
+    keyboard = [
+        [InlineKeyboardButton('🔄 Refresh', callback_data='portfolio_dashboard')],
+        [InlineKeyboardButton('📋 All Positions', callback_data='portfolio_open')],
+        [InlineKeyboardButton('⬅️ Back', callback_data='portfolio_main')]
+    ]
+    
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+
+async def portfolio_open(query, user_id, user):
+    """List open positions"""
+    open_positions = portfolio.get_open_positions(user_id)
+    
+    if not open_positions:
+        text = "📋 OPEN POSITIONS\n\n❌ No open positions"
+        keyboard = [[InlineKeyboardButton('⬅️ Back', callback_data='portfolio_main')]]
+        await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+        return
+    
+    text = f"📋 OPEN POSITIONS ({len(open_positions)})\n\nSelect position to view details:"
+    
+    keyboard = []
+    for pos in open_positions[:20]:
+        emoji = '🚀' if pos['type'] == 'LONG' else '📉'
+        label = f"{emoji} {pos['symbol']} (${pos['size']:.0f})"
+        keyboard.append([InlineKeyboardButton(label, callback_data=f"portfolio_view_{pos['id']}")])
+    
+    keyboard.append([InlineKeyboardButton('⬅️ Back', callback_data='portfolio_main')])
+    
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+
+async def portfolio_view(query, user_id, user, pos_id):
+    """View position details"""
+    from config import exchange_api
+    
+    position = portfolio.get_position(user_id, pos_id)
+    
+    if not position:
+        await query.answer("❌ Position not found", show_alert=True)
+        return
+    
+    try:
+        ticker = await exchange_api.get_ticker(position['symbol'], 'mexc')
+        current_price = ticker['last'] if ticker else position['entry']
+    except:
+        current_price = position['entry']
+    
+    pnl_data = portfolio.calculate_pnl(position, current_price)
+    
+    emoji = '🚀' if position['type'] == 'LONG' else '📉'
+    status_emoji = '🟢' if pnl_data['pnl_usd'] > 0 else '🔴' if pnl_data['pnl_usd'] < 0 else '⚪'
+    
+    text = f"""{emoji} {position['symbol']} - {position['type']}
+
+{status_emoji} PnL: ${pnl_data['pnl_usd']:.2f} ({pnl_data['pnl_pct']:.2f}%)
+
+💰 POSITION:
+• Size: ${position['size']:.2f}
+• Leverage: {position['leverage']}x
+• Entry: ${position['entry']:.6f}
+• Current: ${current_price:.6f}
+
+🎯 TARGETS:
+"""
+    
+    if position.get('tp1'):
+        dist1 = ((position['tp1'] - current_price) / current_price * 100)
+        text += f"• TP1: ${position['tp1']:.6f} ({dist1:+.2f}%)\n"
+    if position.get('tp2'):
+        dist2 = ((position['tp2'] - current_price) / current_price * 100)
+        text += f"• TP2: ${position['tp2']:.6f} ({dist2:+.2f}%)\n"
+    if position.get('tp3'):
+        dist3 = ((position['tp3'] - current_price) / current_price * 100)
+        text += f"• TP3: ${position['tp3']:.6f} ({dist3:+.2f}%)\n"
+    
+    if position.get('sl'):
+        dist_sl = ((position['sl'] - current_price) / current_price * 100)
+        text += f"\n🛡️ Stop Loss: ${position['sl']:.6f} ({dist_sl:+.2f}%)"
+    
+    if position.get('liquidation', 0) > 0:
+        dist_liq = ((position['liquidation'] - current_price) / current_price * 100)
+        text += f"\n⚠️ Liquidation: ${position['liquidation']:.6f} ({dist_liq:+.2f}%)"
+    
+    text += f"\n\n📅 Opened: {position['opened_at'][:16]}"
+    
+    keyboard = [
+        [InlineKeyboardButton('🔄 Refresh', callback_data=f"portfolio_view_{pos_id}")],
+        [InlineKeyboardButton('🔒 Close Position', callback_data=f"portfolio_close_confirm_{pos_id}")],
+        [InlineKeyboardButton('⬅️ Back', callback_data='portfolio_open')]
+    ]
+    
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+
+async def portfolio_close_confirm(query, user_id, user, pos_id):
+    """Confirm closing position"""
+    position = portfolio.get_position(user_id, pos_id)
+    
+    if not position:
+        await query.answer("❌ Position not found", show_alert=True)
+        return
+    
+    text = f"""🔒 CLOSE POSITION?
+
+{position['symbol']} - {position['type']}
+Size: ${position['size']:.2f}
+
+This will close the position at current market price.
+
+Are you sure?"""
+    
+    keyboard = [
+        [InlineKeyboardButton('✅ Yes, Close', callback_data=f"portfolio_close_yes_{pos_id}")],
+        [InlineKeyboardButton('❌ Cancel', callback_data=f"portfolio_view_{pos_id}")]
+    ]
+    
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+
+async def portfolio_close_execute(query, user_id, user, pos_id):
+    """Execute position close"""
+    from config import exchange_api
+    
+    position = portfolio.get_position(user_id, pos_id)
+    
+    if not position:
+        await query.answer("❌ Position not found", show_alert=True)
+        return
+    
+    try:
+        ticker = await exchange_api.get_ticker(position['symbol'], 'mexc')
+        close_price = ticker['last'] if ticker else position['entry']
+    except:
+        close_price = position['entry']
+    
+    result = portfolio.close_position(user_id, pos_id, close_price, 'manual')
+    
+    if result['success']:
+        pnl_emoji = '🟢' if result['pnl_usd'] > 0 else '🔴'
+        text = f"""{pnl_emoji} POSITION CLOSED!
+
+{position['symbol']} - {position['type']}
+
+💰 Final PnL: ${result['pnl_usd']:.2f} ({result['pnl_pct']:.2f}%)
+
+Entry: ${position['entry']:.6f}
+Exit: ${close_price:.6f}
+Size: ${position['size']:.2f}
+Leverage: {position['leverage']}x"""
+        
+        keyboard = [
+            [InlineKeyboardButton('📊 Dashboard', callback_data='portfolio_dashboard')],
+            [InlineKeyboardButton('⬅️ Main Menu', callback_data='portfolio_main')]
+        ]
+        
+        await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+    else:
+        await query.answer(f"❌ Error: {result.get('error')}", show_alert=True)
+
+async def portfolio_add_start(query, user_id, user):
+    """Start adding position"""
+    text = """➕ ADD NEW POSITION
+
+📝 Step 1/6: Enter symbol
+
+⚠️ WAŻNE: Wpisz PEŁNY symbol z :USDT
+   ✅ Poprawnie: BTC/USDT:USDT
+   ❌ Źle: BTC (uruchomi wyszukiwarkę)
+
+Type full symbol or /cancel"""
+    
+    user['state'] = 'portfolio_add_symbol'
+    
+    keyboard = [[InlineKeyboardButton('❌ Cancel', callback_data='portfolio_main')]]
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+
+
+# Portfolio Message Handlers (for add position flow)
+
+async def handle_portfolio_add_symbol(message, user_id, user):
+    """Handle symbol input with auto-complete"""
+    symbol = message.text.upper().strip()
+    
+    if ':' not in symbol or '/' not in symbol:
+        await message.reply_text("❌ Użyj pełnego symbolu: BTC/USDT:USDT")
+        return
+        await message.reply_text("❌ Invalid format. Use: BTC or BTC/USDT:USDT")
+        return
+    
+    if 'portfolio_new' not in user:
+        user['portfolio_new'] = {}
+    
+    user['portfolio_new']['symbol'] = symbol
+    user['state'] = 'portfolio_add_type'
+    
+    text = f"""➕ ADD POSITION: {symbol}
+
+📝 Step 2/6: Position type"""
+    
+    keyboard = [
+        [InlineKeyboardButton('🚀 LONG', callback_data='portfolio_type_LONG')],
+        [InlineKeyboardButton('📉 SHORT', callback_data='portfolio_type_SHORT')],
+        [InlineKeyboardButton('❌ Cancel', callback_data='portfolio_main')]
+    ]
+    
+    await message.reply_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+
+async def handle_portfolio_add_entry(message, user_id, user):
+    """Handle entry price input"""
+    try:
+        entry = float(message.text.strip())
+        user['portfolio_new']['entry'] = entry
+        user['state'] = 'portfolio_add_size'
+        
+        text = f"""➕ ADD POSITION: {user['portfolio_new']['symbol']}
+🎯 Entry: ${entry:.6f}
+
+📝 Step 4/6: Position size
+
+Enter size in USDT (e.g., 1000)"""
+        
+        await message.reply_text(text)
+        
+    except ValueError:
+        await message.reply_text("❌ Invalid price. Enter number (e.g., 95000)")
+
+async def handle_portfolio_add_size(message, user_id, user):
+    """Handle position size input"""
+    try:
+        size = float(message.text.strip())
+        user['portfolio_new']['size'] = size
+        user['state'] = 'portfolio_add_leverage'
+        
+        text = f"""➕ ADD POSITION: {user['portfolio_new']['symbol']}
+💰 Size: ${size:.2f}
+
+📝 Step 5/6: Leverage"""
+        
+        keyboard = [
+            [InlineKeyboardButton('1x', callback_data='portfolio_lev_1'),
+             InlineKeyboardButton('5x', callback_data='portfolio_lev_5'),
+             InlineKeyboardButton('10x', callback_data='portfolio_lev_10')],
+            [InlineKeyboardButton('20x', callback_data='portfolio_lev_20'),
+             InlineKeyboardButton('50x', callback_data='portfolio_lev_50'),
+             InlineKeyboardButton('100x', callback_data='portfolio_lev_100')],
+            [InlineKeyboardButton('❌ Cancel', callback_data='portfolio_main')]
+        ]
+        
+        await message.reply_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+        
+    except ValueError:
+        await message.reply_text("❌ Invalid size. Enter number (e.g., 1000)")
+
+async def handle_portfolio_add_targets(message, user_id, user):
+    """Handle targets input"""
+
+    # Portfolio state check - HIGHEST PRIORITY
+    state = user.get('state') if 'user' in locals() else None
+    if state and state.startswith('portfolio_'):
+        if state == 'portfolio_add_symbol':
+            await handle_portfolio_add_symbol(message, user_id, user)
+            return
+        elif state == 'portfolio_add_entry':
+            await handle_portfolio_add_entry(message, user_id, user)
+            return
+        elif state == 'portfolio_add_size':
+            await handle_portfolio_add_size(message, user_id, user)
+            return
+        elif state == 'portfolio_add_targets':
+            await handle_portfolio_add_targets(message, user_id, user)
+            return
+
+
+    text = message.text.strip().lower()
+    
+    if text == 'skip':
+        await finish_portfolio_add(message, user_id, user, None, None, None, None)
+        return
+    
+    try:
+        parts = text.split()
+        tp1 = float(parts[0]) if len(parts) > 0 else None
+        tp2 = float(parts[1]) if len(parts) > 1 else None
+        tp3 = float(parts[2]) if len(parts) > 2 else None
+        sl = float(parts[3]) if len(parts) > 3 else None
+        
+        await finish_portfolio_add(message, user_id, user, tp1, tp2, tp3, sl)
+        
+    except (ValueError, IndexError):
+        await message.reply_text("❌ Invalid format. Use: TP1 TP2 TP3 SL\nOr type 'skip'")
+
+async def handle_portfolio_type(query, user_id, user, pos_type):
+    """Handle position type selection"""
+    user['portfolio_new']['type'] = pos_type
+    user['state'] = 'portfolio_add_entry'
+    
+    emoji = '🚀' if pos_type == 'LONG' else '📉'
+    
+    text = f"""➕ ADD POSITION: {user['portfolio_new']['symbol']}
+{emoji} Type: {pos_type}
+
+📝 Step 3/6: Entry price
+
+Enter the entry price (e.g., 95000)"""
+    
+    await query.edit_message_text(text)
+
+async def handle_portfolio_leverage(query, user_id, user, leverage):
+    """Handle leverage selection"""
+    user['portfolio_new']['leverage'] = leverage
+    user['state'] = 'portfolio_add_targets'
+    
+    text = f"""➕ ADD POSITION: {user['portfolio_new']['symbol']}
+⚡ Leverage: {leverage}x
+
+📝 Step 6/6: Targets (Optional)
+
+Enter TP and SL prices or skip:
+Format: TP1 TP2 TP3 SL
+
+Example: 96000 97000 98000 94000
+
+Or type 'skip' to finish without targets"""
+    
+    keyboard = [
+        [InlineKeyboardButton('⏭️ Skip', callback_data='portfolio_skip_targets')],
+        [InlineKeyboardButton('❌ Cancel', callback_data='portfolio_main')]
+    ]
+    
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+
+async def finish_portfolio_add(message_or_query, user_id, user, tp1, tp2, tp3, sl):
+    """Finish adding position"""
+    new_pos = user.get('portfolio_new', {})
+    
+    pos_id = portfolio.add_position(
+        user_id=user_id,
+        symbol=new_pos['symbol'],
+        position_type=new_pos['type'],
+        entry=new_pos['entry'],
+        size=new_pos['size'],
+        leverage=new_pos['leverage'],
+        tp1=tp1,
+        tp2=tp2,
+        tp3=tp3,
+        sl=sl
+    )
+    
+    emoji = '🚀' if new_pos['type'] == 'LONG' else '📉'
+    
+    text = f"""✅ POSITION ADDED!
+
+{emoji} {new_pos['symbol']} - {new_pos['type']}
+💰 Size: ${new_pos['size']:.2f}
+⚡ Leverage: {new_pos['leverage']}x
+🎯 Entry: ${new_pos['entry']:.6f}
+"""
+    
+    if tp1:
+        text += f"\n🎯 TP1: ${tp1:.6f}"
+    if tp2:
+        text += f"\n🎯 TP2: ${tp2:.6f}"
+    if tp3:
+        text += f"\n🎯 TP3: ${tp3:.6f}"
+    if sl:
+        text += f"\n🛡️ SL: ${sl:.6f}"
+    
+    text += f"\n\nPosition ID: {pos_id}"
+    
+    keyboard = [
+        [InlineKeyboardButton('📊 View Dashboard', callback_data='portfolio_dashboard')],
+        [InlineKeyboardButton('➕ Add Another', callback_data='portfolio_add_start')],
+        [InlineKeyboardButton('⬅️ Main Menu', callback_data='portfolio_main')]
+    ]
+    
+    user['state'] = None
+    user['portfolio_new'] = {}
+    
+    if hasattr(message_or_query, 'edit_message_text'):
+        await message_or_query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+    else:
+        await message_or_query.reply_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+
+
+# DEBUG Portfolio
+import logging
+portfolio_logger = logging.getLogger('portfolio_debug')
+portfolio_logger.setLevel(logging.DEBUG)
+
+# Wrap handle_portfolio_add_symbol with logging
+_original_handle_portfolio_add_symbol = handle_portfolio_add_symbol
+
+async def handle_portfolio_add_symbol_debug(message, user_id, user):
+    portfolio_logger.info(f"🔍 PORTFOLIO: User {user_id} sent: {message.text}")
+    portfolio_logger.info(f"🔍 PORTFOLIO: User state: {user.get('state')}")
+    await _original_handle_portfolio_add_symbol(message, user_id, user)
+
+# Replace
+handle_portfolio_add_symbol = handle_portfolio_add_symbol_debug
 

@@ -1,0 +1,11 @@
+{
+  "user_id": "5157140630",
+  "alert_data": {
+    "type": "big_gain",
+    "symbol": "CLAWNCH/USDT:USDT",
+    "message": "\ud83d\ude80 DU\u017bY WZROST: CLAWNCH/USDT:USDT\n\ud83d\udcb0 Cena: $6.5e-05\n\ud83d\udcc8 Zmiana 24h: +57.76%",
+    "timestamp": "2026-02-08T08:02:29.413540"
+  },
+  "created_at": "2026-02-08T08:02:29.413637",
+  "status": "pending"
+}

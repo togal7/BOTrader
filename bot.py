@@ -88,7 +88,7 @@ def main():
     
     
     # Message handler (for text search)
-    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_text_message))
+    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_text_message), group=1)
     
     # Callback queries
     application.add_handler(CallbackQueryHandler(button_callback))
@@ -119,3 +119,42 @@ if __name__ == "__main__":
     main()
 
 
+
+    # ========================================================================
+    # PORTFOLIO MESSAGE HANDLER - HIGHEST PRIORITY (group=0)
+    # ========================================================================
+    
+    async def handle_portfolio_messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
+        """Handle all Portfolio state messages - PRIORITY HANDLER"""
+        user_id = update.message.from_user.id
+        user = db.get_user(user_id)
+        state = user.get('state', '')
+        
+        # Only handle Portfolio states
+        if not state.startswith('portfolio_'):
+            return  # Let other handlers take it
+        
+        # Import Portfolio handlers
+        from handlers import (
+            handle_portfolio_add_symbol,
+            handle_portfolio_add_entry,
+            handle_portfolio_add_size,
+            handle_portfolio_add_targets
+        )
+        
+        # Route to appropriate handler
+        if state == 'portfolio_add_symbol':
+            await handle_portfolio_add_symbol(update.message, user_id, user)
+        elif state == 'portfolio_add_entry':
+            await handle_portfolio_add_entry(update.message, user_id, user)
+        elif state == 'portfolio_add_size':
+            await handle_portfolio_add_size(update.message, user_id, user)
+        elif state == 'portfolio_add_targets':
+            await handle_portfolio_add_targets(update.message, user_id, user)
+    
+    # Add Portfolio handler with GROUP 0 (before search which is group 1 or default)
+    application.add_handler(
+        MessageHandler(filters.TEXT & ~filters.COMMAND & filters.ChatType.PRIVATE, handle_portfolio_messages),
+        group=0
+    )
+    

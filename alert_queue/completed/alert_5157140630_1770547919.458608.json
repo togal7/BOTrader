@@ -1,0 +1,11 @@
+{
+  "user_id": "5157140630",
+  "alert_data": {
+    "type": "big_gain",
+    "symbol": "ARCSOL/USDT:USDT",
+    "message": "\ud83d\ude80 DU\u017bY WZROST: ARCSOL/USDT:USDT\n\ud83d\udcb0 Cena: $0.07652\n\ud83d\udcc8 Zmiana 24h: +34.45%",
+    "timestamp": "2026-02-08T11:51:59.458555"
+  },
+  "created_at": "2026-02-08T11:51:59.458638",
+  "status": "pending"
+}

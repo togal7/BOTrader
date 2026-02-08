@@ -1,0 +1,11 @@
+{
+  "user_id": "1794363283",
+  "alert_data": {
+    "type": "big_gain",
+    "symbol": "SIREN/USDT:USDT",
+    "message": "\ud83d\ude80 DU\u017bY WZROST: SIREN/USDT:USDT\n\ud83d\udcb0 Cena: $0.087\n\ud83d\udcc8 Zmiana 24h: +54.14%",
+    "timestamp": "2026-02-08T09:53:27.675887"
+  },
+  "created_at": "2026-02-08T09:53:27.676013",
+  "status": "pending"
+}

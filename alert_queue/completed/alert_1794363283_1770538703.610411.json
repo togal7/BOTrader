@@ -1,0 +1,11 @@
+{
+  "user_id": "1794363283",
+  "alert_data": {
+    "type": "big_loss",
+    "symbol": "DONT/USDT:USDT",
+    "message": "\ud83d\udcc9 DU\u017bY SPADEK: DONT/USDT:USDT\n\ud83d\udcb0 Cena: $3.582e-06\n\ud83d\udcc9 Zmiana 24h: -16.58%",
+    "timestamp": "2026-02-08T09:18:23.610335"
+  },
+  "created_at": "2026-02-08T09:18:23.610446",
+  "status": "pending"
+}
