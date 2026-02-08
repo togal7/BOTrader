@@ -217,7 +217,7 @@ class AlertWorker:
                     })
             
             # 2. Sudden changes (requires OHLCV)
-            if settings.get('sudden_change_enabled'):
+            if settings.get('sudden_changes_enabled'):
                 sudden_timeframe = settings.get('sudden_timeframe', '15m')
                 sudden_threshold = settings.get('sudden_threshold', 5)
                 
