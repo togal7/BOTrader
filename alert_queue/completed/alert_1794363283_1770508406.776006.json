@@ -1,0 +1,11 @@
+{
+  "user_id": "1794363283",
+  "alert_data": {
+    "type": "big_gain",
+    "symbol": "PSYOPANIME/USDT:USDT",
+    "message": "\ud83d\ude80 DU\u017bY WZROST: PSYOPANIME/USDT:USDT\n\ud83d\udcb0 Cena: $0.006329\n\ud83d\udcc8 Zmiana 24h: +15.91%",
+    "timestamp": "2026-02-08T00:53:26.775949"
+  },
+  "created_at": "2026-02-08T00:53:26.776043",
+  "status": "pending"
+}

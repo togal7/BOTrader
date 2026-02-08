@@ -1,0 +1,11 @@
+{
+  "user_id": "1794363283",
+  "alert_data": {
+    "type": "big_loss",
+    "symbol": "MOLT/USDT:USDT",
+    "message": "\ud83d\udcc9 DU\u017bY SPADEK: MOLT/USDT:USDT\n\ud83d\udcb0 Cena: $6.72e-05\n\ud83d\udcc9 Zmiana 24h: -21.21%",
+    "timestamp": "2026-02-07T10:01:40.663069"
+  },
+  "created_at": "2026-02-07T10:01:40.663131",
+  "status": "pending"
+}

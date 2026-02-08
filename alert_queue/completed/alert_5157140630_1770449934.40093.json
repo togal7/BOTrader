@@ -1,0 +1,11 @@
+{
+  "user_id": "5157140630",
+  "alert_data": {
+    "type": "big_gain",
+    "symbol": "BULLA/USDT:USDT",
+    "message": "\ud83d\ude80 DU\u017bY WZROST: BULLA/USDT:USDT\n\ud83d\udcb0 Cena: $0.02754\n\ud83d\udcc8 Zmiana 24h: +20.05%",
+    "timestamp": "2026-02-07T08:38:54.400896"
+  },
+  "created_at": "2026-02-07T08:38:54.400957",
+  "status": "pending"
+}
