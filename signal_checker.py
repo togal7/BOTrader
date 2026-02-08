@@ -50,7 +50,7 @@ class SignalChecker:
             self._save_history(history)
             logger.info(f"✅ Sprawdzono {checked} sygnałów")
     
-    async def _verify_signal(self, sig_id, sig, history):
+    async def _verify_signal(self, sig_id, sig, history, period="24h"):
         """Sprawdź czy TP został osiągnięty"""
         try:
             symbol = sig['symbol']
@@ -81,7 +81,7 @@ class SignalChecker:
                 hit = True
             
             # Zapisz wynik
-            sig['checked_24h'] = True
+            sig[f'checked_{period}'] = True
             sig['verified'] = True
             sig['correct'] = hit
             sig['check_timestamp'] = datetime.now().isoformat()
