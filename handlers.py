@@ -93,7 +93,6 @@ Status: {sub_status}
         [InlineKeyboardButton("🔍 Wyszukaj parę", callback_data="search_pair")],
         [InlineKeyboardButton("📊 Skaner ekstremów", callback_data="scan_extremes")],
         [InlineKeyboardButton("🎯 Sygnały AI", callback_data='ai_signals')],
-        [InlineKeyboardButton("💼 Portfolio", callback_data="portfolio_main")],
         [InlineKeyboardButton("🔔 Alerty", callback_data="alerts_menu")],
         [InlineKeyboardButton("💬 Czat z adminem", callback_data='admin_chat')],
         [InlineKeyboardButton("⚙️ Ustawienia", callback_data="settings")],
@@ -1062,7 +1061,6 @@ Status: {sub_status}
         [InlineKeyboardButton("🔍 Wyszukaj parę", callback_data="search_pair")],
         [InlineKeyboardButton("📊 Skaner ekstremów", callback_data="scan_extremes")],
         [InlineKeyboardButton("🎯 Sygnały AI", callback_data='ai_signals')],
-        [InlineKeyboardButton("💼 Portfolio", callback_data="portfolio_main")],
         [InlineKeyboardButton("🔔 Alerty", callback_data="alerts_menu")],
         [InlineKeyboardButton("💬 Czat z adminem", callback_data='admin_chat')],
         [InlineKeyboardButton("⚙️ Ustawienia", callback_data="settings")],
@@ -3649,7 +3647,7 @@ async def portfolio_main(query, user_id, user):
 
 async def portfolio_dashboard(query, user_id, user):
     """Portfolio dashboard with live PnL"""
-    from config import exchange_api
+    from exchanges import exchange_api
     
     open_positions = portfolio.get_open_positions(user_id)
     
@@ -3736,7 +3734,7 @@ async def portfolio_open(query, user_id, user):
 
 async def portfolio_view(query, user_id, user, pos_id):
     """View position details"""
-    from config import exchange_api
+    from exchanges import exchange_api
     
     position = portfolio.get_position(user_id, pos_id)
     
@@ -3822,7 +3820,7 @@ Are you sure?"""
 
 async def portfolio_close_execute(query, user_id, user, pos_id):
     """Execute position close"""
-    from config import exchange_api
+    from exchanges import exchange_api
     
     position = portfolio.get_position(user_id, pos_id)
     
@@ -3866,15 +3864,20 @@ async def portfolio_add_start(query, user_id, user):
 
 📝 Step 1/6: Enter symbol
 
-⚠️ WAŻNE: Wpisz PEŁNY symbol z :USDT
-   ✅ Poprawnie: BTC/USDT:USDT
-   ❌ Źle: BTC (uruchomi wyszukiwarkę)
+Just type the ticker (auto-completes):
+   ✅ BTC → BTC/USDT:USDT
+   ✅ ETH → ETH/USDT:USDT
+   ✅ Or full: BTC/USDT:USDT
 
-Type full symbol or /cancel"""
+Type symbol or /cancel"""
     
     user['state'] = 'portfolio_add_symbol'
     
     keyboard = [[InlineKeyboardButton('❌ Cancel', callback_data='portfolio_main')]]
+    # Set Portfolio state
+    user['state'] = 'portfolio_add_symbol'
+    # State saved automatically (user is reference)
+    
     await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
 
 
@@ -3970,7 +3973,7 @@ async def handle_portfolio_add_targets(message, user_id, user):
             await handle_portfolio_add_size(message, user_id, user)
             return
         elif state == 'portfolio_add_targets':
-            await handle_portfolio_add_targets(message, user_id, user)
+            # Recursion removed
             return
 
 
@@ -3982,15 +3985,37 @@ async def handle_portfolio_add_targets(message, user_id, user):
     
     try:
         parts = text.split()
-        tp1 = float(parts[0]) if len(parts) > 0 else None
-        tp2 = float(parts[1]) if len(parts) > 1 else None
-        tp3 = float(parts[2]) if len(parts) > 2 else None
-        sl = float(parts[3]) if len(parts) > 3 else None
+        
+        # Flexible parsing:
+        # 1 number = SL only
+        # 2 numbers = TP1 SL
+        # 3 numbers = TP1 TP2 SL
+        # 4 numbers = TP1 TP2 TP3 SL
+        
+        if len(parts) == 1:
+            tp1, tp2, tp3 = None, None, None
+            sl = float(parts[0])
+        elif len(parts) == 2:
+            tp1 = float(parts[0])
+            tp2, tp3 = None, None
+            sl = float(parts[1])
+        elif len(parts) == 3:
+            tp1 = float(parts[0])
+            tp2 = float(parts[1])
+            tp3 = None
+            sl = float(parts[2])
+        elif len(parts) >= 4:
+            tp1 = float(parts[0])
+            tp2 = float(parts[1])
+            tp3 = float(parts[2])
+            sl = float(parts[3])
+        else:
+            tp1 = tp2 = tp3 = sl = None
         
         await finish_portfolio_add(message, user_id, user, tp1, tp2, tp3, sl)
         
     except (ValueError, IndexError):
-        await message.reply_text("❌ Invalid format. Use: TP1 TP2 TP3 SL\nOr type 'skip'")
+        await message.reply_text("❌ Invalid format.\nExamples:\n• 94000 (SL only)\n• 96000 94000 (TP1 SL)\n• 96000 97000 94000 (TP1 TP2 SL)\n• 96000 97000 98000 94000 (TP1 TP2 TP3 SL)\nOr type 'skip'")
 
 async def handle_portfolio_type(query, user_id, user, pos_type):
     """Handle position type selection"""

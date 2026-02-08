@@ -158,7 +158,7 @@
     "awaiting_search": true,
     "subscription_expires": "2027-01-11T12:34:44.554322",
     "is_premium": true,
-    "last_alert_scan": "2026-02-08T17:10:23.782895",
+    "last_alert_scan": "2026-02-08T23:06:14.733690",
     "awaiting_admin_message": false,
     "language": "pl",
     "ai_scan_size": "top10",
@@ -718,7 +718,7 @@
     ],
     "is_premium": true,
     "interval": "1h",
-    "last_alert_scan": "2026-02-08T17:11:00.296652",
+    "last_alert_scan": "2026-02-08T23:06:47.802516",
     "alert_history": [
       {
         "alert_type": "big_gain",
@@ -1537,7 +1537,7 @@
         "score": 35
       }
     ],
-    "last_alert_scan": "2026-02-08T17:11:19.427626",
+    "last_alert_scan": "2026-02-08T23:07:06.152068",
     "subscription_expires": "2026-02-06T11:19:22.620972"
   }
 }
