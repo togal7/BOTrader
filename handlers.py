@@ -3495,6 +3495,21 @@ async def admin_signals_stats(query, user_id, user):
         verified_7d = [s for s in all_signals if s.get('checked_7d')]
         success_7d = [s for s in verified_7d if s.get('result_7d') == 'success']
         accuracy_7d = (len(success_7d) / len(verified_7d) * 100) if verified_7d else 0
+
+        # 1M
+        verified_1M = [s for s in all_signals if s.get("checked_1M")]
+        success_1M = [s for s in verified_1M if s.get("result_1M") == "success"]
+        accuracy_1M = (len(success_1M) / len(verified_1M) * 100) if verified_1M else 0
+
+        # 6M
+        verified_6M = [s for s in all_signals if s.get("checked_6M")]
+        success_6M = [s for s in verified_6M if s.get("result_6M") == "success"]
+        accuracy_6M = (len(success_6M) / len(verified_6M) * 100) if verified_6M else 0
+
+        # 1Y
+        verified_1Y = [s for s in all_signals if s.get("checked_1Y")]
+        success_1Y = [s for s in verified_1Y if s.get("result_1Y") == "success"]
+        accuracy_1Y = (len(success_1Y) / len(verified_1Y) * 100) if verified_1Y else 0
     except Exception as e:
         print(f"Error calculating stats: {e}")
         verified_24h = verified_48h = verified_7d = []
@@ -3510,6 +3525,9 @@ async def admin_signals_stats(query, user_id, user):
     • 24h: {accuracy_24h:.0f}% ({len(success_24h)}/{len(verified_24h)})
     • 48h: {accuracy_48h:.0f}% ({len(success_48h)}/{len(verified_48h)})
     • 7d:  {accuracy_7d:.0f}% ({len(success_7d)}/{len(verified_7d)})
+        • 1M:  {accuracy_1M:.0f}% ({len(success_1M)}/{len(verified_1M)})
+        • 6M:  {accuracy_6M:.0f}% ({len(success_6M)}/{len(verified_6M)})
+        • 1Y:  {accuracy_1Y:.0f}% ({len(success_1Y)}/{len(verified_1Y)})
 """
     
     # Dodaj breakdown po typach sygnałów
