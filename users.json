@@ -158,7 +158,7 @@
     "awaiting_search": true,
     "subscription_expires": "2027-01-11T12:34:44.554322",
     "is_premium": true,
-    "last_alert_scan": "2026-02-08T23:06:14.733690",
+    "last_alert_scan": "2026-02-09T01:15:28.420508",
     "awaiting_admin_message": false,
     "language": "pl",
     "ai_scan_size": "top10",
@@ -671,7 +671,7 @@
     "total_signals": 0,
     "selected_exchange": "mexc",
     "selected_interval": "15m",
-    "last_active": "2026-01-31T22:44:49.774055",
+    "last_active": "2026-02-09T01:16:54.791803",
     "awaiting_search": true,
     "alert_settings": {
       "oversold_enabled": 0,
@@ -698,27 +698,27 @@
       "sudden_changes_enabled": true,
       "volume_spikes_enabled": true
     },
-    "signals_count": 119,
+    "signals_count": 121,
     "last_scan_size": "top10",
-    "last_timeframe": "5m",
+    "last_timeframe": "30m",
     "cached_scan_results": [
       {
-        "symbol": "CLAWDONBASE/USDT:USDT",
+        "symbol": "CLAWNCH/USDT:USDT",
         "signal": "LONG",
-        "confidence": 34,
-        "entry": 0.00016682,
-        "tp1": 0.00017014553571428572,
-        "tp2": 0.00017347107142857144,
-        "tp3": 0.00017679660714285715,
-        "sl": 0.00016216425000000002,
-        "mtf_boost": 10,
+        "confidence": 25,
+        "entry": 8.24e-05,
+        "tp1": 9.314642857142857e-05,
+        "tp2": 0.00010389285714285714,
+        "tp3": 0.00011822142857142857,
+        "sl": 6.807142857142857e-05,
+        "mtf_boost": 0,
         "htf_aligned": false,
-        "ltf_aligned": true
+        "ltf_aligned": false
       }
     ],
     "is_premium": true,
     "interval": "1h",
-    "last_alert_scan": "2026-02-08T23:06:47.802516",
+    "last_alert_scan": "2026-02-09T01:09:40.286135",
     "alert_history": [
       {
         "alert_type": "big_gain",
@@ -1452,7 +1452,8 @@
         "triggered_at": "2026-01-25T09:50:40.274152"
       }
     ],
-    "ai_current_page": 1
+    "ai_current_page": 1,
+    "scan_mode": "fast"
   },
   "6464044879": {
     "user_id": "6464044879",
@@ -1537,7 +1538,799 @@
         "score": 35
       }
     ],
-    "last_alert_scan": "2026-02-08T23:07:06.152068",
+    "last_alert_scan": "2026-02-09T01:09:57.401994",
     "subscription_expires": "2026-02-06T11:19:22.620972"
+  },
+  "5157140630": {
+    "user_id": "5157140630",
+    "subscription_end": "2027-02-21T12:54:06.836731",
+    "is_blocked": false,
+    "created_at": "2026-01-15T12:54:06.836741",
+    "total_signals": 0,
+    "selected_exchange": "mexc",
+    "selected_interval": "15m",
+    "last_active": "2026-02-09T01:16:54.791803",
+    "awaiting_search": true,
+    "alert_settings": {
+      "oversold_enabled": 0,
+      "overbought_enabled": 1,
+      "big_gains_enabled": 1,
+      "big_losses_enabled": 0,
+      "ai_signals_enabled": 0,
+      "volume_spike_enabled": 0,
+      "macd_cross_enabled": 0,
+      "ema_cross_enabled": 0,
+      "scan_range": 200,
+      "scan_frequency": "15m",
+      "scan_timeframe": "1h",
+      "alert_timeframe": "15m",
+      "sudden_change_enabled": 1,
+      "sudden_timeframe": "15m",
+      "sudden_threshold": 20,
+      "notifications_enabled": 1,
+      "min_confidence": 70,
+      "gain_threshold": 15,
+      "loss_threshold": 15,
+      "volume_multiplier": 3.0,
+      "quiet_hours": 0,
+      "sudden_changes_enabled": true,
+      "volume_spikes_enabled": true
+    },
+    "signals_count": 121,
+    "last_scan_size": "top10",
+    "last_timeframe": "30m",
+    "cached_scan_results": [
+      {
+        "symbol": "CLAWNCH/USDT:USDT",
+        "signal": "LONG",
+        "confidence": 25,
+        "entry": 8.24e-05,
+        "tp1": 9.314642857142857e-05,
+        "tp2": 0.00010389285714285714,
+        "tp3": 0.00011822142857142857,
+        "sl": 6.807142857142857e-05,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      }
+    ],
+    "is_premium": true,
+    "interval": "1h",
+    "last_alert_scan": "2026-02-09T01:09:40.286135",
+    "alert_history": [
+      {
+        "alert_type": "big_gain",
+        "symbol": "DOLO/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: DOLO/USDT\n💰 Cena: $0.07236\n📈 Zmiana 24h: +22.12%",
+        "triggered_at": "2026-01-15T16:41:53.477097"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "OWL/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: OWL/USDT\n💰 Cena: $0.06755\n📈 Zmiana 24h: +26.66%",
+        "triggered_at": "2026-01-15T16:41:44.016991"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "FHE/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: FHE/USDT\n💰 Cena: $0.07971\n📈 Zmiana 24h: +58.53%",
+        "triggered_at": "2026-01-15T16:41:36.150170"
+      }
+    ],
+    "awaiting_admin_message": false,
+    "subscription_expires": "2027-01-31T23:15:35.330173",
+    "alerts": {
+      "rsi_oversold": true,
+      "rsi_overbought": true,
+      "big_gain": true,
+      "big_loss": true,
+      "volume_spike": true,
+      "ai_signal": true
+    },
+    "exchange": "mexc",
+    "_temp_alerts": [
+      {
+        "id": 2544,
+        "alert_type": "big_gain",
+        "symbol": "RIVER/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: RIVER/USDT:USDT\n💰 Cena: $73.531\n📈 Zmiana 24h: +15.56%",
+        "triggered_at": "2026-01-25T21:39:57.862846"
+      },
+      {
+        "id": 2473,
+        "alert_type": "big_gain",
+        "symbol": "PENGUIN/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: PENGUIN/USDT:USDT\n💰 Cena: $0.11248\n📈 Zmiana 24h: +21.73%",
+        "triggered_at": "2026-01-25T16:54:11.522463"
+      },
+      {
+        "id": 2472,
+        "alert_type": "big_gain",
+        "symbol": "DUSK/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: DUSK/USDT:USDT\n💰 Cena: $0.17551\n📈 Zmiana 24h: +27.70%",
+        "triggered_at": "2026-01-25T16:54:11.469522"
+      },
+      {
+        "id": 2471,
+        "alert_type": "big_gain",
+        "symbol": "MEMES/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: MEMES/USDT:USDT\n💰 Cena: $0.01392\n📈 Zmiana 24h: +32.44%",
+        "triggered_at": "2026-01-25T16:54:01.380337"
+      },
+      {
+        "id": 2470,
+        "alert_type": "big_gain",
+        "symbol": "RIVER/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: RIVER/USDT:USDT\n💰 Cena: $63.612\n📈 Zmiana 24h: +17.65%",
+        "triggered_at": "2026-01-25T16:54:01.289469"
+      },
+      {
+        "id": 2454,
+        "alert_type": "big_gain",
+        "symbol": "PENGUIN/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: PENGUIN/USDT:USDT\n💰 Cena: $0.11567\n📈 Zmiana 24h: +25.18%",
+        "triggered_at": "2026-01-25T16:36:28.528499"
+      },
+      {
+        "id": 2453,
+        "alert_type": "big_gain",
+        "symbol": "DUSK/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: DUSK/USDT:USDT\n💰 Cena: $0.17639\n📈 Zmiana 24h: +28.34%",
+        "triggered_at": "2026-01-25T16:36:28.420421"
+      },
+      {
+        "id": 2452,
+        "alert_type": "big_gain",
+        "symbol": "MEMES/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: MEMES/USDT:USDT\n💰 Cena: $0.01413\n📈 Zmiana 24h: +34.44%",
+        "triggered_at": "2026-01-25T16:36:23.277077"
+      },
+      {
+        "id": 2451,
+        "alert_type": "big_gain",
+        "symbol": "RIVER/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: RIVER/USDT:USDT\n💰 Cena: $63.393\n📈 Zmiana 24h: +17.24%",
+        "triggered_at": "2026-01-25T16:36:18.170965"
+      },
+      {
+        "id": 2434,
+        "alert_type": "big_gain",
+        "symbol": "DUSK/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: DUSK/USDT:USDT\n💰 Cena: $0.1798\n📈 Zmiana 24h: +30.83%",
+        "triggered_at": "2026-01-25T16:18:44.894228"
+      },
+      {
+        "id": 2433,
+        "alert_type": "big_gain",
+        "symbol": "MEMES/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: MEMES/USDT:USDT\n💰 Cena: $0.01492\n📈 Zmiana 24h: +41.96%",
+        "triggered_at": "2026-01-25T16:18:39.812323"
+      },
+      {
+        "id": 2432,
+        "alert_type": "big_gain",
+        "symbol": "RIVER/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: RIVER/USDT:USDT\n💰 Cena: $63.1\n📈 Zmiana 24h: +16.70%",
+        "triggered_at": "2026-01-25T16:18:34.668862"
+      },
+      {
+        "id": 2416,
+        "alert_type": "big_gain",
+        "symbol": "DUSK/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: DUSK/USDT:USDT\n💰 Cena: $0.17697\n📈 Zmiana 24h: +28.77%",
+        "triggered_at": "2026-01-25T16:01:02.121478"
+      },
+      {
+        "id": 2415,
+        "alert_type": "big_gain",
+        "symbol": "MEMES/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: MEMES/USDT:USDT\n💰 Cena: $0.01369\n📈 Zmiana 24h: +30.25%",
+        "triggered_at": "2026-01-25T16:00:52.013250"
+      },
+      {
+        "id": 2414,
+        "alert_type": "big_gain",
+        "symbol": "RIVER/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: RIVER/USDT:USDT\n💰 Cena: $63.168\n📈 Zmiana 24h: +16.83%",
+        "triggered_at": "2026-01-25T16:00:51.898554"
+      },
+      {
+        "id": 2398,
+        "alert_type": "big_gain",
+        "symbol": "DUSK/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: DUSK/USDT:USDT\n💰 Cena: $0.17688\n📈 Zmiana 24h: +28.70%",
+        "triggered_at": "2026-01-25T15:43:18.971070"
+      },
+      {
+        "id": 2397,
+        "alert_type": "big_gain",
+        "symbol": "MEMES/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: MEMES/USDT:USDT\n💰 Cena: $0.01299\n📈 Zmiana 24h: +23.59%",
+        "triggered_at": "2026-01-25T15:43:13.840013"
+      },
+      {
+        "id": 2396,
+        "alert_type": "big_gain",
+        "symbol": "ENSO/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: ENSO/USDT:USDT\n💰 Cena: $1.6026\n📈 Zmiana 24h: +18.29%",
+        "triggered_at": "2026-01-25T15:43:13.770822"
+      },
+      {
+        "id": 2395,
+        "alert_type": "big_gain",
+        "symbol": "RIVER/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: RIVER/USDT:USDT\n💰 Cena: $62.69\n📈 Zmiana 24h: +15.94%",
+        "triggered_at": "2026-01-25T15:43:08.648487"
+      },
+      {
+        "id": 2379,
+        "alert_type": "big_gain",
+        "symbol": "PENGUIN/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: PENGUIN/USDT:USDT\n💰 Cena: $0.1101\n📈 Zmiana 24h: +19.15%",
+        "triggered_at": "2026-01-25T15:25:41.031487"
+      },
+      {
+        "id": 2378,
+        "alert_type": "big_gain",
+        "symbol": "DUSK/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: DUSK/USDT:USDT\n💰 Cena: $0.17835\n📈 Zmiana 24h: +29.77%",
+        "triggered_at": "2026-01-25T15:25:40.988294"
+      },
+      {
+        "id": 2377,
+        "alert_type": "big_gain",
+        "symbol": "MEMES/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: MEMES/USDT:USDT\n💰 Cena: $0.01337\n📈 Zmiana 24h: +27.21%",
+        "triggered_at": "2026-01-25T15:25:35.893833"
+      },
+      {
+        "id": 2376,
+        "alert_type": "big_gain",
+        "symbol": "ENSO/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: ENSO/USDT:USDT\n💰 Cena: $1.7119\n📈 Zmiana 24h: +26.36%",
+        "triggered_at": "2026-01-25T15:25:35.844308"
+      },
+      {
+        "id": 2375,
+        "alert_type": "big_gain",
+        "symbol": "RIVER/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: RIVER/USDT:USDT\n💰 Cena: $62.4\n📈 Zmiana 24h: +15.41%",
+        "triggered_at": "2026-01-25T15:25:35.788263"
+      },
+      {
+        "id": 2359,
+        "alert_type": "big_gain",
+        "symbol": "PENGUIN/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: PENGUIN/USDT:USDT\n💰 Cena: $0.11316\n📈 Zmiana 24h: +22.46%",
+        "triggered_at": "2026-01-25T15:07:57.977637"
+      },
+      {
+        "id": 2358,
+        "alert_type": "big_gain",
+        "symbol": "DUSK/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: DUSK/USDT:USDT\n💰 Cena: $0.17427\n📈 Zmiana 24h: +26.80%",
+        "triggered_at": "2026-01-25T15:07:57.919313"
+      },
+      {
+        "id": 2357,
+        "alert_type": "big_gain",
+        "symbol": "MEMES/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: MEMES/USDT:USDT\n💰 Cena: $0.0138\n📈 Zmiana 24h: +31.30%",
+        "triggered_at": "2026-01-25T15:07:52.828258"
+      },
+      {
+        "id": 2356,
+        "alert_type": "big_gain",
+        "symbol": "ENSO/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: ENSO/USDT:USDT\n💰 Cena: $1.7709\n📈 Zmiana 24h: +30.72%",
+        "triggered_at": "2026-01-25T15:07:47.735103"
+      },
+      {
+        "id": 2342,
+        "alert_type": "big_gain",
+        "symbol": "PENGUIN/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: PENGUIN/USDT:USDT\n💰 Cena: $0.12118\n📈 Zmiana 24h: +31.14%",
+        "triggered_at": "2026-01-25T14:50:24.792516"
+      },
+      {
+        "id": 2341,
+        "alert_type": "big_gain",
+        "symbol": "DUSK/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: DUSK/USDT:USDT\n💰 Cena: $0.17608\n📈 Zmiana 24h: +28.12%",
+        "triggered_at": "2026-01-25T14:50:24.721889"
+      },
+      {
+        "id": 2340,
+        "alert_type": "big_gain",
+        "symbol": "MEMES/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: MEMES/USDT:USDT\n💰 Cena: $0.01363\n📈 Zmiana 24h: +29.68%",
+        "triggered_at": "2026-01-25T14:50:14.637225"
+      },
+      {
+        "id": 2339,
+        "alert_type": "big_gain",
+        "symbol": "ENSO/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: ENSO/USDT:USDT\n💰 Cena: $1.8013\n📈 Zmiana 24h: +32.96%",
+        "triggered_at": "2026-01-25T14:50:14.582711"
+      },
+      {
+        "id": 2324,
+        "alert_type": "big_gain",
+        "symbol": "PENGUIN/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: PENGUIN/USDT:USDT\n💰 Cena: $0.12183\n📈 Zmiana 24h: +31.85%",
+        "triggered_at": "2026-01-25T14:32:52.301429"
+      },
+      {
+        "id": 2323,
+        "alert_type": "big_gain",
+        "symbol": "DUSK/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: DUSK/USDT:USDT\n💰 Cena: $0.17411\n📈 Zmiana 24h: +26.68%",
+        "triggered_at": "2026-01-25T14:32:52.246438"
+      },
+      {
+        "id": 2322,
+        "alert_type": "big_gain",
+        "symbol": "MEMES/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: MEMES/USDT:USDT\n💰 Cena: $0.01389\n📈 Zmiana 24h: +32.15%",
+        "triggered_at": "2026-01-25T14:32:42.126144"
+      },
+      {
+        "id": 2321,
+        "alert_type": "big_gain",
+        "symbol": "ENSO/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: ENSO/USDT:USDT\n💰 Cena: $1.7569\n📈 Zmiana 24h: +29.68%",
+        "triggered_at": "2026-01-25T14:32:42.075316"
+      },
+      {
+        "id": 2306,
+        "alert_type": "big_gain",
+        "symbol": "PENGUIN/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: PENGUIN/USDT:USDT\n💰 Cena: $0.128\n📈 Zmiana 24h: +38.52%",
+        "triggered_at": "2026-01-25T14:15:09.524928"
+      },
+      {
+        "id": 2305,
+        "alert_type": "big_gain",
+        "symbol": "DUSK/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: DUSK/USDT:USDT\n💰 Cena: $0.17614\n📈 Zmiana 24h: +28.16%",
+        "triggered_at": "2026-01-25T14:15:09.440952"
+      },
+      {
+        "id": 2304,
+        "alert_type": "big_gain",
+        "symbol": "MEMES/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: MEMES/USDT:USDT\n💰 Cena: $0.01431\n📈 Zmiana 24h: +36.15%",
+        "triggered_at": "2026-01-25T14:15:04.294444"
+      },
+      {
+        "id": 2303,
+        "alert_type": "big_gain",
+        "symbol": "ENSO/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: ENSO/USDT:USDT\n💰 Cena: $1.7874\n📈 Zmiana 24h: +31.94%",
+        "triggered_at": "2026-01-25T14:15:04.237430"
+      },
+      {
+        "id": 2289,
+        "alert_type": "big_gain",
+        "symbol": "PENGUIN/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: PENGUIN/USDT:USDT\n💰 Cena: $0.1277\n📈 Zmiana 24h: +38.20%",
+        "triggered_at": "2026-01-25T13:57:26.892284"
+      },
+      {
+        "id": 2288,
+        "alert_type": "big_gain",
+        "symbol": "DUSK/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: DUSK/USDT:USDT\n💰 Cena: $0.17431\n📈 Zmiana 24h: +26.83%",
+        "triggered_at": "2026-01-25T13:57:26.845146"
+      },
+      {
+        "id": 2287,
+        "alert_type": "big_gain",
+        "symbol": "MEMES/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: MEMES/USDT:USDT\n💰 Cena: $0.0155\n📈 Zmiana 24h: +47.47%",
+        "triggered_at": "2026-01-25T13:57:21.763210"
+      },
+      {
+        "id": 2286,
+        "alert_type": "big_gain",
+        "symbol": "ENSO/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: ENSO/USDT:USDT\n💰 Cena: $1.6913\n📈 Zmiana 24h: +24.84%",
+        "triggered_at": "2026-01-25T13:57:21.709517"
+      },
+      {
+        "id": 2271,
+        "alert_type": "big_gain",
+        "symbol": "PENGUIN/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: PENGUIN/USDT:USDT\n💰 Cena: $0.12672\n📈 Zmiana 24h: +37.14%",
+        "triggered_at": "2026-01-25T13:39:49.114869"
+      },
+      {
+        "id": 2270,
+        "alert_type": "big_gain",
+        "symbol": "DUSK/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: DUSK/USDT:USDT\n💰 Cena: $0.17289\n📈 Zmiana 24h: +25.80%",
+        "triggered_at": "2026-01-25T13:39:49.067482"
+      },
+      {
+        "id": 2269,
+        "alert_type": "big_gain",
+        "symbol": "MEMES/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: MEMES/USDT:USDT\n💰 Cena: $0.01507\n📈 Zmiana 24h: +43.38%",
+        "triggered_at": "2026-01-25T13:39:43.959200"
+      },
+      {
+        "id": 2268,
+        "alert_type": "big_gain",
+        "symbol": "ENSO/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: ENSO/USDT:USDT\n💰 Cena: $1.7321\n📈 Zmiana 24h: +27.85%",
+        "triggered_at": "2026-01-25T13:39:38.854216"
+      },
+      {
+        "id": 2267,
+        "alert_type": "big_gain",
+        "symbol": "RIVER/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: RIVER/USDT:USDT\n💰 Cena: $62.374\n📈 Zmiana 24h: +15.36%",
+        "triggered_at": "2026-01-25T13:39:38.793701"
+      },
+      {
+        "id": 2252,
+        "alert_type": "big_gain",
+        "symbol": "PENGUIN/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: PENGUIN/USDT:USDT\n💰 Cena: $0.12469\n📈 Zmiana 24h: +34.94%",
+        "triggered_at": "2026-01-25T13:22:11.289001"
+      },
+      {
+        "id": 2251,
+        "alert_type": "big_gain",
+        "symbol": "DUSK/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: DUSK/USDT:USDT\n💰 Cena: $0.17552\n📈 Zmiana 24h: +27.71%",
+        "triggered_at": "2026-01-25T13:22:11.154648"
+      },
+      {
+        "id": 2250,
+        "alert_type": "big_gain",
+        "symbol": "MEMES/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: MEMES/USDT:USDT\n💰 Cena: $0.01565\n📈 Zmiana 24h: +48.90%",
+        "triggered_at": "2026-01-25T13:22:05.780458"
+      },
+      {
+        "id": 2249,
+        "alert_type": "big_gain",
+        "symbol": "ENSO/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: ENSO/USDT:USDT\n💰 Cena: $1.7957\n📈 Zmiana 24h: +32.55%",
+        "triggered_at": "2026-01-25T13:22:05.721876"
+      },
+      {
+        "id": 2237,
+        "alert_type": "big_gain",
+        "symbol": "PENGUIN/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: PENGUIN/USDT:USDT\n💰 Cena: $0.1303\n📈 Zmiana 24h: +41.01%",
+        "triggered_at": "2026-01-25T13:04:38.115266"
+      },
+      {
+        "id": 2236,
+        "alert_type": "big_gain",
+        "symbol": "DUSK/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: DUSK/USDT:USDT\n💰 Cena: $0.1766\n📈 Zmiana 24h: +28.50%",
+        "triggered_at": "2026-01-25T13:04:38.056707"
+      },
+      {
+        "id": 2235,
+        "alert_type": "big_gain",
+        "symbol": "MEMES/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: MEMES/USDT:USDT\n💰 Cena: $0.01469\n📈 Zmiana 24h: +39.77%",
+        "triggered_at": "2026-01-25T13:04:32.715074"
+      },
+      {
+        "id": 2234,
+        "alert_type": "big_gain",
+        "symbol": "ENSO/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: ENSO/USDT:USDT\n💰 Cena: $1.8206\n📈 Zmiana 24h: +34.39%",
+        "triggered_at": "2026-01-25T13:04:27.362703"
+      },
+      {
+        "id": 2220,
+        "alert_type": "big_gain",
+        "symbol": "PENGUIN/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: PENGUIN/USDT:USDT\n💰 Cena: $0.13766\n📈 Zmiana 24h: +48.98%",
+        "triggered_at": "2026-01-25T12:46:58.170575"
+      },
+      {
+        "id": 2219,
+        "alert_type": "big_gain",
+        "symbol": "DUSK/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: DUSK/USDT:USDT\n💰 Cena: $0.17796\n📈 Zmiana 24h: +29.49%",
+        "triggered_at": "2026-01-25T12:46:58.113879"
+      },
+      {
+        "id": 2218,
+        "alert_type": "big_gain",
+        "symbol": "MEMES/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: MEMES/USDT:USDT\n💰 Cena: $0.01482\n📈 Zmiana 24h: +41.00%",
+        "triggered_at": "2026-01-25T12:46:53.023085"
+      },
+      {
+        "id": 2217,
+        "alert_type": "big_gain",
+        "symbol": "ENSO/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: ENSO/USDT:USDT\n💰 Cena: $1.9186\n📈 Zmiana 24h: +41.62%",
+        "triggered_at": "2026-01-25T12:46:52.966470"
+      },
+      {
+        "id": 2203,
+        "alert_type": "big_gain",
+        "symbol": "PENGUIN/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: PENGUIN/USDT:USDT\n💰 Cena: $0.12815\n📈 Zmiana 24h: +38.69%",
+        "triggered_at": "2026-01-25T12:29:25.663075"
+      },
+      {
+        "id": 2202,
+        "alert_type": "big_gain",
+        "symbol": "DUSK/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: DUSK/USDT:USDT\n💰 Cena: $0.17951\n📈 Zmiana 24h: +30.61%",
+        "triggered_at": "2026-01-25T12:29:25.608903"
+      },
+      {
+        "id": 2201,
+        "alert_type": "big_gain",
+        "symbol": "MEMES/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: MEMES/USDT:USDT\n💰 Cena: $0.01538\n📈 Zmiana 24h: +46.33%",
+        "triggered_at": "2026-01-25T12:29:20.517425"
+      },
+      {
+        "id": 2200,
+        "alert_type": "big_gain",
+        "symbol": "ENSO/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: ENSO/USDT:USDT\n💰 Cena: $1.8432\n📈 Zmiana 24h: +36.05%",
+        "triggered_at": "2026-01-25T12:29:20.459885"
+      },
+      {
+        "id": 2187,
+        "alert_type": "big_gain",
+        "symbol": "PENGUIN/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: PENGUIN/USDT:USDT\n💰 Cena: $0.12787\n📈 Zmiana 24h: +38.38%",
+        "triggered_at": "2026-01-25T12:11:52.831318"
+      },
+      {
+        "id": 2186,
+        "alert_type": "big_gain",
+        "symbol": "DUSK/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: DUSK/USDT:USDT\n💰 Cena: $0.17374\n📈 Zmiana 24h: +26.42%",
+        "triggered_at": "2026-01-25T12:11:52.778905"
+      },
+      {
+        "id": 2185,
+        "alert_type": "big_gain",
+        "symbol": "MEMES/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: MEMES/USDT:USDT\n💰 Cena: $0.01465\n📈 Zmiana 24h: +39.39%",
+        "triggered_at": "2026-01-25T12:11:47.680985"
+      },
+      {
+        "id": 2184,
+        "alert_type": "big_gain",
+        "symbol": "ENSO/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: ENSO/USDT:USDT\n💰 Cena: $1.804\n📈 Zmiana 24h: +33.16%",
+        "triggered_at": "2026-01-25T12:11:47.624681"
+      },
+      {
+        "id": 2171,
+        "alert_type": "big_gain",
+        "symbol": "PENGUIN/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: PENGUIN/USDT:USDT\n💰 Cena: $0.13196\n📈 Zmiana 24h: +42.81%",
+        "triggered_at": "2026-01-25T11:54:15.294595"
+      },
+      {
+        "id": 2170,
+        "alert_type": "big_gain",
+        "symbol": "DUSK/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: DUSK/USDT:USDT\n💰 Cena: $0.17522\n📈 Zmiana 24h: +27.49%",
+        "triggered_at": "2026-01-25T11:54:15.240357"
+      },
+      {
+        "id": 2169,
+        "alert_type": "big_gain",
+        "symbol": "MEMES/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: MEMES/USDT:USDT\n💰 Cena: $0.01482\n📈 Zmiana 24h: +41.00%",
+        "triggered_at": "2026-01-25T11:54:05.146672"
+      },
+      {
+        "id": 2168,
+        "alert_type": "big_gain",
+        "symbol": "ENSO/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: ENSO/USDT:USDT\n💰 Cena: $1.8472\n📈 Zmiana 24h: +36.35%",
+        "triggered_at": "2026-01-25T11:54:05.097180"
+      },
+      {
+        "id": 2167,
+        "alert_type": "big_gain",
+        "symbol": "RIVER/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: RIVER/USDT:USDT\n💰 Cena: $63.592\n📈 Zmiana 24h: +17.61%",
+        "triggered_at": "2026-01-25T11:54:05.056651"
+      },
+      {
+        "id": 2153,
+        "alert_type": "big_gain",
+        "symbol": "PENGUIN/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: PENGUIN/USDT:USDT\n💰 Cena: $0.1232\n📈 Zmiana 24h: +33.33%",
+        "triggered_at": "2026-01-25T11:36:27.054363"
+      },
+      {
+        "id": 2152,
+        "alert_type": "big_gain",
+        "symbol": "DUSK/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: DUSK/USDT:USDT\n💰 Cena: $0.17605\n📈 Zmiana 24h: +28.10%",
+        "triggered_at": "2026-01-25T11:36:26.990174"
+      },
+      {
+        "id": 2151,
+        "alert_type": "big_gain",
+        "symbol": "MEMES/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: MEMES/USDT:USDT\n💰 Cena: $0.0161\n📈 Zmiana 24h: +53.18%",
+        "triggered_at": "2026-01-25T11:36:21.909436"
+      },
+      {
+        "id": 2150,
+        "alert_type": "big_gain",
+        "symbol": "ENSO/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: ENSO/USDT:USDT\n💰 Cena: $1.8631\n📈 Zmiana 24h: +37.52%",
+        "triggered_at": "2026-01-25T11:36:21.848947"
+      },
+      {
+        "id": 2140,
+        "alert_type": "big_gain",
+        "symbol": "PENGUIN/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: PENGUIN/USDT:USDT\n💰 Cena: $0.12432\n📈 Zmiana 24h: +34.54%",
+        "triggered_at": "2026-01-25T11:18:49.703186"
+      },
+      {
+        "id": 2139,
+        "alert_type": "big_gain",
+        "symbol": "DUSK/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: DUSK/USDT:USDT\n💰 Cena: $0.17692\n📈 Zmiana 24h: +28.73%",
+        "triggered_at": "2026-01-25T11:18:49.654572"
+      },
+      {
+        "id": 2138,
+        "alert_type": "big_gain",
+        "symbol": "MEMES/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: MEMES/USDT:USDT\n💰 Cena: $0.01615\n📈 Zmiana 24h: +53.66%",
+        "triggered_at": "2026-01-25T11:18:44.567890"
+      },
+      {
+        "id": 2137,
+        "alert_type": "big_gain",
+        "symbol": "ENSO/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: ENSO/USDT:USDT\n💰 Cena: $1.7972\n📈 Zmiana 24h: +32.66%",
+        "triggered_at": "2026-01-25T11:18:44.518753"
+      },
+      {
+        "id": 2124,
+        "alert_type": "big_gain",
+        "symbol": "PENGUIN/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: PENGUIN/USDT:USDT\n💰 Cena: $0.1134\n📈 Zmiana 24h: +22.72%",
+        "triggered_at": "2026-01-25T11:01:11.357268"
+      },
+      {
+        "id": 2123,
+        "alert_type": "big_gain",
+        "symbol": "DUSK/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: DUSK/USDT:USDT\n💰 Cena: $0.17494\n📈 Zmiana 24h: +27.29%",
+        "triggered_at": "2026-01-25T11:01:11.309403"
+      },
+      {
+        "id": 2122,
+        "alert_type": "big_gain",
+        "symbol": "MEMES/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: MEMES/USDT:USDT\n💰 Cena: $0.01681\n📈 Zmiana 24h: +59.94%",
+        "triggered_at": "2026-01-25T11:01:06.216192"
+      },
+      {
+        "id": 2121,
+        "alert_type": "big_gain",
+        "symbol": "ENSO/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: ENSO/USDT:USDT\n💰 Cena: $1.823\n📈 Zmiana 24h: +34.56%",
+        "triggered_at": "2026-01-25T11:01:06.148716"
+      },
+      {
+        "id": 2107,
+        "alert_type": "big_gain",
+        "symbol": "PENGUIN/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: PENGUIN/USDT:USDT\n💰 Cena: $0.11572\n📈 Zmiana 24h: +25.23%",
+        "triggered_at": "2026-01-25T10:43:38.791007"
+      },
+      {
+        "id": 2106,
+        "alert_type": "big_gain",
+        "symbol": "DUSK/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: DUSK/USDT:USDT\n💰 Cena: $0.17931\n📈 Zmiana 24h: +30.47%",
+        "triggered_at": "2026-01-25T10:43:38.740116"
+      },
+      {
+        "id": 2105,
+        "alert_type": "big_gain",
+        "symbol": "MEMES/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: MEMES/USDT:USDT\n💰 Cena: $0.01748\n📈 Zmiana 24h: +66.31%",
+        "triggered_at": "2026-01-25T10:43:28.653377"
+      },
+      {
+        "id": 2104,
+        "alert_type": "big_gain",
+        "symbol": "ENSO/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: ENSO/USDT:USDT\n💰 Cena: $1.7766\n📈 Zmiana 24h: +31.14%",
+        "triggered_at": "2026-01-25T10:43:28.607921"
+      },
+      {
+        "id": 2091,
+        "alert_type": "big_gain",
+        "symbol": "PENGUIN/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: PENGUIN/USDT:USDT\n💰 Cena: $0.12244\n📈 Zmiana 24h: +32.51%",
+        "triggered_at": "2026-01-25T10:26:01.212560"
+      },
+      {
+        "id": 2090,
+        "alert_type": "big_gain",
+        "symbol": "DUSK/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: DUSK/USDT:USDT\n💰 Cena: $0.18625\n📈 Zmiana 24h: +35.52%",
+        "triggered_at": "2026-01-25T10:26:01.157023"
+      },
+      {
+        "id": 2089,
+        "alert_type": "big_gain",
+        "symbol": "MEMES/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: MEMES/USDT:USDT\n💰 Cena: $0.0176\n📈 Zmiana 24h: +67.45%",
+        "triggered_at": "2026-01-25T10:25:51.069675"
+      },
+      {
+        "id": 2088,
+        "alert_type": "big_gain",
+        "symbol": "ENSO/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: ENSO/USDT:USDT\n💰 Cena: $1.8507\n📈 Zmiana 24h: +36.61%",
+        "triggered_at": "2026-01-25T10:25:51.021553"
+      },
+      {
+        "id": 2075,
+        "alert_type": "big_gain",
+        "symbol": "PENGUIN/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: PENGUIN/USDT:USDT\n💰 Cena: $0.12052\n📈 Zmiana 24h: +30.43%",
+        "triggered_at": "2026-01-25T10:08:23.307181"
+      },
+      {
+        "id": 2074,
+        "alert_type": "big_gain",
+        "symbol": "DUSK/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: DUSK/USDT:USDT\n💰 Cena: $0.18188\n📈 Zmiana 24h: +32.34%",
+        "triggered_at": "2026-01-25T10:08:18.217216"
+      },
+      {
+        "id": 2073,
+        "alert_type": "big_gain",
+        "symbol": "MEMES/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: MEMES/USDT:USDT\n💰 Cena: $0.0168\n📈 Zmiana 24h: +59.84%",
+        "triggered_at": "2026-01-25T10:08:13.135556"
+      },
+      {
+        "id": 2072,
+        "alert_type": "big_gain",
+        "symbol": "ENSO/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: ENSO/USDT:USDT\n💰 Cena: $1.873\n📈 Zmiana 24h: +38.25%",
+        "triggered_at": "2026-01-25T10:08:13.087480"
+      },
+      {
+        "id": 2060,
+        "alert_type": "big_gain",
+        "symbol": "PENGUIN/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: PENGUIN/USDT:USDT\n💰 Cena: $0.12288\n📈 Zmiana 24h: +32.98%",
+        "triggered_at": "2026-01-25T09:50:40.322500"
+      },
+      {
+        "id": 2059,
+        "alert_type": "big_gain",
+        "symbol": "DUSK/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: DUSK/USDT:USDT\n💰 Cena: $0.18447\n📈 Zmiana 24h: +34.22%",
+        "triggered_at": "2026-01-25T09:50:40.274152"
+      }
+    ],
+    "ai_current_page": 1,
+    "scan_mode": "fast"
   }
 }

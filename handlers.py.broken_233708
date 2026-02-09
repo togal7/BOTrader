@@ -110,18 +110,21 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = query.from_user.id
     user = db.get_user(user_id)
     if not user:
-        await query.edit_message_text("❌ Użytkownik nie znaleziony. Wyślij /start")
+
+    # Chart display (PRIORITY - before other checks)
+    if query.data.startswith('chart_'):
+        signal_id = query.data.replace('chart_', '')
+        await show_signal_chart(query, signal_id)
         return
     
-    # Chart
-    if query.data.startswith("chart_"):
-        await show_signal_chart(query, query.data.replace("chart_", ""))
+        await query.edit_message_text("❌ Użytkownik nie znaleziony. Wyślij /start")
         return
 
     # Portfolio callbacks
     if query.data.startswith('portfolio_'):
-        if query.data == 'portfolio_main':
+    el        elif query.data == 'portfolio_main':
             await portfolio_main(query, user_id, user)
+
         elif query.data == 'portfolio_dashboard':
             await portfolio_dashboard(query, user_id, user)
         elif query.data == 'portfolio_open':
@@ -998,7 +1001,6 @@ async def handle_text_message(update: Update, context: ContextTypes.DEFAULT_TYPE
     if not user:
         await update.message.reply_text("❌ Wyślij /start aby rozpocząć")
         return
-    
     if user.get('awaiting_admin_message'):
         await handle_admin_message_forward(update, context, user_id, user)
         return
@@ -1515,7 +1517,7 @@ async def show_cached_scan(query, user_id, user):
         await query.answer("Brak zapisanych wyników. Wybierz skanowanie.", show_alert=True)
         await ai_signals_menu(query, user_id, user)
         return
-    print(f"🔥 Showing {len(cached)} cached results")
+    logger.info(f"Showing {len(cached)} cached results")
     timeframe = user.get('last_timeframe', '30m')
     scan_size = user.get('last_scan_size', 'top50')
     exchange = user.get('selected_exchange', 'mexc')
@@ -1554,7 +1556,6 @@ async def show_cached_scan(query, user_id, user):
     keyboard.append([InlineKeyboardButton('⬅️ Menu główne', callback_data='back_main')])
     await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
 async def show_pair_analysis(query, user_id, user, symbol, exchange, timeframe, context='general'):
-    print(f"🔥 show_pair_analysis called: {symbol} {timeframe}")
     """
     GŁÓWNA FUNKCJA - Pokaż pełną analizę pary
     Wywołana z KAŻDEGO miejsca w bocie (search, scan, ai_signal)
@@ -1661,7 +1662,6 @@ Proszę czekać ~10 sekund...""")
             back_data = 'back_main'
             back_label = '⬅️ Menu główne'
         keyboard = [
-            [InlineKeyboardButton('🔍 Pełny wykres', callback_data=f'chart_full_{symbol}_{timeframe}')],
             [InlineKeyboardButton('🔄 Odśwież analizę', callback_data=f'refresh_analysis_{symbol}_{timeframe}')],
             [InlineKeyboardButton(back_label, callback_data=back_data)]
         ]
@@ -4136,31 +4136,111 @@ async def handle_portfolio_add_symbol_debug(message, user_id, user):
 handle_portfolio_add_symbol = handle_portfolio_add_symbol_debug
 
 
+# ============================================================================
+# CHART DISPLAY - Interactive Charts for Signals
+# ============================================================================
+
+import pandas as pd
+from chart_generator import chart_gen
+
 async def show_signal_chart(query, signal_id):
-    """Generate and send chart"""
+    """Generate and send chart for AI signal"""
     try:
-        await query.answer("📊 Generuję wykres...")
-        parts = signal_id.rsplit('_', 1)
-        symbol = parts[0]
-        timeframe = parts[1] if len(parts) > 1 else '1h'
-        from exchanges import exchange_api
-        import pandas as pd
-        from chart_generator import chart_gen
+        # Get signal data from ai_signals_history.json
+        import json
         
-        # Get klines (OHLCV data)
-        exchange = "MEXC"  # Default (uppercase required)
-        ohlcv = await exchange_api.get_klines(exchange, symbol, timeframe, limit=200)
-        if not ohlcv:
-            await query.answer("❌ Brak danych", show_alert=True)
+        with open('ai_signals_history.json', 'r') as f:
+            signals = json.load(f)
+        
+        if signal_id not in signals:
+            await query.answer("❌ Signal not found", show_alert=True)
             return
-        df = pd.DataFrame(ohlcv)
-        df['time'] = pd.to_datetime(df['time'], unit='ms')
-        df.set_index('time', inplace=True)
-        df = df[['open', 'high', 'low', 'close', 'volume']]
-        ticker = await exchange_api.get_ticker(symbol, 'mexc')
-        entry = ticker.get('last') if ticker else df['close'].iloc[-1]
-        img = await chart_gen.generate_signal_chart(symbol=symbol, timeframe=timeframe, ohlcv_data=df, entry_price=entry, position_type='LONG', tp_levels=[entry*1.02, entry*1.04], sl_price=entry*0.98)
-        await query.message.reply_photo(photo=img, caption=f"📊 {symbol} {timeframe}")
+        
+        signal = signals[signal_id]
+        
+        # Fetch OHLCV data
+        from exchanges import exchange_api
+        
+        symbol = signal['symbol']
+        tf = signal.get('timeframe', '1h')
+        
+        await query.answer("📊 Generating chart...", show_alert=False)
+        
+        # Get historical data
+        ohlcv = await exchange_api.get_ohlcv(symbol, tf, limit=200)
+        
+        if not ohlcv or len(ohlcv) == 0:
+            await query.answer("❌ No data available", show_alert=True)
+            return
+        
+        # Convert to DataFrame
+        df = pd.DataFrame(
+            ohlcv,
+            columns=['timestamp', 'open', 'high', 'low', 'close', 'volume']
+        )
+        df['timestamp'] = pd.to_datetime(df['timestamp'], unit='ms')
+        df.set_index('timestamp', inplace=True)
+        
+        # Get trade parameters
+        entry_price = signal.get('price', df['close'].iloc[-1])
+        direction = signal.get('direction', 'LONG')
+        
+        # Calculate TP/SL (if not in signal)
+        tp_levels = []
+        if 'targets' in signal and signal['targets']:
+            tp_levels = signal['targets'][:3]  # Max 3 TPs
+        else:
+            # Auto-calculate based on direction
+            if direction == 'LONG':
+                tp_levels = [
+                    entry_price * 1.02,  # +2%
+                    entry_price * 1.04,  # +4%
+                    entry_price * 1.06,  # +6%
+                ]
+            else:
+                tp_levels = [
+                    entry_price * 0.98,  # -2%
+                    entry_price * 0.96,  # -4%
+                    entry_price * 0.94,  # -6%
+                ]
+        
+        sl_price = signal.get('stop_loss')
+        if not sl_price:
+            # Auto-calculate SL
+            sl_price = entry_price * 0.98 if direction == 'LONG' else entry_price * 1.02
+        
+        # Generate chart
+        img_bytes = await chart_gen.generate_signal_chart(
+            symbol=symbol,
+            timeframe=tf,
+            ohlcv_data=df,
+            entry_price=entry_price,
+            position_type=direction,
+            tp_levels=tp_levels,
+            sl_price=sl_price,
+        )
+        
+        # Send chart
+        caption = f"📊 {symbol} {tf} - {direction}\n"
+        caption += f"🎯 Entry: ${entry_price:,.2f}\n"
+        if tp_levels:
+            caption += f"✅ TP: ${tp_levels[0]:,.2f}"
+            if len(tp_levels) > 1:
+                caption += f" / ${tp_levels[1]:,.2f}"
+            if len(tp_levels) > 2:
+                caption += f" / ${tp_levels[2]:,.2f}"
+            caption += "\n"
+        if sl_price:
+            caption += f"🛑 SL: ${sl_price:,.2f}"
+        
+        await query.message.reply_photo(
+            photo=img_bytes,
+            caption=caption
+        )
+        
+        logger.info(f"✅ Chart sent for {symbol} {tf}")
+        
     except Exception as e:
-        logger.error(f"Chart: {e}")
-        await query.answer("❌ Błąd", show_alert=True)
+        logger.error(f"❌ Error generating chart: {e}")
+        await query.answer(f"❌ Error: {str(e)[:100]}", show_alert=True)
+
