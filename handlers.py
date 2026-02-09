@@ -641,6 +641,50 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         
         keyboard.append([InlineKeyboardButton('⬅️ Powrót', callback_data='show_cached_scan')])
         
+        # 📊 Generate mini chart inline
+        try:
+            print(f"🔥 MINI CHART: Starting for {symbol} {timeframe}")
+            from chart_generator import chart_gen
+            import pandas as pd
+            
+            klines = await exchange_api.get_klines(exchange.upper(), symbol, timeframe, limit=100)
+            print(f"🔥 MINI CHART: Got {len(klines) if klines else 0} klines")
+            
+            if klines and len(klines) > 20:
+                df = pd.DataFrame(klines)
+                df['time'] = pd.to_datetime(df['time'], unit='ms')
+                df.set_index('time', inplace=True)
+                
+                entry = analysis.get('signal', {}).get('entry', df['close'].iloc[-1])
+                
+                print(f"🔥 MINI CHART: Generating image...")
+                img = await chart_gen.generate_signal_chart(
+                    symbol=symbol, timeframe=timeframe, ohlcv_data=df,
+                    entry_price=entry, position_type='LONG',
+                    tp_levels=[entry*1.02, entry*1.04], sl_price=entry*0.98
+                )
+                
+                print(f"🔥 MINI CHART: Sending as photo...")
+                await query.message.reply_photo(
+                    photo=img,
+                    caption=text[:1024],
+                    reply_markup=InlineKeyboardMarkup(keyboard)
+                )
+                
+                print(f"🔥 MINI CHART: Deleting loading message...")
+                await query.message.delete()
+                
+                # Update counter
+                user['signals_count'] = user.get('signals_count', 0) + 1
+                db.update_user(user_id, user)
+                print(f"🔥 MINI CHART: SUCCESS! Returning...")
+                return
+        except Exception as e:
+            print(f"🔥 MINI CHART: Failed - {e}")
+            import traceback
+            traceback.print_exc()
+            # Fallback to text
+        
         await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
         return
     elif data.startswith('ai_sig_'):
@@ -4140,9 +4184,15 @@ async def show_signal_chart(query, signal_id):
     """Generate and send chart"""
     try:
         await query.answer("📊 Generuję wykres...")
-        parts = signal_id.rsplit('_', 1)
+        
+        # Remove 'chart_full_' prefix if exists
+        clean_id = signal_id.replace('full_', '')
+        
+        parts = clean_id.rsplit('_', 1)
         symbol = parts[0]
         timeframe = parts[1] if len(parts) > 1 else '1h'
+        
+        print(f"🔥 CHART: signal_id={signal_id}, clean={clean_id}, symbol={symbol}, tf={timeframe}")
         from exchanges import exchange_api
         import pandas as pd
         from chart_generator import chart_gen

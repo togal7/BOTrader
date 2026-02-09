@@ -158,7 +158,7 @@
     "awaiting_search": true,
     "subscription_expires": "2027-01-11T12:34:44.554322",
     "is_premium": true,
-    "last_alert_scan": "2026-02-09T01:15:28.420508",
+    "last_alert_scan": "2026-02-09T01:32:57.674025",
     "awaiting_admin_message": false,
     "language": "pl",
     "ai_scan_size": "top10",
@@ -671,7 +671,7 @@
     "total_signals": 0,
     "selected_exchange": "mexc",
     "selected_interval": "15m",
-    "last_active": "2026-02-09T01:16:54.791803",
+    "last_active": "2026-02-09T01:35:21.163970",
     "awaiting_search": true,
     "alert_settings": {
       "oversold_enabled": 0,
@@ -698,19 +698,32 @@
       "sudden_changes_enabled": true,
       "volume_spikes_enabled": true
     },
-    "signals_count": 121,
+    "signals_count": 122,
     "last_scan_size": "top10",
     "last_timeframe": "30m",
     "cached_scan_results": [
       {
+        "symbol": "SIREN/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 25,
+        "entry": 0.09341,
+        "tp1": 0.08450214285714286,
+        "tp2": 0.07559428571428572,
+        "tp3": 0.06371714285714286,
+        "sl": 0.10528714285714287,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
         "symbol": "CLAWNCH/USDT:USDT",
         "signal": "LONG",
         "confidence": 25,
-        "entry": 8.24e-05,
-        "tp1": 9.314642857142857e-05,
-        "tp2": 0.00010389285714285714,
-        "tp3": 0.00011822142857142857,
-        "sl": 6.807142857142857e-05,
+        "entry": 8.4e-05,
+        "tp1": 9.452142857142856e-05,
+        "tp2": 0.00010504285714285714,
+        "tp3": 0.00011907142857142856,
+        "sl": 6.997142857142857e-05,
         "mtf_boost": 0,
         "htf_aligned": false,
         "ltf_aligned": false
@@ -718,7 +731,7 @@
     ],
     "is_premium": true,
     "interval": "1h",
-    "last_alert_scan": "2026-02-09T01:09:40.286135",
+    "last_alert_scan": "2026-02-09T01:27:10.600937",
     "alert_history": [
       {
         "alert_type": "big_gain",
@@ -1538,7 +1551,7 @@
         "score": 35
       }
     ],
-    "last_alert_scan": "2026-02-09T01:09:57.401994",
+    "last_alert_scan": "2026-02-09T01:27:28.004699",
     "subscription_expires": "2026-02-06T11:19:22.620972"
   },
   "5157140630": {
@@ -1549,7 +1562,7 @@
     "total_signals": 0,
     "selected_exchange": "mexc",
     "selected_interval": "15m",
-    "last_active": "2026-02-09T01:16:54.791803",
+    "last_active": "2026-02-09T01:35:21.163970",
     "awaiting_search": true,
     "alert_settings": {
       "oversold_enabled": 0,
@@ -1576,19 +1589,32 @@
       "sudden_changes_enabled": true,
       "volume_spikes_enabled": true
     },
-    "signals_count": 121,
+    "signals_count": 122,
     "last_scan_size": "top10",
     "last_timeframe": "30m",
     "cached_scan_results": [
       {
+        "symbol": "SIREN/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 25,
+        "entry": 0.09341,
+        "tp1": 0.08450214285714286,
+        "tp2": 0.07559428571428572,
+        "tp3": 0.06371714285714286,
+        "sl": 0.10528714285714287,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
         "symbol": "CLAWNCH/USDT:USDT",
         "signal": "LONG",
         "confidence": 25,
-        "entry": 8.24e-05,
-        "tp1": 9.314642857142857e-05,
-        "tp2": 0.00010389285714285714,
-        "tp3": 0.00011822142857142857,
-        "sl": 6.807142857142857e-05,
+        "entry": 8.4e-05,
+        "tp1": 9.452142857142856e-05,
+        "tp2": 0.00010504285714285714,
+        "tp3": 0.00011907142857142856,
+        "sl": 6.997142857142857e-05,
         "mtf_boost": 0,
         "htf_aligned": false,
         "ltf_aligned": false
@@ -1596,7 +1622,7 @@
     ],
     "is_premium": true,
     "interval": "1h",
-    "last_alert_scan": "2026-02-09T01:09:40.286135",
+    "last_alert_scan": "2026-02-09T01:27:10.600937",
     "alert_history": [
       {
         "alert_type": "big_gain",
