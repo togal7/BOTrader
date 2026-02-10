@@ -1705,10 +1705,54 @@ Proszę czekać ~10 sekund...""")
             back_data = 'back_main'
             back_label = '⬅️ Menu główne'
         keyboard = [
-            [InlineKeyboardButton('🔍 Pełny wykres', callback_data=f'chart_full_{symbol}_{timeframe}')],
             [InlineKeyboardButton('🔄 Odśwież analizę', callback_data=f'refresh_analysis_{symbol}_{timeframe}')],
             [InlineKeyboardButton(back_label, callback_data=back_data)]
         ]
+        # 📊 MINI CHART
+        try:
+            print(f"🔥 MINI: Start {symbol} {timeframe}")
+            from chart_generator import chart_gen
+            import pandas as pd
+            
+            ohlcv = await exchange_api.get_ohlcv(symbol, exchange, timeframe, limit=100)
+            print(f"🔥 MINI: Klines: {len(ohlcv) if ohlcv else 0}")
+            
+            if ohlcv and len(ohlcv) > 20:
+                df = pd.DataFrame(ohlcv, columns=['time','open','high','low','close','volume'])
+                df['time'] = pd.to_datetime(df['time'], unit='ms')
+                df.set_index('time', inplace=True)
+                
+                sig = analysis.get('signal', {})
+                entry = sig.get('entry', df['close'].iloc[-1])
+                tp1 = sig.get('tp1', entry * 1.02)
+                tp2 = sig.get('tp2', entry * 1.04)
+                tp3 = sig.get('tp3', entry * 1.06)
+                sl = sig.get('sl', entry * 0.98)
+                direction = sig.get('direction', 'LONG')
+                
+                print(f"🔥 MINI: Generating... entry={entry} tp1={tp1} sl={sl}")
+                img = await chart_gen.generate_signal_chart(
+                    symbol=symbol, timeframe=timeframe, ohlcv_data=df,
+                    entry_price=entry, position_type=direction,
+                    tp_levels=[tp1, tp2, tp3], sl_price=sl
+                )
+                
+                print(f"🔥 MINI: Sending photo...")
+                # Wyślij wykres jako photo
+                await query.message.reply_photo(photo=img, caption=f"📊 {symbol} {timeframe}")
+                # Wyślij pełny tekst analizy osobno
+                await query.message.reply_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+                await query.message.delete()
+                
+                user['signals_count'] = user.get('signals_count', 0) + 1
+                db.update_user(user_id, user)
+                print(f"🔥 MINI: SUCCESS!")
+                return
+        except Exception as e:
+            print(f"🔥 MINI: Failed - {e}")
+            import traceback
+            traceback.print_exc()
+        
         await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
         # Increment counter
         user['signals_count'] = user.get('signals_count', 0) + 1

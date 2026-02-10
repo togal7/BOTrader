@@ -1,0 +1,11 @@
+{
+  "user_id": "5157140630",
+  "alert_data": {
+    "type": "big_gain",
+    "symbol": "RIVER/USDT:USDT",
+    "message": "\ud83d\ude80 DU\u017bY WZROST: RIVER/USDT:USDT\n\ud83d\udcb0 Cena: $17.987\n\ud83d\udcc8 Zmiana 24h: +40.36%",
+    "timestamp": "2026-02-10T09:29:25.333633"
+  },
+  "created_at": "2026-02-10T09:29:25.333705",
+  "status": "pending"
+}

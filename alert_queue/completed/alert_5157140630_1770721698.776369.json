@@ -1,0 +1,11 @@
+{
+  "user_id": "5157140630",
+  "alert_data": {
+    "type": "big_gain",
+    "symbol": "PIPPIN/USDT:USDT",
+    "message": "\ud83d\ude80 DU\u017bY WZROST: PIPPIN/USDT:USDT\n\ud83d\udcb0 Cena: $0.35332\n\ud83d\udcc8 Zmiana 24h: +31.50%",
+    "timestamp": "2026-02-10T12:08:18.776341"
+  },
+  "created_at": "2026-02-10T12:08:18.776390",
+  "status": "pending"
+}
