@@ -639,50 +639,6 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if nav_row:
             keyboard.append(nav_row)
         
-        keyboard.append([InlineKeyboardButton('⬅️ Powrót', callback_data='show_cached_scan')])
-        
-        # 📊 Generate mini chart inline
-        try:
-            print(f"🔥 MINI CHART: Starting for {symbol} {timeframe}")
-            from chart_generator import chart_gen
-            import pandas as pd
-            
-            klines = await exchange_api.get_klines(exchange.upper(), symbol, timeframe, limit=100)
-            print(f"🔥 MINI CHART: Got {len(klines) if klines else 0} klines")
-            
-            if klines and len(klines) > 20:
-                df = pd.DataFrame(klines)
-                df['time'] = pd.to_datetime(df['time'], unit='ms')
-                df.set_index('time', inplace=True)
-                
-                entry = analysis.get('signal', {}).get('entry', df['close'].iloc[-1])
-                
-                print(f"🔥 MINI CHART: Generating image...")
-                img = await chart_gen.generate_signal_chart(
-                    symbol=symbol, timeframe=timeframe, ohlcv_data=df,
-                    entry_price=entry, position_type='LONG',
-                    tp_levels=[entry*1.02, entry*1.04], sl_price=entry*0.98
-                )
-                
-                print(f"🔥 MINI CHART: Sending as photo...")
-                await query.message.reply_photo(
-                    photo=img,
-                    caption=text[:1024],
-                    reply_markup=InlineKeyboardMarkup(keyboard)
-                )
-                
-                print(f"🔥 MINI CHART: Deleting loading message...")
-                await query.message.delete()
-                
-                # Update counter
-                user['signals_count'] = user.get('signals_count', 0) + 1
-                db.update_user(user_id, user)
-                print(f"🔥 MINI CHART: SUCCESS! Returning...")
-                return
-        except Exception as e:
-            print(f"🔥 MINI CHART: Failed - {e}")
-            import traceback
-            traceback.print_exc()
             # Fallback to text
         
         await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
@@ -2369,6 +2325,39 @@ async def analyze_from_alert(query, user_id, user, symbol, timeframe):
             InlineKeyboardButton('📜 Historia', callback_data='alerts_history'),
             InlineKeyboardButton('🏠 Menu', callback_data='back_main')
         ])
+        # 📊 MINI CHART w analyze_from_alert
+        try:
+            from chart_generator import chart_gen
+            import pandas as pd
+            
+            ohlcv = await exchange_api.get_ohlcv(symbol, exchange, timeframe, limit=100)
+            
+            if ohlcv and len(ohlcv) > 20:
+                df = pd.DataFrame(ohlcv, columns=['time','open','high','low','close','volume'])
+                df['time'] = pd.to_datetime(df['time'], unit='ms')
+                df.set_index('time', inplace=True)
+                
+                sig = analysis.get('signal', {})
+                entry = sig.get('entry', df['close'].iloc[-1])
+                tp1 = sig.get('tp1', entry * 1.02)
+                tp2 = sig.get('tp2', entry * 1.04)
+                tp3 = sig.get('tp3', entry * 1.06)
+                sl = sig.get('sl', entry * 0.98)
+                direction = sig.get('direction', 'LONG')
+                
+                img = await chart_gen.generate_signal_chart(
+                    symbol=symbol, timeframe=timeframe, ohlcv_data=df,
+                    entry_price=entry, position_type=direction,
+                    tp_levels=[tp1, tp2, tp3], sl_price=sl
+                )
+                
+                await query.message.reply_photo(photo=img, caption=f"📊 {symbol} | {timeframe}")
+                await query.message.reply_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+                await query.message.delete()
+                return
+        except Exception as e:
+            logger.error(f"Chart error in alert: {e}")
+        
         await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
     except Exception as e:
         logger.error(f"Error in analyze_from_alert: {e}")
