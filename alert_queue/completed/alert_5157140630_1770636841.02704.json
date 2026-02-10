@@ -1,0 +1,11 @@
+{
+  "user_id": "5157140630",
+  "alert_data": {
+    "type": "big_gain",
+    "symbol": "OWL/USDT:USDT",
+    "message": "\ud83d\ude80 DU\u017bY WZROST: OWL/USDT:USDT\n\ud83d\udcb0 Cena: $0.0087\n\ud83d\udcc8 Zmiana 24h: +39.87%",
+    "timestamp": "2026-02-09T12:34:01.026983"
+  },
+  "created_at": "2026-02-09T12:34:01.027077",
+  "status": "pending"
+}

@@ -1,0 +1,11 @@
+{
+  "user_id": "1794363283",
+  "alert_data": {
+    "type": "big_loss",
+    "symbol": "SIREN/USDT:USDT",
+    "message": "\ud83d\udcc9 DU\u017bY SPADEK: SIREN/USDT:USDT\n\ud83d\udcb0 Cena: $0.08896\n\ud83d\udcc9 Zmiana 24h: -35.73%",
+    "timestamp": "2026-02-09T05:07:48.852497"
+  },
+  "created_at": "2026-02-09T05:07:48.852622",
+  "status": "pending"
+}

@@ -1,0 +1,11 @@
+{
+  "user_id": "5157140630",
+  "alert_data": {
+    "type": "big_gain",
+    "symbol": "PENGUIN/USDT:USDT",
+    "message": "\ud83d\ude80 DU\u017bY WZROST: PENGUIN/USDT:USDT\n\ud83d\udcb0 Cena: $0.03327\n\ud83d\udcc8 Zmiana 24h: +17.93%",
+    "timestamp": "2026-02-09T05:31:35.286159"
+  },
+  "created_at": "2026-02-09T05:31:35.286239",
+  "status": "pending"
+}

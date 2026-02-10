@@ -1,0 +1,11 @@
+{
+  "user_id": "5157140630",
+  "alert_data": {
+    "type": "big_gain",
+    "symbol": "GPS/USDT:USDT",
+    "message": "\ud83d\ude80 DU\u017bY WZROST: GPS/USDT:USDT\n\ud83d\udcb0 Cena: $0.013076\n\ud83d\udcc8 Zmiana 24h: +35.13%",
+    "timestamp": "2026-02-09T12:16:11.228588"
+  },
+  "created_at": "2026-02-09T12:16:11.228674",
+  "status": "pending"
+}
