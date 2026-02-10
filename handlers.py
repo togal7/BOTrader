@@ -1477,7 +1477,9 @@ async def show_ai_signal_detail(query, user_id, user, symbol, timeframe, mtf_dat
 • HTF aligned: {'✅' if htf_aligned else '❌'}
 • LTF aligned: {'✅' if ltf_aligned else '❌'}
 
-💡 Sygnał ma się sprawdzić w ciągu ~{timeframe}
+            tf_labels = {'1m':'1 minutę','3m':'3 minuty','5m':'5 minut','15m':'15 minut','30m':'30 minut','1h':'1 godzinę','2h':'2 godziny','4h':'4 godziny','6h':'6 godzin','8h':'8 godzin','12h':'12 godzin','1d':'1 dzień','3d':'3 dni','1w':'1 tydzień','1M':'1 miesiąc'}
+            tf_label = tf_labels.get(timeframe, timeframe)
+💡 Sygnał ważny ~{tf_label}
 ══════════════════════════════════
 ⚠️ To NIE jest porada finansowa!
 Zawsze przeprowadzaj własną analizę.

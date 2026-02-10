@@ -27791,5 +27791,80 @@
     "checked_24h": false,
     "checked_48h": false,
     "checked_7d": false
+  },
+  "OWL/USDT:USDT_mexc_1770731311": {
+    "signal_id": "OWL/USDT:USDT_mexc_1770731311",
+    "timestamp": "2026-02-10T14:48:31.739212",
+    "symbol": "OWL/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "30m",
+    "signal": "LONG",
+    "confidence": 25,
+    "entry_price": 0.02086,
+    "source": "unknown",
+    "ai_mode": "unknown",
+    "indicators": {
+      "rsi": 0,
+      "ema_cross": false,
+      "macd_signal": "neutral",
+      "macd_histogram": 0,
+      "volume_ratio": 1.0,
+      "bollinger_position": "middle"
+    },
+    "ai_full_response": "MTF Signal: LONG 25% (boost: +0%, HTF: False, LTF: False)",
+    "user_id": null,
+    "checked_24h": false,
+    "checked_48h": false,
+    "checked_7d": false
+  },
+  "RIVER/USDT:USDT_mexc_1770731311": {
+    "signal_id": "RIVER/USDT:USDT_mexc_1770731311",
+    "timestamp": "2026-02-10T14:48:31.781860",
+    "symbol": "RIVER/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "30m",
+    "signal": "LONG",
+    "confidence": 25,
+    "entry_price": 18.032,
+    "source": "unknown",
+    "ai_mode": "unknown",
+    "indicators": {
+      "rsi": 0,
+      "ema_cross": false,
+      "macd_signal": "neutral",
+      "macd_histogram": 0,
+      "volume_ratio": 1.0,
+      "bollinger_position": "middle"
+    },
+    "ai_full_response": "MTF Signal: LONG 25% (boost: +0%, HTF: False, LTF: False)",
+    "user_id": null,
+    "checked_24h": false,
+    "checked_48h": false,
+    "checked_7d": false
+  },
+  "GPS/USDT:USDT_mexc_1770731311": {
+    "signal_id": "GPS/USDT:USDT_mexc_1770731311",
+    "timestamp": "2026-02-10T14:48:31.814092",
+    "symbol": "GPS/USDT:USDT",
+    "exchange": "mexc",
+    "timeframe": "30m",
+    "signal": "SHORT",
+    "confidence": 25,
+    "entry_price": 0.011183,
+    "source": "unknown",
+    "ai_mode": "unknown",
+    "indicators": {
+      "rsi": 0,
+      "ema_cross": false,
+      "macd_signal": "neutral",
+      "macd_histogram": 0,
+      "volume_ratio": 1.0,
+      "bollinger_position": "middle"
+    },
+    "ai_full_response": "MTF Signal: SHORT 25% (boost: +0%, HTF: False, LTF: False)",
+    "user_id": null,
+    "checked_24h": false,
+    "checked_48h": false,
+    "checked_7d": false
   }
 }
