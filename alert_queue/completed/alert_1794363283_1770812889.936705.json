@@ -1,0 +1,11 @@
+{
+  "user_id": "1794363283",
+  "alert_data": {
+    "type": "big_loss",
+    "symbol": "SOLTOMATO/USDT:USDT",
+    "message": "\ud83d\udcc9 DU\u017bY SPADEK: SOLTOMATO/USDT:USDT\n\ud83d\udcb0 Cena: $0.0023\n\ud83d\udcc9 Zmiana 24h: -35.42%",
+    "timestamp": "2026-02-11T13:28:09.936679"
+  },
+  "created_at": "2026-02-11T13:28:09.936729",
+  "status": "pending"
+}

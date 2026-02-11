@@ -97,9 +97,11 @@ Status: {sub_status}
         [InlineKeyboardButton("💬 Czat z adminem", callback_data='admin_chat')],
         [InlineKeyboardButton("⚙️ Ustawienia", callback_data="settings")],
         [InlineKeyboardButton("ℹ️ Wyjaśnienia", callback_data='explanations_menu')],
-        [InlineKeyboardButton("💎 Subskrypcja", callback_data='subscription')],
-        [InlineKeyboardButton("⭐ Oceń bota", callback_data='rate_bot')]
     ]
+    from admin_features_config import get_feature
+    if get_feature('subscription_enabled'):
+        keyboard.append([InlineKeyboardButton("💎 Subskrypcja", callback_data='subscription')])
+    keyboard.append([InlineKeyboardButton("⭐  Oceń bota", callback_data='rate_bot')])
     if is_admin:
         keyboard.append([InlineKeyboardButton("👑 Admin Panel", callback_data='admin_panel')])
     await update.message.reply_text(welcome, reply_markup=InlineKeyboardMarkup(keyboard))
@@ -894,7 +896,7 @@ async def subscription_menu(query, user_id, user):
 • 30 dni - 150 PLN / 35 USDT ⭐
 • 90 dni - 350 PLN / 80 USDT 🔥 -20%
 • 365 dni - 1000 PLN / 230 USDT 💎 -50%
-💬 Kontakt: @YOUR_ADMIN"""
+"""
     keyboard = [
         [InlineKeyboardButton("💳 Metody płatności", callback_data='payment_info')],
         [InlineKeyboardButton("💬 Kontakt z adminem", callback_data='admin_chat')],
