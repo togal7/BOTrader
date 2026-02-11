@@ -111,7 +111,7 @@ class AlertWorker:
             # Check if any alert is enabled
             enabled_count = sum(
                 1 for key, value in settings.items() 
-                if key.endswith('_enabled') and value == 1
+                if key.endswith("_enabled") and (value == 1 or value is True)
             )
             
             if enabled_count > 0:
@@ -217,12 +217,12 @@ class AlertWorker:
                     })
             
             # 2. Sudden changes (requires OHLCV)
-            if settings.get('sudden_changes_enabled'):
+            if settings.get('sudden_change_enabled') or settings.get('sudden_changes_enabled'):
                 sudden_timeframe = settings.get('sudden_timeframe', '15m')
                 sudden_threshold = settings.get('sudden_threshold', 5)
                 
                 try:
-                    ohlcv = await exchange_api.get_ohlcv(symbol, sudden_timeframe, exchange)
+                    ohlcv = await exchange_api.get_ohlcv(symbol, exchange, sudden_timeframe)
                     if ohlcv and len(ohlcv) >= 2:
                         prev_close = ohlcv[-2][4]
                         curr_close = ohlcv[-1][4]

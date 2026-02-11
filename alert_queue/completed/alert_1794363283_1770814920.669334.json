@@ -1,0 +1,11 @@
+{
+  "user_id": "1794363283",
+  "alert_data": {
+    "type": "big_gain",
+    "symbol": "STG/USDT:USDT",
+    "message": "\ud83d\ude80 DU\u017bY WZROST: STG/USDT:USDT\n\ud83d\udcb0 Cena: $0.214\n\ud83d\udcc8 Zmiana 24h: +40.23%",
+    "timestamp": "2026-02-11T14:02:00.224720"
+  },
+  "created_at": "2026-02-11T14:02:00.669399",
+  "status": "pending"
+}

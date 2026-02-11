@@ -1,0 +1,11 @@
+{
+  "user_id": "5157140630",
+  "alert_data": {
+    "type": "big_gain",
+    "symbol": "NIL/USDT:USDT",
+    "message": "\ud83d\ude80 DU\u017bY WZROST: NIL/USDT:USDT\n\ud83d\udcb0 Cena: $0.05788\n\ud83d\udcc8 Zmiana 24h: +27.82%",
+    "timestamp": "2026-02-11T13:56:48.987142"
+  },
+  "created_at": "2026-02-11T13:56:48.987210",
+  "status": "pending"
+}
