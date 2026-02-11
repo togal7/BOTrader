@@ -1,0 +1,11 @@
+{
+  "user_id": "1794363283",
+  "alert_data": {
+    "type": "big_loss",
+    "symbol": "WARD/USDT:USDT",
+    "message": "\ud83d\udcc9 DU\u017bY SPADEK: WARD/USDT:USDT\n\ud83d\udcb0 Cena: $0.0956\n\ud83d\udcc9 Zmiana 24h: -23.76%",
+    "timestamp": "2026-02-11T15:01:35.382186"
+  },
+  "created_at": "2026-02-11T15:01:35.657782",
+  "status": "pending"
+}

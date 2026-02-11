@@ -1,0 +1,11 @@
+{
+  "user_id": "5157140630",
+  "alert_data": {
+    "type": "big_gain",
+    "symbol": "ALLO/USDT:USDT",
+    "message": "\ud83d\ude80 DU\u017bY WZROST: ALLO/USDT:USDT\n\ud83d\udcb0 Cena: $0.07985\n\ud83d\udcc8 Zmiana 24h: +15.22%",
+    "timestamp": "2026-02-11T16:01:21.006888"
+  },
+  "created_at": "2026-02-11T16:01:21.356789",
+  "status": "pending"
+}

@@ -1,0 +1,11 @@
+{
+  "user_id": "1794363283",
+  "alert_data": {
+    "type": "sudden_change",
+    "symbol": "FHE/USDT:USDT",
+    "message": "\u26a1 NAG\u0141A ZMIANA: FHE/USDT:USDT\n\ud83d\udcb0 Cena: $0.12079\n\u26a1 SPADEK: 5.78% w 15m\n\ud83d\udcca 0.128200 \u2192 0.120790",
+    "timestamp": "2026-02-11T15:47:46.860061"
+  },
+  "created_at": "2026-02-11T15:47:46.860215",
+  "status": "pending"
+}

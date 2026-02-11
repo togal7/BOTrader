@@ -1,0 +1,11 @@
+{
+  "user_id": "5157140630",
+  "alert_data": {
+    "type": "sudden_change",
+    "symbol": "UNI/USDT:USDT",
+    "message": "\u26a1 NAG\u0141A ZMIANA: UNI/USDT:USDT\n\ud83d\udcb0 Cena: $4.046\n\u26a1 WZROST: 20.09% w 5m\n\ud83d\udcca 3.394000 \u2192 4.076000",
+    "timestamp": "2026-02-11T15:02:44.920495"
+  },
+  "created_at": "2026-02-11T15:02:44.921535",
+  "status": "pending"
+}

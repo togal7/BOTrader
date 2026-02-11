@@ -44,7 +44,7 @@ class AlertWorker:
         
         # Keep running
         while self.running:
-            await asyncio.sleep(1)
+            await asyncio.sleep(2)
     
     async def stop(self):
         """Stop the worker"""
@@ -148,7 +148,7 @@ class AlertWorker:
         logger.info(f"🔍 User {user_id}: Scanning {scan_range} symbols on {exchange}")
         
         # BATCH PROCESSING - scan in parallel batches of 20
-        batch_size = 20
+        batch_size = 10
         for i in range(0, len(symbols_to_scan), batch_size):
             batch = symbols_to_scan[i:i+batch_size]
             
@@ -161,7 +161,7 @@ class AlertWorker:
             await asyncio.gather(*tasks, return_exceptions=True)
             
             # Small delay between batches
-            await asyncio.sleep(1)
+            await asyncio.sleep(2)
         
         # Update last scan time
         user_data['last_alert_scan'] = datetime.now().isoformat()
@@ -200,7 +200,7 @@ class AlertWorker:
                 gain_threshold = settings.get('gain_threshold', 15)
                 loss_threshold = settings.get('loss_threshold', 15)
                 
-                if settings.get('big_gains_enabled') and change_24h >= gain_threshold:
+                if settings.get('big_gains_enabled') and change_24h is not None and change_24h >= gain_threshold:
                     alerts_to_send.append({
                         'type': 'big_gain',
                         'symbol': symbol,
@@ -208,7 +208,7 @@ class AlertWorker:
                         'timestamp': datetime.now().isoformat()
                     })
                 
-                if settings.get('big_losses_enabled') and change_24h <= -loss_threshold:
+                if settings.get('big_losses_enabled') and change_24h is not None and change_24h <= -loss_threshold:
                     alerts_to_send.append({
                         'type': 'big_loss',
                         'symbol': symbol,

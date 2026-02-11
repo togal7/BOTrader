@@ -1,0 +1,11 @@
+{
+  "user_id": "1794363283",
+  "alert_data": {
+    "type": "sudden_change",
+    "symbol": "MOLT/USDT:USDT",
+    "message": "\u26a1 NAG\u0141A ZMIANA: MOLT/USDT:USDT\n\ud83d\udcb0 Cena: $7.42e-05\n\u26a1 WZROST: 5.10% w 15m\n\ud83d\udcca 0.000071 \u2192 0.000074",
+    "timestamp": "2026-02-11T16:34:12.175805"
+  },
+  "created_at": "2026-02-11T16:34:12.175920",
+  "status": "pending"
+}

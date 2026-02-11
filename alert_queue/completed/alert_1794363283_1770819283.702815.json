@@ -1,0 +1,11 @@
+{
+  "user_id": "1794363283",
+  "alert_data": {
+    "type": "sudden_change",
+    "symbol": "AAVE/USDT:USDT",
+    "message": "\u26a1 NAG\u0141A ZMIANA: AAVE/USDT:USDT\n\ud83d\udcb0 Cena: $113.16\n\u26a1 WZROST: 5.38% w 15m\n\ud83d\udcca 107.380000 \u2192 113.160000",
+    "timestamp": "2026-02-11T15:14:43.702724"
+  },
+  "created_at": "2026-02-11T15:14:43.702869",
+  "status": "pending"
+}

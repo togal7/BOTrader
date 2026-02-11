@@ -1,0 +1,11 @@
+{
+  "user_id": "5157140630",
+  "alert_data": {
+    "type": "sudden_change",
+    "symbol": "MEMES/USDT:USDT",
+    "message": "\u26a1 NAG\u0141A ZMIANA: MEMES/USDT:USDT\n\ud83d\udcb0 Cena: $0.001269\n\u26a1 SPADEK: 5.44% w 5m\n\ud83d\udcca 0.001342 \u2192 0.001269",
+    "timestamp": "2026-02-11T17:44:22.385202"
+  },
+  "created_at": "2026-02-11T17:44:22.385302",
+  "status": "pending"
+}

@@ -1,0 +1,11 @@
+{
+  "user_id": "5157140630",
+  "alert_data": {
+    "type": "big_gain",
+    "symbol": "ZRO/USDT:USDT",
+    "message": "\ud83d\ude80 DU\u017bY WZROST: ZRO/USDT:USDT\n\ud83d\udcb0 Cena: $2.488\n\ud83d\udcc8 Zmiana 24h: +41.60%",
+    "timestamp": "2026-02-11T16:01:06.486342"
+  },
+  "created_at": "2026-02-11T16:01:06.792850",
+  "status": "pending"
+}

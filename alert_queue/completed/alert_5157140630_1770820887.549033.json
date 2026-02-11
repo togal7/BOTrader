@@ -1,0 +1,11 @@
+{
+  "user_id": "5157140630",
+  "alert_data": {
+    "type": "big_gain",
+    "symbol": "SONIC/USDT:USDT",
+    "message": "\ud83d\ude80 DU\u017bY WZROST: SONIC/USDT:USDT\n\ud83d\udcb0 Cena: $0.05784\n\ud83d\udcc8 Zmiana 24h: +15.58%",
+    "timestamp": "2026-02-11T15:41:27.010088"
+  },
+  "created_at": "2026-02-11T15:41:27.549108",
+  "status": "pending"
+}

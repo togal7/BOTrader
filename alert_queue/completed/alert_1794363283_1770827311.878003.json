@@ -1,0 +1,11 @@
+{
+  "user_id": "1794363283",
+  "alert_data": {
+    "type": "sudden_change",
+    "symbol": "PSYOPANIME/USDT:USDT",
+    "message": "\u26a1 NAG\u0141A ZMIANA: PSYOPANIME/USDT:USDT\n\ud83d\udcb0 Cena: $0.002911\n\u26a1 WZROST: 5.47% w 15m\n\ud83d\udcca 0.002760 \u2192 0.002911",
+    "timestamp": "2026-02-11T17:28:31.877939"
+  },
+  "created_at": "2026-02-11T17:28:31.878062",
+  "status": "pending"
+}

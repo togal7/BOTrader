@@ -1,0 +1,11 @@
+{
+  "user_id": "1794363283",
+  "alert_data": {
+    "type": "big_gain",
+    "symbol": "UNI/USDT:USDT",
+    "message": "\ud83d\ude80 DU\u017bY WZROST: UNI/USDT:USDT\n\ud83d\udcb0 Cena: $4.153\n\ud83d\udcc8 Zmiana 24h: +23.52%",
+    "timestamp": "2026-02-11T15:21:11.538167"
+  },
+  "created_at": "2026-02-11T15:21:11.867097",
+  "status": "pending"
+}

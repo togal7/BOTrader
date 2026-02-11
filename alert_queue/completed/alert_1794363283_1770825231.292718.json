@@ -1,0 +1,11 @@
+{
+  "user_id": "1794363283",
+  "alert_data": {
+    "type": "sudden_change",
+    "symbol": "POWER/USDT:USDT",
+    "message": "\u26a1 NAG\u0141A ZMIANA: POWER/USDT:USDT\n\ud83d\udcb0 Cena: $0.35234\n\u26a1 SPADEK: 7.90% w 15m\n\ud83d\udcca 0.385280 \u2192 0.354860",
+    "timestamp": "2026-02-11T16:53:51.292626"
+  },
+  "created_at": "2026-02-11T16:53:51.292797",
+  "status": "pending"
+}

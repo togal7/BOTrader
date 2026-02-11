@@ -1,0 +1,11 @@
+{
+  "user_id": "1794363283",
+  "alert_data": {
+    "type": "sudden_change",
+    "symbol": "RNBW/USDT:USDT",
+    "message": "\u26a1 NAG\u0141A ZMIANA: RNBW/USDT:USDT\n\ud83d\udcb0 Cena: $0.02942\n\u26a1 WZROST: 7.75% w 15m\n\ud83d\udcca 0.027350 \u2192 0.029470",
+    "timestamp": "2026-02-11T15:40:44.576581"
+  },
+  "created_at": "2026-02-11T15:40:44.578084",
+  "status": "pending"
+}
