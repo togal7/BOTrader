@@ -1,0 +1,11 @@
+{
+  "user_id": "1794363283",
+  "alert_data": {
+    "type": "big_loss",
+    "symbol": "WHITEWHALE/USDT:USDT",
+    "message": "\ud83d\udcc9 DU\u017bY SPADEK: WHITEWHALE/USDT:USDT\n\ud83d\udcb0 Cena: $0.05858\n\ud83d\udcc9 Zmiana 24h: -17.90%",
+    "timestamp": "2026-02-11T02:33:48.944749"
+  },
+  "created_at": "2026-02-11T02:33:48.944866",
+  "status": "pending"
+}

@@ -1,0 +1,11 @@
+{
+  "user_id": "1794363283",
+  "alert_data": {
+    "type": "big_loss",
+    "symbol": "PSYOPANIME/USDT:USDT",
+    "message": "\ud83d\udcc9 DU\u017bY SPADEK: PSYOPANIME/USDT:USDT\n\ud83d\udcb0 Cena: $0.003182\n\ud83d\udcc9 Zmiana 24h: -21.43%",
+    "timestamp": "2026-02-10T15:39:27.148873"
+  },
+  "created_at": "2026-02-10T15:39:27.148969",
+  "status": "pending"
+}

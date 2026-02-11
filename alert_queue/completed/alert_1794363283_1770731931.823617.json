@@ -1,0 +1,11 @@
+{
+  "user_id": "1794363283",
+  "alert_data": {
+    "type": "big_loss",
+    "symbol": "TRIA/USDT:USDT",
+    "message": "\ud83d\udcc9 DU\u017bY SPADEK: TRIA/USDT:USDT\n\ud83d\udcb0 Cena: $0.01425\n\ud83d\udcc9 Zmiana 24h: -20.47%",
+    "timestamp": "2026-02-10T14:58:51.823586"
+  },
+  "created_at": "2026-02-10T14:58:51.823642",
+  "status": "pending"
+}
