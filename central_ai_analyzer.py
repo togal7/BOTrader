@@ -300,13 +300,13 @@ class CentralAIAnalyzer:
         if rsi < 30:
             score += 30
             signals.append('Oversold')
-        elif rsi < 40:
+        elif rsi < 30:
             score += 15
             signals.append('Low RSI')
         elif rsi > 70:
             score -= 30
             signals.append('Overbought')
-        elif rsi > 60:
+        elif rsi > 70:
             score -= 15
             signals.append('High RSI')
         
@@ -567,10 +567,10 @@ IMPORTANT: Respond in {ai_language} language for all reasoning text. Use profess
         if isinstance(rsi, dict):
             rsi = rsi.get('value', 50)
         
-        if rsi < 40:
+        if rsi < 30:
             score += 1
             reasoning.append(f"RSI oversold ({rsi:.0f})")
-        elif rsi > 60:
+        elif rsi > 70:
             score += 1
             reasoning.append(f"RSI overbought ({rsi:.0f})")
         

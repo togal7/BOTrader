@@ -1764,26 +1764,26 @@ def format_analysis_report(analysis, lang='pl'):
     }
     direction_label = direction_text.get(signal['direction'], {}).get(lang, signal['direction'])
     # Calculate TP percentages properly
-    entry = signal['entry']
-    tp1_pct = ((signal['tp1'] - entry) / entry * 100) if entry > 0 else 0
-    tp2_pct = ((signal['tp2'] - entry) / entry * 100) if entry > 0 else 0
-    tp3_pct = ((signal['tp3'] - entry) / entry * 100) if entry > 0 else 0
+    entry = signal.get('entry_price', signal.get('entry', 0))
+    tp1_pct = ((signal.get('take_profit_1', signal.get('tp1', 0)) - entry) / entry * 100) if entry > 0 else 0
+    tp2_pct = ((signal.get('take_profit_2', signal.get('tp2', 0)) - entry) / entry * 100) if entry > 0 else 0
+    tp3_pct = ((signal.get('take_profit_3', signal.get('tp3', 0)) - entry) / entry * 100) if entry > 0 else 0
     # Specjalne formatowanie dla NEUTRAL
     if signal['direction'] == 'NEUTRAL':
         reco_text = f"""🎯 REKOMENDACJE:
 ⚠️ Brak wyraźnego kierunku - podajemy range:
 • Cena: ${entry:.6f}
-• Upside target: ${signal['tp1']:.6f} ({tp1_pct:+.2f}%)
-• Downside target: ${signal['tp2']:.6f} ({tp2_pct:+.2f}%)
+• Upside target: ${signal.get('take_profit_1', signal.get('tp1', 0)):.6f} ({tp1_pct:+.2f}%)
+• Downside target: ${signal.get('take_profit_2', signal.get('tp2', 0)):.6f} ({tp2_pct:+.2f}%)
 💡 Rekomendacja: Poczekaj na wyraźniejszy sygnał!"""
     else:
         reco_text = f"""🎯 REKOMENDACJE:
 💵 Entry: ${entry:.6f}
-🎯 TP1: ${signal['tp1']:.6f} ({tp1_pct:+.2f}%)
-🎯 TP2: ${signal['tp2']:.6f} ({tp2_pct:+.2f}%)
-🎯 TP3: ${signal['tp3']:.6f} ({tp3_pct:+.2f}%)
-🛡️ Stop Loss: ${signal['sl']:.6f}
-• R/R Ratio: {signal['rr_ratio']:.2f}"""
+🎯 TP1: ${signal.get('take_profit_1', signal.get('tp1', 0)):.6f} ({tp1_pct:+.2f}%)
+🎯 TP2: ${signal.get('take_profit_2', signal.get('tp2', 0)):.6f} ({tp2_pct:+.2f}%)
+🎯 TP3: ${signal.get('take_profit_3', signal.get('tp3', 0)):.6f} ({tp3_pct:+.2f}%)
+🛡️ Stop Loss: ${signal.get('stop_loss', signal.get('sl', 0)):.6f}
+• R/R Ratio: {signal.get('risk_reward', signal.get('rr_ratio', signal.get('rr', 0))):.2f}"""
     text = f"""{direction_emoji} {t('signal', lang)} AI - {symbol}
 {'='*30}
 🎯 SYGNAŁ: {direction_label} ({signal['confidence']}%)
@@ -1884,7 +1884,7 @@ def format_analysis_report(analysis, lang='pl'):
     }
     text += f"""🤖 {reasoning_labels.get(lang, 'ANALIZA AI')}:
 """
-    for reason in signal['reasons'][:5]:
+    for reason in signal.get('reasoning', signal.get('reasons', []))[:5]:
         # Try to translate
         translated = reason
         for key, trans in reason_translations.items():

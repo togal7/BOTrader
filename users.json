@@ -158,7 +158,7 @@
     "awaiting_search": true,
     "subscription_expires": "2027-01-11T12:34:44.554322",
     "is_premium": true,
-    "last_alert_scan": "2026-02-12T03:55:58.480080",
+    "last_alert_scan": "2026-02-12T04:04:02.929634",
     "awaiting_admin_message": false,
     "language": "pl",
     "ai_scan_size": "top10",
@@ -671,7 +671,7 @@
     "total_signals": 0,
     "selected_exchange": "mexc",
     "selected_interval": "15m",
-    "last_active": "2026-02-11T13:58:25.051974",
+    "last_active": "2026-02-12T04:09:27.201631",
     "awaiting_search": true,
     "alert_settings": {
       "oversold_enabled": 0,
@@ -698,22 +698,646 @@
       "sudden_changes_enabled": true,
       "volume_spikes_enabled": true
     },
-    "signals_count": 119,
-    "last_scan_size": "top10",
-    "last_timeframe": "5m",
+    "signals_count": 168,
+    "last_scan_size": "top50",
+    "last_timeframe": "30m",
     "cached_scan_results": [
       {
-        "symbol": "CLAWDONBASE/USDT:USDT",
-        "signal": "LONG",
-        "confidence": 34,
-        "entry": 0.00016682,
-        "tp1": 0.00017014553571428572,
-        "tp2": 0.00017347107142857144,
-        "tp3": 0.00017679660714285715,
-        "sl": 0.00016216425000000002,
-        "mtf_boost": 10,
+        "symbol": "MYX/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 100,
+        "entry": 3.294,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
         "htf_aligned": false,
-        "ltf_aligned": true
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "ZRO/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 95,
+        "entry": 2.099,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "HYPE/USDT:USDT",
+        "signal": "LONG",
+        "confidence": 95,
+        "entry": 30.669,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "FHE/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 95,
+        "entry": 0.0794,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "STG/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 95,
+        "entry": 0.1812,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "TAKE/USDT:USDT",
+        "signal": "LONG",
+        "confidence": 95,
+        "entry": 0.04062,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "CLAWNCH/USDT:USDT",
+        "signal": "LONG",
+        "confidence": 95,
+        "entry": 0.000175,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "TNSR/USDT:USDT",
+        "signal": "LONG",
+        "confidence": 95,
+        "entry": 0.05456,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "VTHO/USDT:USDT",
+        "signal": "LONG",
+        "confidence": 95,
+        "entry": 0.0006462,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "PENGUIN/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 95,
+        "entry": 0.0171,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "HBAR/USDT:USDT",
+        "signal": "LONG",
+        "confidence": 95,
+        "entry": 0.09052,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "ZAMA/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 95,
+        "entry": 0.01933,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "PIPPIN/USDT:USDT",
+        "signal": "LONG",
+        "confidence": 90,
+        "entry": 0.49879,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "BERA/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 90,
+        "entry": 0.9073,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "RIVER/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 90,
+        "entry": 15.822,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "ASTER/USDT:USDT",
+        "signal": "LONG",
+        "confidence": 90,
+        "entry": 0.7036,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "SIREN/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 90,
+        "entry": 0.09982,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "FARTCOIN/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 90,
+        "entry": 0.1722,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "XMR/USDT:USDT",
+        "signal": "LONG",
+        "confidence": 90,
+        "entry": 347.99,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "AXS/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 90,
+        "entry": 1.473,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "XAUT/USDT:USDT",
+        "signal": "LONG",
+        "confidence": 80,
+        "entry": 5041.0,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "SUI/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 80,
+        "entry": 0.9068,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "BLESS/USDT:USDT",
+        "signal": "LONG",
+        "confidence": 80,
+        "entry": 0.006755,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "ZEC/USDT:USDT",
+        "signal": "LONG",
+        "confidence": 80,
+        "entry": 238.5,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "ADA/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 80,
+        "entry": 0.2587,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "TAO/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 80,
+        "entry": 150.7,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "ACE/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 80,
+        "entry": 0.176,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "ENA/USDT:USDT",
+        "signal": "LONG",
+        "confidence": 80,
+        "entry": 0.1147,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "BNB/USDT:USDT",
+        "signal": "LONG",
+        "confidence": 80,
+        "entry": 614.2,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "LTC/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 80,
+        "entry": 52.74,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "SONIC/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 80,
+        "entry": 0.05907,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "APT/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 80,
+        "entry": 0.9484,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "WLD/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 80,
+        "entry": 0.375,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "BTC/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 75,
+        "entry": 67434.5,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "SOL/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 75,
+        "entry": 80.35,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "OWL/USDT:USDT",
+        "signal": "LONG",
+        "confidence": 75,
+        "entry": 0.02394,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "NIL/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 75,
+        "entry": 0.05286,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "LINK/USDT:USDT",
+        "signal": "LONG",
+        "confidence": 75,
+        "entry": 8.392,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "DYM/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 75,
+        "entry": 0.05147,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "DOGE/USDT:USDT",
+        "signal": "LONG",
+        "confidence": 75,
+        "entry": 0.09179,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "PEPE/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 75,
+        "entry": 3.619e-06,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "AVAX/USDT:USDT",
+        "signal": "LONG",
+        "confidence": 75,
+        "entry": 8.73,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "BCH/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 75,
+        "entry": 516.16,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "WIF/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 75,
+        "entry": 0.2104,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "ETH/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 70,
+        "entry": 1961.72,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "SILVER/USDT:USDT",
+        "signal": "LONG",
+        "confidence": 70,
+        "entry": 83.76,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "XRP/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 70,
+        "entry": 1.3766,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "POWER/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 70,
+        "entry": 0.38747,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "UNI/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 70,
+        "entry": 3.479,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
       }
     ],
     "is_premium": true,
@@ -1452,7 +2076,8 @@
         "triggered_at": "2026-02-10T15:40:25.548930"
       }
     ],
-    "ai_current_page": 1
+    "ai_current_page": 1,
+    "scan_mode": "fast"
   },
   "6464044879": {
     "user_id": "6464044879",
@@ -1539,5 +2164,1421 @@
     ],
     "last_alert_scan": "2026-02-12T03:57:41.524959",
     "subscription_expires": "2026-02-06T11:19:22.620972"
+  },
+  "5157140630": {
+    "user_id": "5157140630",
+    "subscription_end": "2027-02-21T12:54:06.836731",
+    "is_blocked": false,
+    "created_at": "2026-01-15T12:54:06.836741",
+    "total_signals": 0,
+    "selected_exchange": "mexc",
+    "selected_interval": "15m",
+    "last_active": "2026-02-12T04:09:27.201631",
+    "awaiting_search": true,
+    "alert_settings": {
+      "oversold_enabled": 0,
+      "overbought_enabled": 1,
+      "big_gains_enabled": 1,
+      "big_losses_enabled": 0,
+      "ai_signals_enabled": 0,
+      "volume_spike_enabled": 0,
+      "macd_cross_enabled": 0,
+      "ema_cross_enabled": 0,
+      "scan_range": 200,
+      "scan_frequency": "15m",
+      "scan_timeframe": "1h",
+      "alert_timeframe": "4h",
+      "sudden_change_enabled": 1,
+      "sudden_timeframe": "5m",
+      "sudden_threshold": 5,
+      "notifications_enabled": 1,
+      "min_confidence": 70,
+      "gain_threshold": 15,
+      "loss_threshold": 15,
+      "volume_multiplier": 3.0,
+      "quiet_hours": 0,
+      "sudden_changes_enabled": true,
+      "volume_spikes_enabled": true
+    },
+    "signals_count": 168,
+    "last_scan_size": "top50",
+    "last_timeframe": "30m",
+    "cached_scan_results": [
+      {
+        "symbol": "MYX/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 100,
+        "entry": 3.294,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "ZRO/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 95,
+        "entry": 2.099,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "HYPE/USDT:USDT",
+        "signal": "LONG",
+        "confidence": 95,
+        "entry": 30.669,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "FHE/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 95,
+        "entry": 0.0794,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "STG/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 95,
+        "entry": 0.1812,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "TAKE/USDT:USDT",
+        "signal": "LONG",
+        "confidence": 95,
+        "entry": 0.04062,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "CLAWNCH/USDT:USDT",
+        "signal": "LONG",
+        "confidence": 95,
+        "entry": 0.000175,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "TNSR/USDT:USDT",
+        "signal": "LONG",
+        "confidence": 95,
+        "entry": 0.05456,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "VTHO/USDT:USDT",
+        "signal": "LONG",
+        "confidence": 95,
+        "entry": 0.0006462,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "PENGUIN/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 95,
+        "entry": 0.0171,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "HBAR/USDT:USDT",
+        "signal": "LONG",
+        "confidence": 95,
+        "entry": 0.09052,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "ZAMA/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 95,
+        "entry": 0.01933,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "PIPPIN/USDT:USDT",
+        "signal": "LONG",
+        "confidence": 90,
+        "entry": 0.49879,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "BERA/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 90,
+        "entry": 0.9073,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "RIVER/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 90,
+        "entry": 15.822,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "ASTER/USDT:USDT",
+        "signal": "LONG",
+        "confidence": 90,
+        "entry": 0.7036,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "SIREN/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 90,
+        "entry": 0.09982,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "FARTCOIN/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 90,
+        "entry": 0.1722,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "XMR/USDT:USDT",
+        "signal": "LONG",
+        "confidence": 90,
+        "entry": 347.99,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "AXS/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 90,
+        "entry": 1.473,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "XAUT/USDT:USDT",
+        "signal": "LONG",
+        "confidence": 80,
+        "entry": 5041.0,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "SUI/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 80,
+        "entry": 0.9068,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "BLESS/USDT:USDT",
+        "signal": "LONG",
+        "confidence": 80,
+        "entry": 0.006755,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "ZEC/USDT:USDT",
+        "signal": "LONG",
+        "confidence": 80,
+        "entry": 238.5,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "ADA/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 80,
+        "entry": 0.2587,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "TAO/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 80,
+        "entry": 150.7,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "ACE/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 80,
+        "entry": 0.176,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "ENA/USDT:USDT",
+        "signal": "LONG",
+        "confidence": 80,
+        "entry": 0.1147,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "BNB/USDT:USDT",
+        "signal": "LONG",
+        "confidence": 80,
+        "entry": 614.2,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "LTC/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 80,
+        "entry": 52.74,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "SONIC/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 80,
+        "entry": 0.05907,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "APT/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 80,
+        "entry": 0.9484,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "WLD/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 80,
+        "entry": 0.375,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "BTC/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 75,
+        "entry": 67434.5,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "SOL/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 75,
+        "entry": 80.35,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "OWL/USDT:USDT",
+        "signal": "LONG",
+        "confidence": 75,
+        "entry": 0.02394,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "NIL/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 75,
+        "entry": 0.05286,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "LINK/USDT:USDT",
+        "signal": "LONG",
+        "confidence": 75,
+        "entry": 8.392,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "DYM/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 75,
+        "entry": 0.05147,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "DOGE/USDT:USDT",
+        "signal": "LONG",
+        "confidence": 75,
+        "entry": 0.09179,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "PEPE/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 75,
+        "entry": 3.619e-06,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "AVAX/USDT:USDT",
+        "signal": "LONG",
+        "confidence": 75,
+        "entry": 8.73,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "BCH/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 75,
+        "entry": 516.16,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "WIF/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 75,
+        "entry": 0.2104,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "ETH/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 70,
+        "entry": 1961.72,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "SILVER/USDT:USDT",
+        "signal": "LONG",
+        "confidence": 70,
+        "entry": 83.76,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "XRP/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 70,
+        "entry": 1.3766,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "POWER/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 70,
+        "entry": 0.38747,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      },
+      {
+        "symbol": "UNI/USDT:USDT",
+        "signal": "SHORT",
+        "confidence": 70,
+        "entry": 3.479,
+        "tp1": 0,
+        "tp2": 0,
+        "tp3": 0,
+        "sl": 0,
+        "mtf_boost": 0,
+        "htf_aligned": false,
+        "ltf_aligned": false
+      }
+    ],
+    "is_premium": true,
+    "interval": "1h",
+    "last_alert_scan": "2026-02-12T03:57:17.760993",
+    "alert_history": [
+      {
+        "alert_type": "big_gain",
+        "symbol": "DOLO/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: DOLO/USDT\n💰 Cena: $0.07236\n📈 Zmiana 24h: +22.12%",
+        "triggered_at": "2026-01-15T16:41:53.477097"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "OWL/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: OWL/USDT\n💰 Cena: $0.06755\n📈 Zmiana 24h: +26.66%",
+        "triggered_at": "2026-01-15T16:41:44.016991"
+      },
+      {
+        "alert_type": "big_gain",
+        "symbol": "FHE/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: FHE/USDT\n💰 Cena: $0.07971\n📈 Zmiana 24h: +58.53%",
+        "triggered_at": "2026-01-15T16:41:36.150170"
+      }
+    ],
+    "awaiting_admin_message": false,
+    "subscription_expires": "2027-01-31T23:15:35.330173",
+    "alerts": {
+      "rsi_oversold": true,
+      "rsi_overbought": true,
+      "big_gain": true,
+      "big_loss": true,
+      "volume_spike": true,
+      "ai_signal": true
+    },
+    "exchange": "mexc",
+    "_temp_alerts": [
+      {
+        "id": 9348,
+        "alert_type": "big_gain",
+        "symbol": "OWL/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: OWL/USDT:USDT\n💰 Cena: $0.0269\n📈 Zmiana 24h: +45.64%",
+        "triggered_at": "2026-02-11T13:40:18.854586"
+      },
+      {
+        "id": 9347,
+        "alert_type": "big_gain",
+        "symbol": "CLAWNCH/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: CLAWNCH/USDT:USDT\n💰 Cena: $0.0001263\n📈 Zmiana 24h: +16.72%",
+        "triggered_at": "2026-02-11T13:40:13.749702"
+      },
+      {
+        "id": 9346,
+        "alert_type": "big_gain",
+        "symbol": "FHE/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: FHE/USDT:USDT\n💰 Cena: $0.14272\n📈 Zmiana 24h: +15.84%",
+        "triggered_at": "2026-02-11T13:40:03.642012"
+      },
+      {
+        "id": 9345,
+        "alert_type": "big_gain",
+        "symbol": "PIPPIN/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: PIPPIN/USDT:USDT\n💰 Cena: $0.45078\n📈 Zmiana 24h: +17.12%",
+        "triggered_at": "2026-02-11T13:39:53.508316"
+      },
+      {
+        "id": 9336,
+        "alert_type": "big_gain",
+        "symbol": "OWL/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: OWL/USDT:USDT\n💰 Cena: $0.02656\n📈 Zmiana 24h: +43.80%",
+        "triggered_at": "2026-02-11T13:22:46.104457"
+      },
+      {
+        "id": 9335,
+        "alert_type": "big_gain",
+        "symbol": "CLAWNCH/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: CLAWNCH/USDT:USDT\n💰 Cena: $0.000127\n📈 Zmiana 24h: +17.37%",
+        "triggered_at": "2026-02-11T13:22:40.987429"
+      },
+      {
+        "id": 9334,
+        "alert_type": "big_gain",
+        "symbol": "FHE/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: FHE/USDT:USDT\n💰 Cena: $0.1419\n📈 Zmiana 24h: +15.17%",
+        "triggered_at": "2026-02-11T13:22:35.827740"
+      },
+      {
+        "id": 9333,
+        "alert_type": "big_gain",
+        "symbol": "PIPPIN/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: PIPPIN/USDT:USDT\n💰 Cena: $0.44707\n📈 Zmiana 24h: +16.15%",
+        "triggered_at": "2026-02-11T13:22:20.715719"
+      },
+      {
+        "id": 9322,
+        "alert_type": "big_gain",
+        "symbol": "OWL/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: OWL/USDT:USDT\n💰 Cena: $0.02627\n📈 Zmiana 24h: +42.23%",
+        "triggered_at": "2026-02-11T13:05:13.293462"
+      },
+      {
+        "id": 9321,
+        "alert_type": "big_gain",
+        "symbol": "PIPPIN/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: PIPPIN/USDT:USDT\n💰 Cena: $0.44987\n📈 Zmiana 24h: +16.88%",
+        "triggered_at": "2026-02-11T13:04:53.179524"
+      },
+      {
+        "id": 9313,
+        "alert_type": "big_gain",
+        "symbol": "OWL/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: OWL/USDT:USDT\n💰 Cena: $0.02699\n📈 Zmiana 24h: +46.12%",
+        "triggered_at": "2026-02-11T12:47:41.212672"
+      },
+      {
+        "id": 9304,
+        "alert_type": "big_gain",
+        "symbol": "OWL/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: OWL/USDT:USDT\n💰 Cena: $0.02735\n📈 Zmiana 24h: +48.07%",
+        "triggered_at": "2026-02-11T12:30:09.060964"
+      },
+      {
+        "id": 9297,
+        "alert_type": "big_gain",
+        "symbol": "OWL/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: OWL/USDT:USDT\n💰 Cena: $0.02739\n📈 Zmiana 24h: +48.29%",
+        "triggered_at": "2026-02-11T12:12:31.883930"
+      },
+      {
+        "id": 9296,
+        "alert_type": "big_gain",
+        "symbol": "CLAWNCH/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: CLAWNCH/USDT:USDT\n💰 Cena: $0.0001289\n📈 Zmiana 24h: +19.13%",
+        "triggered_at": "2026-02-11T12:12:26.778286"
+      },
+      {
+        "id": 9288,
+        "alert_type": "big_gain",
+        "symbol": "OWL/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: OWL/USDT:USDT\n💰 Cena: $0.02598\n📈 Zmiana 24h: +40.66%",
+        "triggered_at": "2026-02-11T11:55:04.440123"
+      },
+      {
+        "id": 9287,
+        "alert_type": "big_gain",
+        "symbol": "CLAWNCH/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: CLAWNCH/USDT:USDT\n💰 Cena: $0.0001291\n📈 Zmiana 24h: +19.31%",
+        "triggered_at": "2026-02-11T11:54:59.309704"
+      },
+      {
+        "id": 9286,
+        "alert_type": "big_gain",
+        "symbol": "FHE/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: FHE/USDT:USDT\n💰 Cena: $0.1461\n📈 Zmiana 24h: +18.58%",
+        "triggered_at": "2026-02-11T11:54:54.216217"
+      },
+      {
+        "id": 9279,
+        "alert_type": "big_gain",
+        "symbol": "OWL/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: OWL/USDT:USDT\n💰 Cena: $0.0279\n📈 Zmiana 24h: +51.05%",
+        "triggered_at": "2026-02-11T11:37:32.251248"
+      },
+      {
+        "id": 9278,
+        "alert_type": "big_gain",
+        "symbol": "CLAWNCH/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: CLAWNCH/USDT:USDT\n💰 Cena: $0.0001301\n📈 Zmiana 24h: +20.24%",
+        "triggered_at": "2026-02-11T11:37:32.194597"
+      },
+      {
+        "id": 9277,
+        "alert_type": "big_gain",
+        "symbol": "FHE/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: FHE/USDT:USDT\n💰 Cena: $0.15125\n📈 Zmiana 24h: +22.76%",
+        "triggered_at": "2026-02-11T11:37:22.094826"
+      },
+      {
+        "id": 9276,
+        "alert_type": "big_gain",
+        "symbol": "PIPPIN/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: PIPPIN/USDT:USDT\n💰 Cena: $0.44873\n📈 Zmiana 24h: +16.58%",
+        "triggered_at": "2026-02-11T11:37:11.972229"
+      },
+      {
+        "id": 9265,
+        "alert_type": "big_gain",
+        "symbol": "OWL/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: OWL/USDT:USDT\n💰 Cena: $0.0254\n📈 Zmiana 24h: +37.52%",
+        "triggered_at": "2026-02-11T11:20:04.381204"
+      },
+      {
+        "id": 9264,
+        "alert_type": "big_gain",
+        "symbol": "CLAWNCH/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: CLAWNCH/USDT:USDT\n💰 Cena: $0.0001316\n📈 Zmiana 24h: +21.62%",
+        "triggered_at": "2026-02-11T11:19:59.276508"
+      },
+      {
+        "id": 9263,
+        "alert_type": "big_gain",
+        "symbol": "FHE/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: FHE/USDT:USDT\n💰 Cena: $0.15528\n📈 Zmiana 24h: +26.03%",
+        "triggered_at": "2026-02-11T11:19:54.179328"
+      },
+      {
+        "id": 9262,
+        "alert_type": "big_gain",
+        "symbol": "PIPPIN/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: PIPPIN/USDT:USDT\n💰 Cena: $0.45993\n📈 Zmiana 24h: +19.49%",
+        "triggered_at": "2026-02-11T11:19:44.069660"
+      },
+      {
+        "id": 9252,
+        "alert_type": "big_gain",
+        "symbol": "OWL/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: OWL/USDT:USDT\n💰 Cena: $0.0238\n📈 Zmiana 24h: +28.85%",
+        "triggered_at": "2026-02-11T11:02:36.201699"
+      },
+      {
+        "id": 9251,
+        "alert_type": "big_gain",
+        "symbol": "CLAWNCH/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: CLAWNCH/USDT:USDT\n💰 Cena: $0.0001309\n📈 Zmiana 24h: +20.97%",
+        "triggered_at": "2026-02-11T11:02:31.044546"
+      },
+      {
+        "id": 9250,
+        "alert_type": "big_gain",
+        "symbol": "FHE/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: FHE/USDT:USDT\n💰 Cena: $0.15292\n📈 Zmiana 24h: +24.12%",
+        "triggered_at": "2026-02-11T11:02:25.887379"
+      },
+      {
+        "id": 9249,
+        "alert_type": "big_gain",
+        "symbol": "PIPPIN/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: PIPPIN/USDT:USDT\n💰 Cena: $0.46229\n📈 Zmiana 24h: +20.11%",
+        "triggered_at": "2026-02-11T11:02:10.785397"
+      },
+      {
+        "id": 9242,
+        "alert_type": "big_gain",
+        "symbol": "CLAWNCH/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: CLAWNCH/USDT:USDT\n💰 Cena: $0.000134\n📈 Zmiana 24h: +23.84%",
+        "triggered_at": "2026-02-11T10:44:58.646551"
+      },
+      {
+        "id": 9241,
+        "alert_type": "big_gain",
+        "symbol": "FHE/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: FHE/USDT:USDT\n💰 Cena: $0.14914\n📈 Zmiana 24h: +21.05%",
+        "triggered_at": "2026-02-11T10:44:53.549181"
+      },
+      {
+        "id": 9240,
+        "alert_type": "big_gain",
+        "symbol": "PIPPIN/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: PIPPIN/USDT:USDT\n💰 Cena: $0.46065\n📈 Zmiana 24h: +19.68%",
+        "triggered_at": "2026-02-11T10:44:43.441890"
+      },
+      {
+        "id": 9234,
+        "alert_type": "big_gain",
+        "symbol": "CLAWNCH/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: CLAWNCH/USDT:USDT\n💰 Cena: $0.0001333\n📈 Zmiana 24h: +23.19%",
+        "triggered_at": "2026-02-11T10:27:31.584185"
+      },
+      {
+        "id": 9233,
+        "alert_type": "big_gain",
+        "symbol": "FHE/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: FHE/USDT:USDT\n💰 Cena: $0.15\n📈 Zmiana 24h: +21.75%",
+        "triggered_at": "2026-02-11T10:27:21.485168"
+      },
+      {
+        "id": 9232,
+        "alert_type": "big_gain",
+        "symbol": "PIPPIN/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: PIPPIN/USDT:USDT\n💰 Cena: $0.46039\n📈 Zmiana 24h: +19.61%",
+        "triggered_at": "2026-02-11T10:27:11.389185"
+      },
+      {
+        "id": 9224,
+        "alert_type": "big_gain",
+        "symbol": "CLAWNCH/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: CLAWNCH/USDT:USDT\n💰 Cena: $0.0001331\n📈 Zmiana 24h: +23.01%",
+        "triggered_at": "2026-02-11T10:09:59.226927"
+      },
+      {
+        "id": 9223,
+        "alert_type": "big_gain",
+        "symbol": "FHE/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: FHE/USDT:USDT\n💰 Cena: $0.1481\n📈 Zmiana 24h: +20.21%",
+        "triggered_at": "2026-02-11T10:09:54.107855"
+      },
+      {
+        "id": 9222,
+        "alert_type": "big_gain",
+        "symbol": "PIPPIN/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: PIPPIN/USDT:USDT\n💰 Cena: $0.45608\n📈 Zmiana 24h: +18.49%",
+        "triggered_at": "2026-02-11T10:09:43.984361"
+      },
+      {
+        "id": 9221,
+        "alert_type": "big_gain",
+        "symbol": "RIVER/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: RIVER/USDT:USDT\n💰 Cena: $20.918\n📈 Zmiana 24h: +15.92%",
+        "triggered_at": "2026-02-11T10:09:38.626882"
+      },
+      {
+        "id": 9213,
+        "alert_type": "big_gain",
+        "symbol": "CLAWNCH/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: CLAWNCH/USDT:USDT\n💰 Cena: $0.0001312\n📈 Zmiana 24h: +21.25%",
+        "triggered_at": "2026-02-11T09:52:26.063639"
+      },
+      {
+        "id": 9212,
+        "alert_type": "big_gain",
+        "symbol": "FHE/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: FHE/USDT:USDT\n💰 Cena: $0.14772\n📈 Zmiana 24h: +19.90%",
+        "triggered_at": "2026-02-11T09:52:20.914534"
+      },
+      {
+        "id": 9211,
+        "alert_type": "big_gain",
+        "symbol": "PIPPIN/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: PIPPIN/USDT:USDT\n💰 Cena: $0.44476\n📈 Zmiana 24h: +15.55%",
+        "triggered_at": "2026-02-11T09:52:10.809478"
+      },
+      {
+        "id": 9204,
+        "alert_type": "big_gain",
+        "symbol": "CLAWNCH/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: CLAWNCH/USDT:USDT\n💰 Cena: $0.0001315\n📈 Zmiana 24h: +21.53%",
+        "triggered_at": "2026-02-11T09:34:58.884550"
+      },
+      {
+        "id": 9203,
+        "alert_type": "big_gain",
+        "symbol": "FHE/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: FHE/USDT:USDT\n💰 Cena: $0.14624\n📈 Zmiana 24h: +18.70%",
+        "triggered_at": "2026-02-11T09:34:48.755906"
+      },
+      {
+        "id": 9202,
+        "alert_type": "big_gain",
+        "symbol": "PIPPIN/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: PIPPIN/USDT:USDT\n💰 Cena: $0.45\n📈 Zmiana 24h: +16.91%",
+        "triggered_at": "2026-02-11T09:34:38.524599"
+      },
+      {
+        "id": 9195,
+        "alert_type": "big_gain",
+        "symbol": "CLAWNCH/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: CLAWNCH/USDT:USDT\n💰 Cena: $0.0001286\n📈 Zmiana 24h: +18.85%",
+        "triggered_at": "2026-02-11T09:17:26.491345"
+      },
+      {
+        "id": 9194,
+        "alert_type": "big_gain",
+        "symbol": "PIPPIN/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: PIPPIN/USDT:USDT\n💰 Cena: $0.44803\n📈 Zmiana 24h: +16.40%",
+        "triggered_at": "2026-02-11T09:17:06.323181"
+      },
+      {
+        "id": 9186,
+        "alert_type": "big_gain",
+        "symbol": "CLAWNCH/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: CLAWNCH/USDT:USDT\n💰 Cena: $0.0001325\n📈 Zmiana 24h: +22.45%",
+        "triggered_at": "2026-02-11T08:59:49.198224"
+      },
+      {
+        "id": 9185,
+        "alert_type": "big_gain",
+        "symbol": "PIPPIN/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: PIPPIN/USDT:USDT\n💰 Cena: $0.44602\n📈 Zmiana 24h: +15.88%",
+        "triggered_at": "2026-02-11T08:59:34.006615"
+      },
+      {
+        "id": 9179,
+        "alert_type": "big_gain",
+        "symbol": "CLAWNCH/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: CLAWNCH/USDT:USDT\n💰 Cena: $0.000133\n📈 Zmiana 24h: +22.92%",
+        "triggered_at": "2026-02-11T08:42:16.900230"
+      },
+      {
+        "id": 9173,
+        "alert_type": "big_gain",
+        "symbol": "CLAWNCH/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: CLAWNCH/USDT:USDT\n💰 Cena: $0.0001318\n📈 Zmiana 24h: +21.81%",
+        "triggered_at": "2026-02-11T08:24:44.744586"
+      },
+      {
+        "id": 9167,
+        "alert_type": "big_gain",
+        "symbol": "CLAWNCH/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: CLAWNCH/USDT:USDT\n💰 Cena: $0.000132\n📈 Zmiana 24h: +21.99%",
+        "triggered_at": "2026-02-11T08:07:12.928859"
+      },
+      {
+        "id": 9161,
+        "alert_type": "big_gain",
+        "symbol": "CLAWNCH/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: CLAWNCH/USDT:USDT\n💰 Cena: $0.0001348\n📈 Zmiana 24h: +24.58%",
+        "triggered_at": "2026-02-11T07:49:41.030663"
+      },
+      {
+        "id": 9157,
+        "alert_type": "big_gain",
+        "symbol": "CLAWNCH/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: CLAWNCH/USDT:USDT\n💰 Cena: $0.0001373\n📈 Zmiana 24h: +26.89%",
+        "triggered_at": "2026-02-11T07:32:04.359884"
+      },
+      {
+        "id": 9152,
+        "alert_type": "big_gain",
+        "symbol": "CLAWNCH/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: CLAWNCH/USDT:USDT\n💰 Cena: $0.0001433\n📈 Zmiana 24h: +32.43%",
+        "triggered_at": "2026-02-11T07:14:32.634869"
+      },
+      {
+        "id": 9148,
+        "alert_type": "big_gain",
+        "symbol": "CLAWNCH/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: CLAWNCH/USDT:USDT\n💰 Cena: $0.0001394\n📈 Zmiana 24h: +28.83%",
+        "triggered_at": "2026-02-11T06:57:00.962578"
+      },
+      {
+        "id": 9144,
+        "alert_type": "big_gain",
+        "symbol": "CLAWNCH/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: CLAWNCH/USDT:USDT\n💰 Cena: $0.0001394\n📈 Zmiana 24h: +28.83%",
+        "triggered_at": "2026-02-11T06:39:29.149526"
+      },
+      {
+        "id": 9140,
+        "alert_type": "big_gain",
+        "symbol": "CLAWNCH/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: CLAWNCH/USDT:USDT\n💰 Cena: $0.0001366\n📈 Zmiana 24h: +26.24%",
+        "triggered_at": "2026-02-11T06:21:57.476908"
+      },
+      {
+        "id": 9137,
+        "alert_type": "big_gain",
+        "symbol": "CLAWNCH/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: CLAWNCH/USDT:USDT\n💰 Cena: $0.0001347\n📈 Zmiana 24h: +24.49%",
+        "triggered_at": "2026-02-11T06:04:26.002484"
+      },
+      {
+        "id": 9134,
+        "alert_type": "big_gain",
+        "symbol": "CLAWNCH/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: CLAWNCH/USDT:USDT\n💰 Cena: $0.000134\n📈 Zmiana 24h: +23.84%",
+        "triggered_at": "2026-02-11T05:46:54.440191"
+      },
+      {
+        "id": 9130,
+        "alert_type": "big_gain",
+        "symbol": "CLAWNCH/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: CLAWNCH/USDT:USDT\n💰 Cena: $0.0001381\n📈 Zmiana 24h: +27.63%",
+        "triggered_at": "2026-02-11T05:29:27.837647"
+      },
+      {
+        "id": 9126,
+        "alert_type": "big_gain",
+        "symbol": "CLAWNCH/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: CLAWNCH/USDT:USDT\n💰 Cena: $0.0001438\n📈 Zmiana 24h: +32.90%",
+        "triggered_at": "2026-02-11T05:11:56.266622"
+      },
+      {
+        "id": 9121,
+        "alert_type": "big_gain",
+        "symbol": "CLAWNCH/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: CLAWNCH/USDT:USDT\n💰 Cena: $0.0001439\n📈 Zmiana 24h: +32.99%",
+        "triggered_at": "2026-02-11T04:54:29.549233"
+      },
+      {
+        "id": 9116,
+        "alert_type": "big_gain",
+        "symbol": "CLAWNCH/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: CLAWNCH/USDT:USDT\n💰 Cena: $0.000147\n📈 Zmiana 24h: +35.85%",
+        "triggered_at": "2026-02-11T04:36:56.956079"
+      },
+      {
+        "id": 9110,
+        "alert_type": "big_gain",
+        "symbol": "CLAWNCH/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: CLAWNCH/USDT:USDT\n💰 Cena: $0.0001432\n📈 Zmiana 24h: +32.34%",
+        "triggered_at": "2026-02-11T04:01:55.770631"
+      },
+      {
+        "id": 9106,
+        "alert_type": "big_gain",
+        "symbol": "CLAWNCH/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: CLAWNCH/USDT:USDT\n💰 Cena: $0.000149\n📈 Zmiana 24h: +37.70%",
+        "triggered_at": "2026-02-11T03:44:29.216530"
+      },
+      {
+        "id": 9102,
+        "alert_type": "big_gain",
+        "symbol": "CLAWNCH/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: CLAWNCH/USDT:USDT\n💰 Cena: $0.0001467\n📈 Zmiana 24h: +35.58%",
+        "triggered_at": "2026-02-11T03:26:57.491555"
+      },
+      {
+        "id": 9098,
+        "alert_type": "big_gain",
+        "symbol": "CLAWNCH/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: CLAWNCH/USDT:USDT\n💰 Cena: $0.0001437\n📈 Zmiana 24h: +32.80%",
+        "triggered_at": "2026-02-11T03:09:25.864249"
+      },
+      {
+        "id": 9094,
+        "alert_type": "big_gain",
+        "symbol": "CLAWNCH/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: CLAWNCH/USDT:USDT\n💰 Cena: $0.00014\n📈 Zmiana 24h: +29.39%",
+        "triggered_at": "2026-02-11T02:51:54.341801"
+      },
+      {
+        "id": 9090,
+        "alert_type": "big_gain",
+        "symbol": "CLAWNCH/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: CLAWNCH/USDT:USDT\n💰 Cena: $0.0001342\n📈 Zmiana 24h: +24.02%",
+        "triggered_at": "2026-02-11T02:34:22.626884"
+      },
+      {
+        "id": 9058,
+        "alert_type": "big_gain",
+        "symbol": "MOLT/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: MOLT/USDT:USDT\n💰 Cena: $8.85e-05\n📈 Zmiana 24h: +18.00%",
+        "triggered_at": "2026-02-10T22:10:36.224270"
+      },
+      {
+        "id": 9055,
+        "alert_type": "big_gain",
+        "symbol": "MOLT/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: MOLT/USDT:USDT\n💰 Cena: $8.69e-05\n📈 Zmiana 24h: +15.86%",
+        "triggered_at": "2026-02-10T21:52:49.529073"
+      },
+      {
+        "id": 9053,
+        "alert_type": "big_gain",
+        "symbol": "MOLT/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: MOLT/USDT:USDT\n💰 Cena: $9.01e-05\n📈 Zmiana 24h: +20.13%",
+        "triggered_at": "2026-02-10T21:34:58.015840"
+      },
+      {
+        "id": 9051,
+        "alert_type": "big_gain",
+        "symbol": "MOLT/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: MOLT/USDT:USDT\n💰 Cena: $9.11e-05\n📈 Zmiana 24h: +21.46%",
+        "triggered_at": "2026-02-10T21:17:11.408035"
+      },
+      {
+        "id": 9049,
+        "alert_type": "big_gain",
+        "symbol": "MOLT/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: MOLT/USDT:USDT\n💰 Cena: $8.75e-05\n📈 Zmiana 24h: +16.66%",
+        "triggered_at": "2026-02-10T20:59:19.809383"
+      },
+      {
+        "id": 9046,
+        "alert_type": "big_gain",
+        "symbol": "WOTAMALAILE/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: WOTAMALAILE/USDT:USDT\n💰 Cena: $0.02403\n📈 Zmiana 24h: +15.86%",
+        "triggered_at": "2026-02-10T19:47:49.526134"
+      },
+      {
+        "id": 9043,
+        "alert_type": "big_gain",
+        "symbol": "CLAWNCH/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: CLAWNCH/USDT:USDT\n💰 Cena: $0.0001269\n📈 Zmiana 24h: +17.28%",
+        "triggered_at": "2026-02-10T18:54:45.510522"
+      },
+      {
+        "id": 9036,
+        "alert_type": "big_gain",
+        "symbol": "OWL/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: OWL/USDT:USDT\n💰 Cena: $0.01858\n📈 Zmiana 24h: +100.00%",
+        "triggered_at": "2026-02-10T16:50:46.316954"
+      },
+      {
+        "id": 9035,
+        "alert_type": "big_gain",
+        "symbol": "COLLECT/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: COLLECT/USDT:USDT\n💰 Cena: $0.0716\n📈 Zmiana 24h: +17.64%",
+        "triggered_at": "2026-02-10T16:50:36.168855"
+      },
+      {
+        "id": 9034,
+        "alert_type": "big_gain",
+        "symbol": "RNBW/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: RNBW/USDT:USDT\n💰 Cena: $0.03619\n📈 Zmiana 24h: +26.05%",
+        "triggered_at": "2026-02-10T16:50:36.052729"
+      },
+      {
+        "id": 9033,
+        "alert_type": "big_gain",
+        "symbol": "FHE/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: FHE/USDT:USDT\n💰 Cena: $0.12192\n📈 Zmiana 24h: +33.88%",
+        "triggered_at": "2026-02-10T16:50:30.886287"
+      },
+      {
+        "id": 9032,
+        "alert_type": "big_gain",
+        "symbol": "PIPPIN/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: PIPPIN/USDT:USDT\n💰 Cena: $0.38523\n📈 Zmiana 24h: +43.37%",
+        "triggered_at": "2026-02-10T16:50:20.744966"
+      },
+      {
+        "id": 9031,
+        "alert_type": "big_gain",
+        "symbol": "RIVER/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: RIVER/USDT:USDT\n💰 Cena: $18.227\n📈 Zmiana 24h: +42.24%",
+        "triggered_at": "2026-02-10T16:50:15.588399"
+      },
+      {
+        "id": 9016,
+        "alert_type": "big_gain",
+        "symbol": "OWL/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: OWL/USDT:USDT\n💰 Cena: $0.01946\n📈 Zmiana 24h: +109.47%",
+        "triggered_at": "2026-02-10T16:33:06.407441"
+      },
+      {
+        "id": 9015,
+        "alert_type": "big_gain",
+        "symbol": "COLLECT/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: COLLECT/USDT:USDT\n💰 Cena: $0.07002\n📈 Zmiana 24h: +15.05%",
+        "triggered_at": "2026-02-10T16:32:56.173500"
+      },
+      {
+        "id": 9014,
+        "alert_type": "big_gain",
+        "symbol": "RNBW/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: RNBW/USDT:USDT\n💰 Cena: $0.03475\n📈 Zmiana 24h: +21.03%",
+        "triggered_at": "2026-02-10T16:32:56.113224"
+      },
+      {
+        "id": 9013,
+        "alert_type": "big_gain",
+        "symbol": "FHE/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: FHE/USDT:USDT\n💰 Cena: $0.1246\n📈 Zmiana 24h: +36.83%",
+        "triggered_at": "2026-02-10T16:32:51.020444"
+      },
+      {
+        "id": 9012,
+        "alert_type": "big_gain",
+        "symbol": "PIPPIN/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: PIPPIN/USDT:USDT\n💰 Cena: $0.39417\n📈 Zmiana 24h: +46.70%",
+        "triggered_at": "2026-02-10T16:32:40.918304"
+      },
+      {
+        "id": 9011,
+        "alert_type": "big_gain",
+        "symbol": "RIVER/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: RIVER/USDT:USDT\n💰 Cena: $17.828\n📈 Zmiana 24h: +39.12%",
+        "triggered_at": "2026-02-10T16:32:35.812512"
+      },
+      {
+        "id": 8997,
+        "alert_type": "big_gain",
+        "symbol": "OWL/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: OWL/USDT:USDT\n💰 Cena: $0.01904\n📈 Zmiana 24h: +104.95%",
+        "triggered_at": "2026-02-10T16:15:27.721331"
+      },
+      {
+        "id": 8996,
+        "alert_type": "big_gain",
+        "symbol": "RNBW/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: RNBW/USDT:USDT\n💰 Cena: $0.03571\n📈 Zmiana 24h: +24.38%",
+        "triggered_at": "2026-02-10T16:15:22.485512"
+      },
+      {
+        "id": 8995,
+        "alert_type": "big_gain",
+        "symbol": "FHE/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: FHE/USDT:USDT\n💰 Cena: $0.12029\n📈 Zmiana 24h: +32.09%",
+        "triggered_at": "2026-02-10T16:15:17.350073"
+      },
+      {
+        "id": 8994,
+        "alert_type": "big_gain",
+        "symbol": "PIPPIN/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: PIPPIN/USDT:USDT\n💰 Cena: $0.40461\n📈 Zmiana 24h: +50.59%",
+        "triggered_at": "2026-02-10T16:15:07.246230"
+      },
+      {
+        "id": 8993,
+        "alert_type": "big_gain",
+        "symbol": "RIVER/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: RIVER/USDT:USDT\n💰 Cena: $18.293\n📈 Zmiana 24h: +42.75%",
+        "triggered_at": "2026-02-10T16:15:02.137148"
+      },
+      {
+        "id": 8978,
+        "alert_type": "big_gain",
+        "symbol": "OWL/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: OWL/USDT:USDT\n💰 Cena: $0.0194\n📈 Zmiana 24h: +108.82%",
+        "triggered_at": "2026-02-10T15:57:53.829795"
+      },
+      {
+        "id": 8977,
+        "alert_type": "big_gain",
+        "symbol": "RNBW/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: RNBW/USDT:USDT\n💰 Cena: $0.03455\n📈 Zmiana 24h: +20.34%",
+        "triggered_at": "2026-02-10T15:57:48.736443"
+      },
+      {
+        "id": 8976,
+        "alert_type": "big_gain",
+        "symbol": "FHE/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: FHE/USDT:USDT\n💰 Cena: $0.1194\n📈 Zmiana 24h: +31.12%",
+        "triggered_at": "2026-02-10T15:57:43.569486"
+      },
+      {
+        "id": 8975,
+        "alert_type": "big_gain",
+        "symbol": "PIPPIN/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: PIPPIN/USDT:USDT\n💰 Cena: $0.39669\n📈 Zmiana 24h: +47.64%",
+        "triggered_at": "2026-02-10T15:57:33.469191"
+      },
+      {
+        "id": 8974,
+        "alert_type": "big_gain",
+        "symbol": "RIVER/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: RIVER/USDT:USDT\n💰 Cena: $18.62\n📈 Zmiana 24h: +45.30%",
+        "triggered_at": "2026-02-10T15:57:28.350722"
+      },
+      {
+        "id": 8960,
+        "alert_type": "big_gain",
+        "symbol": "OWL/USDT:USDT",
+        "message": "🚀 DUŻY WZROST: OWL/USDT:USDT\n💰 Cena: $0.0197\n📈 Zmiana 24h: +112.05%",
+        "triggered_at": "2026-02-10T15:40:25.548930"
+      }
+    ],
+    "ai_current_page": 1,
+    "scan_mode": "fast"
   }
 }

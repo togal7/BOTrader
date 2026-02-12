@@ -1,0 +1,11 @@
+{
+  "user_id": "1794363283",
+  "alert_data": {
+    "type": "big_gain",
+    "symbol": "TNSR/USDT:USDT",
+    "message": "\ud83d\ude80 DU\u017bY WZROST: TNSR/USDT:USDT\n\ud83d\udcb0 Cena: $0.05501\n\ud83d\udcc8 Zmiana 24h: +29.83%",
+    "timestamp": "2026-02-12T04:03:11.761362"
+  },
+  "created_at": "2026-02-12T04:03:12.068285",
+  "status": "pending"
+}
