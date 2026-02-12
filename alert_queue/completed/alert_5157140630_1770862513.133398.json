@@ -1,0 +1,11 @@
+{
+  "user_id": "5157140630",
+  "alert_data": {
+    "type": "big_gain",
+    "symbol": "TAKE/USDT:USDT",
+    "message": "\ud83d\ude80 DU\u017bY WZROST: TAKE/USDT:USDT\n\ud83d\udcb0 Cena: $0.0349\n\ud83d\udcc8 Zmiana 24h: +47.88%",
+    "timestamp": "2026-02-12T03:15:12.828179"
+  },
+  "created_at": "2026-02-12T03:15:13.133455",
+  "status": "pending"
+}

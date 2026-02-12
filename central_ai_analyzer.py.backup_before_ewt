@@ -14,38 +14,6 @@ class CentralAIAnalyzer:
         self.deepseek_enabled = True  # Later: integrate DeepSeek API
         self.perplexity_enabled = True  # Later: integrate Perplexity API
     
-
-    def _elliott_wave_analysis(self, data):
-        """Elliott Wave analysis on multi-timeframes"""
-        try:
-            ewt_primary = self.ewt.detect_waves(data.get('primary', []), data.get('primary_tf', '1h'))
-            ewt_higher = self.ewt.detect_waves(data.get('higher', []), data.get('higher_tf', '4h'))
-            
-            # Multi-TF alignment
-            alignment = 0
-            if ewt_higher.get('bias') == ewt_primary.get('bias'):
-                alignment += 2
-            if ewt_primary.get('current_wave') in [3, 5]:
-                alignment += 2
-            elif ewt_primary.get('current_wave') == 4:
-                alignment += 1
-            
-            confidence = ewt_primary.get('confidence', 0)
-            if alignment >= 3:
-                confidence = min(100, confidence + 15)
-            
-            return {
-                'primary': ewt_primary,
-                'higher': ewt_higher,
-                'alignment_score': alignment,
-                'bias': ewt_primary.get('bias', 'NEUTRAL'),
-                'confidence': confidence,
-                'reasoning': ewt_primary.get('reasoning', 'No EWT pattern')
-            }
-        except Exception as e:
-            logger.error(f"EWT error: {e}")
-            return {'bias': 'NEUTRAL', 'confidence': 0}
-
     async def analyze_pair_full(self, symbol: str, exchange: str, timeframe: str = "15m", context: str = "general", language: str = "pl", skip_ai: bool = False):
         """
         GŁÓWNA FUNKCJA - Pełna analiza pary
@@ -74,9 +42,6 @@ class CentralAIAnalyzer:
             # 5. SENTIMENT SCORE (z danych technicznych)
             sentiment = self._calculate_sentiment(technical, structure, volume_analysis)
             
-            # 5b. ELLIOTT WAVE ANALYSIS
-            ewt_analysis = self._elliott_wave_analysis(ohlcv_data)
-            
             # 6. AI REASONING (później: DeepSeek)
             if skip_ai:
                 # Fast mode - skip DeepSeek API
@@ -96,7 +61,7 @@ class CentralAIAnalyzer:
             
             # 8. GENERATE SIGNAL
             signal = await self._generate_trading_signal(
-                technical, structure, volume_analysis, sentiment, ai_reasoning, news_impact, ewt_analysis
+                technical, structure, volume_analysis, sentiment, ai_reasoning, news_impact
             )
             
             # 9. COMPILE FULL REPORT
@@ -110,7 +75,6 @@ class CentralAIAnalyzer:
                 'structure': structure,
                 'volume': volume_analysis,
                 'sentiment': sentiment,
-                'ewt': ewt_analysis,
                 'ai_reasoning': ai_reasoning,
                 'news': news_impact,
                 'signal': signal,
@@ -559,9 +523,6 @@ IMPORTANT: Respond in {ai_language} language for all reasoning text. Use profess
         return {
             'direction': direction,
             'confidence': confidence,
-            'score': score if 'score' in locals() else 0,
-            'reasoning': reasoning if 'reasoning' in locals() else [],
-            'horizon': self._calculate_time_horizon(direction, confidence, ewt_analysis),
             'ai_analysis': ai_analysis,
             'entry': entry,
             'tp1': tp1,
@@ -752,28 +713,6 @@ IMPORTANT: Respond in {ai_language} language for all reasoning text. Use profess
             'htf2': htf2
         }
 
-
-
-    def _calculate_time_horizon(self, direction: str, confidence: int, ewt_analysis=None) -> str:
-        """Oblicz horyzont czasowy (kompatybilność z Sygnały AI)"""
-        if direction == "NEUTRAL" or confidence < 50:
-            return "?"
-        
-        # EWT-based
-        if ewt_analysis and ewt_analysis.get('primary', {}).get('valid'):
-            wave = ewt_analysis['primary'].get('current_wave')
-            if wave in [3, 5]:
-                return "4h-1d" if confidence >= 80 else "1h-4h"
-            elif wave in [2, 4]:
-                return "1h-4h"
-        
-        # Confidence-based
-        if confidence >= 80:
-            return "4h-1d"
-        elif confidence >= 70:
-            return "1h-4h"
-        else:
-            return "15m-1h"
 
     async def analyze_for_ai_signals(self, symbol: str, main_tf: str, exchange: str = 'mexc', language: str = 'pl') -> dict:
         """
