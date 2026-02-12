@@ -518,174 +518,92 @@ IMPORTANT: Respond in {ai_language} language for all reasoning text. Use profess
         }
     
     async def _generate_trading_signal(self, technical, structure, volume, sentiment, ai_reasoning, news, ewt_analysis=None):
-        """
-        ZAAWANSOWANE GENEROWANIE SYGNAŁU
-        Multi-TF Scoring System + EWT + Volume Profile + Ichimoku
-        """
-        direction = "NEUTRAL"
-        confidence = 50
-        reasoning = []
-        score = 0  # Max score: 11 points
+        """Generate final trading signal"""
         
-        # === SCORING SYSTEM ===
+        # Determine direction
+        sent_score = sentiment['score']
         
-        # 1. EWT Analysis (max 2 pts)
-        if ewt_analysis and ewt_analysis.get('bias') != 'NEUTRAL':
-            ewt_conf = ewt_analysis.get('confidence', 0)
-            if ewt_conf >= 70:
-                score += 2
-                reasoning.append(f"EWT: {ewt_analysis['bias']} (wave {ewt_analysis.get('primary', {}).get('current_wave', '?')})")
-            elif ewt_conf >= 50:
-                score += 1
-                reasoning.append(f"EWT: Weak {ewt_analysis['bias']}")
-        
-        # 2. Volume Profile + VWAP (max 2 pts)
-        vp_data = volume.get('vp_data', {})
-        vp_bias = vp_data.get('bias', 'NEUTRAL')
-        
-        if vp_bias != 'NEUTRAL':
-            score += 1
-            reasoning.append(f"VP: {vp_bias}")
-        
-        current_price = volume.get('current_price', technical.get('price', 0))
-        vwap = vp_data.get('vwap', 0)
-        if vwap > 0 and current_price > vwap:
-            score += 1
-            reasoning.append("Price > VWAP")
-        elif vwap > 0 and current_price < vwap:
-            score += 1
-            reasoning.append("Price < VWAP")
-        
-        # 3. Ichimoku (max 1 pt)
-        ichimoku = technical.get('ichimoku', {})
-        if ichimoku.get('signal') != 'NEUTRAL':
-            score += 1
-            reasoning.append(f"Ichimoku: {ichimoku['signal']}")
-        
-        # 4. RSI (max 1 pt)
-        rsi = technical.get('rsi', {}).get('14', 50)
-        if isinstance(rsi, dict):
-            rsi = rsi.get('value', 50)
-        
-        if rsi < 40:
-            score += 1
-            reasoning.append(f"RSI oversold ({rsi:.0f})")
-        elif rsi > 60:
-            score += 1
-            reasoning.append(f"RSI overbought ({rsi:.0f})")
-        
-        # 5. EMA Trend (max 2 pts)
-        ema_9 = technical.get('ema', {}).get('9', 0)
-        ema_21 = technical.get('ema', {}).get('21', 0)
-        ema_50 = technical.get('ema', {}).get('50', 0)
-        
-        if ema_9 > ema_21 > ema_50:
-            score += 2
-            reasoning.append("EMA: Strong uptrend")
-        elif ema_9 < ema_21 < ema_50:
-            score += 2
-            reasoning.append("EMA: Strong downtrend")
-        elif ema_9 > ema_21:
-            score += 1
-            reasoning.append("EMA: Uptrend")
-        elif ema_9 < ema_21:
-            score += 1
-            reasoning.append("EMA: Downtrend")
-        
-        # 6. Volume (max 1 pt)
-        vol_ratio = volume.get('current_vs_avg', volume.get('ratio', 1.0))
-        if vol_ratio > 1.5:
-            score += 1
-            reasoning.append(f"Volume: {vol_ratio:.1f}x")
-        elif vol_ratio > 1.0:
-            score += 0.5
-        
-        # 7. MACD (max 1 pt)
-        macd_hist = technical.get('macd', {}).get('histogram', 0)
-        if macd_hist > 0:
-            score += 1
-            reasoning.append("MACD: Bullish")
-        elif macd_hist < 0:
-            score += 1
-            reasoning.append("MACD: Bearish")
-        
-        # 8. Structure (max 1 pt)
-        if structure.get('near_support'):
-            score += 1
-            reasoning.append("Near support")
-        elif structure.get('near_resistance'):
-            score += 1
-            reasoning.append("Near resistance")
-        
-        # === DETERMINE DIRECTION ===
-        biases = []
-        if ewt_analysis:
-            biases.append(ewt_analysis.get('bias'))
-        biases.append(vp_bias)
-        biases.append(ichimoku.get('signal', 'NEUTRAL'))
-        
-        long_count = biases.count('LONG')
-        short_count = biases.count('SHORT')
-        
-        if long_count > short_count and score >= 1:
-            direction = "LONG"
-        elif short_count > long_count and score >= 1:
-            direction = "SHORT"
-        elif score >= 3:
-            direction = "LONG" if rsi < 50 else "SHORT"
+        if sent_score > 30:
+            direction = 'LONG'
+        elif sent_score < -30:
+            direction = 'SHORT'
         else:
-            direction = "NEUTRAL"
+            direction = 'NEUTRAL'
         
-        # === CALCULATE CONFIDENCE ===
-        confidence = 50 + (score * 5)
+        # Calculate confidence (0-100)
+        confidence = self._calculate_signal_confidence(
+            technical, structure, volume, sentiment, ai_reasoning
+        )
         
-        if long_count >= 2 or short_count >= 2:
-            confidence += 10
-        
-        if ai_reasoning.get('confidence', 0) > 70:
-            confidence += 5
-        
-        confidence = min(100, max(25, confidence))
-        
-        # === TP/SL ===
-        current_price = technical.get('price', current_price)
+        # Calculate TP/SL levels
+        current_price = technical['price']
         atr = technical.get('atr', current_price * 0.02)
         
-        if direction == "LONG":
+        if direction == 'LONG':
+            entry = current_price
             tp1 = current_price + (atr * 1.5)
             tp2 = current_price + (atr * 3)
             tp3 = current_price + (atr * 5)
             sl = current_price - (atr * 2)
-        elif direction == "SHORT":
+        elif direction == 'SHORT':
+            entry = current_price
             tp1 = current_price - (atr * 1.5)
             tp2 = current_price - (atr * 3)
             tp3 = current_price - (atr * 5)
             sl = current_price + (atr * 2)
         else:
-            tp1 = current_price + (atr * 1.5)
-            tp2 = current_price - (atr * 1.5)
-            tp3 = current_price
-            sl = current_price
+            # NEUTRAL - podaj range (możliwość obu kierunków)
+            entry = current_price
+            tp1 = current_price + (atr * 1.5)  # Upside target
+            tp2 = current_price - (atr * 1.5)  # Downside target  
+            tp3 = current_price  # No strong direction
+            sl = current_price  # No clear stop
         
-        risk = abs(current_price - sl) if direction != "NEUTRAL" else 1
-        reward = abs(tp2 - current_price) if direction != "NEUTRAL" else 1
-        rr_ratio = reward / risk if risk > 0 else 0
+        # Risk/Reward
+        if direction != 'NEUTRAL':
+            risk = abs(entry - sl)
+            reward = abs(tp2 - entry)
+            rr_ratio = reward / risk if risk > 0 else 0
+        else:
+            rr_ratio = 0
+        
+
+        # Get AI analysis
+        try:
+            # ai_analysis = await ai_trader.get_ai_analysis(
+            # symbol=symbol,
+            # data=data,
+            # indicators=indicators,
+            # news_sentiment=news_sentiment,
+            # trading_mode=trading_mode
+            # )
+            ai_analysis = None  # AI trader disabled
+            
+            if ai_analysis:
+                logger.info(f"✅ AI analysis received for {symbol}")
+                # Możemy użyć ai_analysis['analysis'] w outputcie
+        except Exception as e:
+            logger.error(f"AI analysis error: {e}")
+            ai_analysis = None
         
         return {
             'direction': direction,
-            'confidence': int(confidence),
-            'score': int(score),
-            'max_score': 11,
-            'entry_price': current_price,
-            'take_profit_1': tp1,
-            'take_profit_2': tp2,
-            'take_profit_3': tp3,
-            'stop_loss': sl,
-            'risk_reward': round(rr_ratio, 2),
-            'reasoning': reasoning,
-            'horizon': self._calculate_time_horizon(direction, confidence, ewt_analysis)
+            'confidence': confidence,
+            'score': score if 'score' in locals() else 0,
+            'reasoning': reasoning if 'reasoning' in locals() else [],
+            'horizon': self._calculate_time_horizon(direction, confidence, ewt_analysis),
+            'ai_analysis': ai_analysis,
+            'entry': entry,
+            'tp1': tp1,
+            'tp2': tp2,
+            'tp3': tp3,
+            'sl': sl,
+            'rr_ratio': rr_ratio,
+            'reasons': sentiment['signals'] + ai_reasoning['summary'][:3]
         }
-
+    
+    # HELPER FUNCTIONS (indicators)
+    
     def _calculate_rsi(self, closes, period=14):
         if len(closes) < period:
             return 50
