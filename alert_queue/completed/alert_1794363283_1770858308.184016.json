@@ -1,0 +1,11 @@
+{
+  "user_id": "1794363283",
+  "alert_data": {
+    "type": "sudden_change",
+    "symbol": "TAKE/USDT:USDT",
+    "message": "\u26a1 NAG\u0141A ZMIANA: TAKE/USDT:USDT\n\ud83d\udcb0 Cena: $0.0304\n\u26a1 WZROST: 6.52% w 15m\n\ud83d\udcca 0.028540 \u2192 0.030400",
+    "timestamp": "2026-02-12T02:05:08.183120"
+  },
+  "created_at": "2026-02-12T02:05:08.184034",
+  "status": "pending"
+}

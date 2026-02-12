@@ -1,0 +1,11 @@
+{
+  "user_id": "1794363283",
+  "alert_data": {
+    "type": "sudden_change",
+    "symbol": "RIVER/USDT:USDT",
+    "message": "\u26a1 NAG\u0141A ZMIANA: RIVER/USDT:USDT\n\ud83d\udcb0 Cena: $16.114\n\u26a1 SPADEK: 6.50% w 15m\n\ud83d\udcca 17.260000 \u2192 16.138000",
+    "timestamp": "2026-02-11T23:52:57.969053"
+  },
+  "created_at": "2026-02-11T23:52:57.969265",
+  "status": "pending"
+}

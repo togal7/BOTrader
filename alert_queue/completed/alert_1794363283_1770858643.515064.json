@@ -1,0 +1,11 @@
+{
+  "user_id": "1794363283",
+  "alert_data": {
+    "type": "sudden_change",
+    "symbol": "OWL/USDT:USDT",
+    "message": "\u26a1 NAG\u0141A ZMIANA: OWL/USDT:USDT\n\ud83d\udcb0 Cena: $0.02574\n\u26a1 WZROST: 5.36% w 15m\n\ud83d\udcca 0.024430 \u2192 0.025740",
+    "timestamp": "2026-02-12T02:10:43.515005"
+  },
+  "created_at": "2026-02-12T02:10:43.515104",
+  "status": "pending"
+}

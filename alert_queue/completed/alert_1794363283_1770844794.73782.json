@@ -1,0 +1,11 @@
+{
+  "user_id": "1794363283",
+  "alert_data": {
+    "type": "big_loss",
+    "symbol": "FHE/USDT:USDT",
+    "message": "\ud83d\udcc9 DU\u017bY SPADEK: FHE/USDT:USDT\n\ud83d\udcb0 Cena: $0.08086\n\ud83d\udcc9 Zmiana 24h: -41.05%",
+    "timestamp": "2026-02-11T22:19:54.329550"
+  },
+  "created_at": "2026-02-11T22:19:54.737877",
+  "status": "pending"
+}

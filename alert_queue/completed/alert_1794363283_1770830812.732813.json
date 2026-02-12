@@ -1,0 +1,11 @@
+{
+  "user_id": "1794363283",
+  "alert_data": {
+    "type": "sudden_change",
+    "symbol": "CSPR/USDT:USDT",
+    "message": "\u26a1 NAG\u0141A ZMIANA: CSPR/USDT:USDT\n\ud83d\udcb0 Cena: $0.003765\n\u26a1 WZROST: 8.95% w 15m\n\ud83d\udcca 0.003453 \u2192 0.003762",
+    "timestamp": "2026-02-11T18:26:52.729526"
+  },
+  "created_at": "2026-02-11T18:26:52.732843",
+  "status": "pending"
+}

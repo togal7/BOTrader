@@ -1,0 +1,11 @@
+{
+  "user_id": "1794363283",
+  "alert_data": {
+    "type": "big_gain",
+    "symbol": "BERA/USDT:USDT",
+    "message": "\ud83d\ude80 DU\u017bY WZROST: BERA/USDT:USDT\n\ud83d\udcb0 Cena: $0.878\n\ud83d\udcc8 Zmiana 24h: +39.69%",
+    "timestamp": "2026-02-11T22:34:59.969168"
+  },
+  "created_at": "2026-02-11T22:35:00.292414",
+  "status": "pending"
+}

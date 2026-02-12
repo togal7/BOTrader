@@ -1,0 +1,11 @@
+{
+  "user_id": "1794363283",
+  "alert_data": {
+    "type": "sudden_change",
+    "symbol": "BERA/USDT:USDT",
+    "message": "\u26a1 NAG\u0141A ZMIANA: BERA/USDT:USDT\n\ud83d\udcb0 Cena: $0.8216\n\u26a1 SPADEK: 9.57% w 15m\n\ud83d\udcca 0.907600 \u2192 0.820700",
+    "timestamp": "2026-02-12T01:43:46.994815"
+  },
+  "created_at": "2026-02-12T01:43:46.995745",
+  "status": "pending"
+}
