@@ -1286,10 +1286,10 @@ async def ai_scan_execute(query, user_id, user, timeframe, scan_size="top10"):
                                 'signal': direction,
                                 'confidence': sig.get('confidence', 50),
                                 'entry': result.get('current_price', 0),
-                                'tp1': sig.get('tp1', 0),
-                                'tp2': sig.get('tp2', 0),
-                                'tp3': sig.get('tp3', 0),
-                                'sl': sig.get('sl', 0),
+                                'tp1': sig.get('take_profit_1', sig.get('tp1', 0)),
+                                'tp2': sig.get('take_profit_2', sig.get('tp2', 0)),
+                                'tp3': sig.get('take_profit_3', sig.get('tp3', 0)),
+                                'sl': sig.get('stop_loss', sig.get('sl', 0)),
                                 'mtf_boost': 0,
                                 'validation': {'htf_aligned': False, 'ltf_aligned': False}
                             }
@@ -1683,11 +1683,11 @@ Proszę czekać ~10 sekund...""")
                 df.set_index('time', inplace=True)
                 
                 sig = analysis.get('signal', {})
-                entry = sig.get('entry', df['close'].iloc[-1])
-                tp1 = sig.get('tp1', entry * 1.02)
-                tp2 = sig.get('tp2', entry * 1.04)
-                tp3 = sig.get('tp3', entry * 1.06)
-                sl = sig.get('sl', entry * 0.98)
+                entry = sig.get('entry_price', sig.get('entry', df['close'].iloc[-1]))
+                tp1 = sig.get('take_profit_1', sig.get('tp1', entry * 1.02))
+                tp2 = sig.get('take_profit_2', sig.get('tp2', entry * 1.04))
+                tp3 = sig.get('take_profit_3', sig.get('tp3', entry * 1.06))
+                sl = sig.get('stop_loss', sig.get('sl', entry * 0.98))
                 direction = sig.get('direction', 'LONG')
                 
                 print(f"🔥 MINI: Generating... entry={entry} tp1={tp1} sl={sl}")
@@ -2342,11 +2342,11 @@ async def analyze_from_alert(query, user_id, user, symbol, timeframe):
                 df.set_index('time', inplace=True)
                 
                 sig = analysis.get('signal', {})
-                entry = sig.get('entry', df['close'].iloc[-1])
-                tp1 = sig.get('tp1', entry * 1.02)
-                tp2 = sig.get('tp2', entry * 1.04)
-                tp3 = sig.get('tp3', entry * 1.06)
-                sl = sig.get('sl', entry * 0.98)
+                entry = sig.get('entry_price', sig.get('entry', df['close'].iloc[-1]))
+                tp1 = sig.get('take_profit_1', sig.get('tp1', entry * 1.02))
+                tp2 = sig.get('take_profit_2', sig.get('tp2', entry * 1.04))
+                tp3 = sig.get('take_profit_3', sig.get('tp3', entry * 1.06))
+                sl = sig.get('stop_loss', sig.get('sl', entry * 0.98))
                 direction = sig.get('direction', 'LONG')
                 
                 img = await chart_gen.generate_signal_chart(

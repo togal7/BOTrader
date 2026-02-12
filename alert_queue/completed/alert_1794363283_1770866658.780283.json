@@ -1,0 +1,11 @@
+{
+  "user_id": "1794363283",
+  "alert_data": {
+    "type": "big_gain",
+    "symbol": "LINEA/USDT:USDT",
+    "message": "\ud83d\ude80 DU\u017bY WZROST: LINEA/USDT:USDT\n\ud83d\udcb0 Cena: $0.004092\n\ud83d\udcc8 Zmiana 24h: +23.66%",
+    "timestamp": "2026-02-12T04:24:18.444115"
+  },
+  "created_at": "2026-02-12T04:24:18.780348",
+  "status": "pending"
+}
