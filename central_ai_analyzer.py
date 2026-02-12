@@ -8,12 +8,19 @@ from datetime import datetime, timedelta
 from config import logger
 from exchange_api import exchange_api
 import json
+from elliott_wave_detector import ElliottWaveDetector
+from volume_profile import VolumeProfile
+from advanced_indicators import AdvancedIndicators
 
 class CentralAIAnalyzer:
     def __init__(self):
         self.deepseek_enabled = True  # Later: integrate DeepSeek API
         self.perplexity_enabled = True  # Later: integrate Perplexity API
     
+        logger.info('✅  Central AI Analyzer initialized')
+        self.ewt = ElliottWaveDetector()
+        self.vp = VolumeProfile()
+        self.adv_ind = AdvancedIndicators()
 
     def _elliott_wave_analysis(self, data):
         """Elliott Wave analysis on multi-timeframes"""
@@ -487,7 +494,7 @@ IMPORTANT: Respond in {ai_language} language for all reasoning text. Use profess
             'source': 'None'  # Later: 'Perplexity AI'
         }
     
-    async def _generate_trading_signal(self, technical, structure, volume, sentiment, ai_reasoning, news):
+    async def _generate_trading_signal(self, technical, structure, volume, sentiment, ai_reasoning, news, ewt_analysis=None):
         """Generate final trading signal"""
         
         # Determine direction
